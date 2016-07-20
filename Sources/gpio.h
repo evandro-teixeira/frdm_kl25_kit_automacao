@@ -29,6 +29,6 @@ void gpio_set(uint8_t port, uint8_t pin, uint8_t value);
 
 void gpio_toggle(uint8_t port, uint8_t pin);
 
-bool gpio_read(uint8_t port, uint8_t pin);
+uint16_t gpio_read(uint8_t port, uint8_t pin);
 
 #endif /* GPIO_H_ */

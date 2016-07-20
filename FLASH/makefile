@@ -2,14 +2,14 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 7
+#Progress monitor hint: 9
 first : all
 -include ../makefile.init
 
 # This file contains definitions of environment variables used in the makefiles and .args files if exist.
 -include makefile.local
 
-RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
+RM := "$(GNU_Make_Install_DirEnv)/rm -rf"
 
 # All of the sources participating in the build are defined here
 -include sources.mk
@@ -53,30 +53,25 @@ frdm_kl25_kit_automacao.elf \
 
 
 # All Target
-all: warning-messages explicit-dependencies frdm_kl25_kit_automacao.elf secondary-outputs
+all: frdm_kl25_kit_automacao.elf secondary-outputs
 
 # Tool invocations
 frdm_kl25_kit_automacao.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/MKL25Z128_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #8 $@'
+	@echo 'Executing target #10 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"frdm_kl25_kit_automacao.args" -o"frdm_kl25_kit_automacao.elf"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" $(OBJS_QUOTED) $(USER_OBJS_QUOTED) $(LIBS_QUOTED) -T"$(ProjDirPath)/Project_Settings/Linker_Files/MKL25Z128_flash.ld" -Xlinker --gc-sections -L"$(MCUToolsBaseDirEnv)/ARM_GCC_Support/ewl/lib/armv6-m" -Wl,-Map,frdm_kl25_kit_automacao.map -n -specs=ewl_c.specs -Xlinker --undefined=__pformatter_ -Xlinker --defsym=__pformatter=__pformatter_ -Xlinker --undefined=__sformatter -Xlinker --defsym=__sformatter=__sformatter -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"frdm_kl25_kit_automacao.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) "./*/*/*.o" "./*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/frdm_kl25_kit_automacao.elf
+	-$(RM) $(S_DEPS_QUOTED) "./*/*/*.obj" "./*/*.obj"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/frdm_kl25_kit_automacao.elf
 	-@echo ' '
 
 secondary-outputs:
 
-.PHONY: all clean dependents explicit-dependencies warning-messages
+.PHONY: all clean dependents
 .SECONDARY:
 
 -include ../makefile.targets
-
-explicit-dependencies: ../Project_Settings/Linker_Files/MKL25Z128_flash.ld 
-
-warning-messages: 
-

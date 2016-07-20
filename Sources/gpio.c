@@ -175,7 +175,7 @@ void gpio_toggle(uint8_t port, uint8_t pin)
 /********************************************************************/
 // função que le o valor do pino
 /********************************************************************/
-bool gpio_read(uint8_t port, uint8_t pin)
+uint16_t gpio_read(uint8_t port, uint8_t pin)
 {
 	switch(port)
 	{

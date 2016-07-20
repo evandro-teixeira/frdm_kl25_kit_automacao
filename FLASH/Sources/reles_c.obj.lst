@@ -1,0 +1,435 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"reles.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.InicializaRele,"ax",%progbits
+  18              		.align	2
+  19              		.global	InicializaRele
+  20              		.code	16
+  21              		.thumb_func
+  23              	InicializaRele:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/reles.c"
+   1:../Sources/reles.c **** /*
+   2:../Sources/reles.c ****  * reles.c
+   3:../Sources/reles.c ****  *
+   4:../Sources/reles.c ****  *  Created on: Jul 20, 2016
+   5:../Sources/reles.c ****  *      Author: Evandro
+   6:../Sources/reles.c ****  */
+   7:../Sources/reles.c **** #include "reles.h"
+   8:../Sources/reles.c **** //=========================================================
+   9:../Sources/reles.c **** //
+  10:../Sources/reles.c **** //
+  11:../Sources/reles.c **** //=========================================================
+  12:../Sources/reles.c **** void InicializaRele(uint8_t rl)
+  13:../Sources/reles.c **** {
+  26              		.loc 1 13 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 021C     		mov	r2, r0
+  40 0008 FB1D     		add	r3, r7, #7
+  41 000a 1A70     		strb	r2, [r3]
+  14:../Sources/reles.c **** 	switch(rl)
+  42              		.loc 1 14 0
+  43 000c FB1D     		add	r3, r7, #7
+  44 000e 1B78     		ldrb	r3, [r3]
+  45 0010 052B     		cmp	r3, #5
+  46 0012 28D8     		bhi	.L1
+  47 0014 9A00     		lsl	r2, r3, #2
+  48 0016 154B     		ldr	r3, .L10
+  49 0018 D318     		add	r3, r2, r3
+  50 001a 1B68     		ldr	r3, [r3]
+  51 001c 9F46     		mov	pc, r3
+  52              		.section	.rodata.InicializaRele,"a",%progbits
+  53              		.align	2
+  54              	.L9:
+  55 0000 1E000000 		.word	.L3
+  56 0004 2A000000 		.word	.L4
+  57 0008 36000000 		.word	.L5
+  58 000c 42000000 		.word	.L6
+  59 0010 4E000000 		.word	.L7
+  60 0014 5A000000 		.word	.L8
+  61              		.section	.text.InicializaRele
+  62              	.L3:
+  15:../Sources/reles.c **** 	{
+  16:../Sources/reles.c **** 		case RELE1:
+  17:../Sources/reles.c **** 			gpio_direction(PTE,1,OUTPUT);
+  63              		.loc 1 17 0
+  64 001e 0420     		mov	r0, #4
+  65 0020 0121     		mov	r1, #1
+  66 0022 0122     		mov	r2, #1
+  67 0024 FFF7FEFF 		bl	gpio_direction
+  18:../Sources/reles.c **** 		break;
+  68              		.loc 1 18 0
+  69 0028 1DE0     		b	.L1
+  70              	.L4:
+  19:../Sources/reles.c **** 		case RELE2:
+  20:../Sources/reles.c **** 			gpio_direction(PTE,0,OUTPUT);
+  71              		.loc 1 20 0
+  72 002a 0420     		mov	r0, #4
+  73 002c 0021     		mov	r1, #0
+  74 002e 0122     		mov	r2, #1
+  75 0030 FFF7FEFF 		bl	gpio_direction
+  21:../Sources/reles.c **** 		break;
+  76              		.loc 1 21 0
+  77 0034 17E0     		b	.L1
+  78              	.L5:
+  22:../Sources/reles.c **** 		case RELE3:
+  23:../Sources/reles.c **** 			gpio_direction(PTD,1,OUTPUT);
+  79              		.loc 1 23 0
+  80 0036 0320     		mov	r0, #3
+  81 0038 0121     		mov	r1, #1
+  82 003a 0122     		mov	r2, #1
+  83 003c FFF7FEFF 		bl	gpio_direction
+  24:../Sources/reles.c **** 		break;
+  84              		.loc 1 24 0
+  85 0040 11E0     		b	.L1
+  86              	.L6:
+  25:../Sources/reles.c **** 		case RELE4:
+  26:../Sources/reles.c **** 			gpio_direction(PTD,3,OUTPUT);
+  87              		.loc 1 26 0
+  88 0042 0320     		mov	r0, #3
+  89 0044 0321     		mov	r1, #3
+  90 0046 0122     		mov	r2, #1
+  91 0048 FFF7FEFF 		bl	gpio_direction
+  27:../Sources/reles.c **** 		break;
+  92              		.loc 1 27 0
+  93 004c 0BE0     		b	.L1
+  94              	.L7:
+  28:../Sources/reles.c **** 		case RELE5:
+  29:../Sources/reles.c **** 			gpio_direction(PTD,2,OUTPUT);
+  95              		.loc 1 29 0
+  96 004e 0320     		mov	r0, #3
+  97 0050 0221     		mov	r1, #2
+  98 0052 0122     		mov	r2, #1
+  99 0054 FFF7FEFF 		bl	gpio_direction
+  30:../Sources/reles.c **** 		break;
+ 100              		.loc 1 30 0
+ 101 0058 05E0     		b	.L1
+ 102              	.L8:
+  31:../Sources/reles.c **** 		case RELE6:
+  32:../Sources/reles.c **** 			gpio_direction(PTD,0,OUTPUT);
+ 103              		.loc 1 32 0
+ 104 005a 0320     		mov	r0, #3
+ 105 005c 0021     		mov	r1, #0
+ 106 005e 0122     		mov	r2, #1
+ 107 0060 FFF7FEFF 		bl	gpio_direction
+  33:../Sources/reles.c **** 		break;
+ 108              		.loc 1 33 0
+ 109 0064 C046     		mov	r8, r8
+ 110              	.L1:
+  34:../Sources/reles.c **** 	}
+  35:../Sources/reles.c **** }
+ 111              		.loc 1 35 0
+ 112 0066 BD46     		mov	sp, r7
+ 113 0068 02B0     		add	sp, sp, #8
+ 114              		@ sp needed for prologue
+ 115 006a 80BD     		pop	{r7, pc}
+ 116              	.L11:
+ 117              		.align	2
+ 118              	.L10:
+ 119 006c 00000000 		.word	.L9
+ 120              		.cfi_endproc
+ 121              	.LFE0:
+ 123              		.section	.text.AcionaRele,"ax",%progbits
+ 124              		.align	2
+ 125              		.global	AcionaRele
+ 126              		.code	16
+ 127              		.thumb_func
+ 129              	AcionaRele:
+ 130              	.LFB1:
+  36:../Sources/reles.c **** //=========================================================
+  37:../Sources/reles.c **** //
+  38:../Sources/reles.c **** //
+  39:../Sources/reles.c **** //=========================================================
+  40:../Sources/reles.c **** void AcionaRele(uint8_t rl, bool st)
+  41:../Sources/reles.c **** {
+ 131              		.loc 1 41 0
+ 132              		.cfi_startproc
+ 133 0000 80B5     		push	{r7, lr}
+ 134              	.LCFI3:
+ 135              		.cfi_def_cfa_offset 8
+ 136              		.cfi_offset 7, -8
+ 137              		.cfi_offset 14, -4
+ 138 0002 82B0     		sub	sp, sp, #8
+ 139              	.LCFI4:
+ 140              		.cfi_def_cfa_offset 16
+ 141 0004 00AF     		add	r7, sp, #0
+ 142              	.LCFI5:
+ 143              		.cfi_def_cfa_register 7
+ 144 0006 0A1C     		mov	r2, r1
+ 145 0008 FB1D     		add	r3, r7, #7
+ 146 000a 011C     		add	r1, r0, #0
+ 147 000c 1970     		strb	r1, [r3]
+ 148 000e BB1D     		add	r3, r7, #6
+ 149 0010 1A70     		strb	r2, [r3]
+  42:../Sources/reles.c **** 	switch(rl)
+ 150              		.loc 1 42 0
+ 151 0012 FB1D     		add	r3, r7, #7
+ 152 0014 1B78     		ldrb	r3, [r3]
+ 153 0016 052B     		cmp	r3, #5
+ 154 0018 64D8     		bhi	.L12
+ 155 001a 9A00     		lsl	r2, r3, #2
+ 156 001c 334B     		ldr	r3, .L34
+ 157 001e D318     		add	r3, r2, r3
+ 158 0020 1B68     		ldr	r3, [r3]
+ 159 0022 9F46     		mov	pc, r3
+ 160              		.section	.rodata.AcionaRele,"a",%progbits
+ 161              		.align	2
+ 162              	.L20:
+ 163 0000 24000000 		.word	.L14
+ 164 0004 44000000 		.word	.L15
+ 165 0008 64000000 		.word	.L16
+ 166 000c 84000000 		.word	.L17
+ 167 0010 A4000000 		.word	.L18
+ 168 0014 C4000000 		.word	.L19
+ 169              		.section	.text.AcionaRele
+ 170              	.L14:
+  43:../Sources/reles.c **** 	{
+  44:../Sources/reles.c **** 		case RELE1:
+  45:../Sources/reles.c **** 			if(st==ON)
+ 171              		.loc 1 45 0
+ 172 0024 BB1D     		add	r3, r7, #6
+ 173 0026 1B78     		ldrb	r3, [r3]
+ 174 0028 012B     		cmp	r3, #1
+ 175 002a 05D1     		bne	.L21
+  46:../Sources/reles.c **** 			{
+  47:../Sources/reles.c **** 				gpio_set(PTE,1,ON);
+ 176              		.loc 1 47 0
+ 177 002c 0420     		mov	r0, #4
+ 178 002e 0121     		mov	r1, #1
+ 179 0030 0122     		mov	r2, #1
+ 180 0032 FFF7FEFF 		bl	gpio_set
+  48:../Sources/reles.c **** 			}
+  49:../Sources/reles.c **** 			else
+  50:../Sources/reles.c **** 			{
+  51:../Sources/reles.c **** 				gpio_set(PTE,1,OFF);
+  52:../Sources/reles.c **** 			}
+  53:../Sources/reles.c **** 		break;
+ 181              		.loc 1 53 0
+ 182 0036 55E0     		b	.L12
+ 183              	.L21:
+  51:../Sources/reles.c **** 				gpio_set(PTE,1,OFF);
+ 184              		.loc 1 51 0
+ 185 0038 0420     		mov	r0, #4
+ 186 003a 0121     		mov	r1, #1
+ 187 003c 0022     		mov	r2, #0
+ 188 003e FFF7FEFF 		bl	gpio_set
+ 189              		.loc 1 53 0
+ 190 0042 4FE0     		b	.L12
+ 191              	.L15:
+  54:../Sources/reles.c **** 		case RELE2:
+  55:../Sources/reles.c **** 			if(st==ON)
+ 192              		.loc 1 55 0
+ 193 0044 BB1D     		add	r3, r7, #6
+ 194 0046 1B78     		ldrb	r3, [r3]
+ 195 0048 012B     		cmp	r3, #1
+ 196 004a 05D1     		bne	.L23
+  56:../Sources/reles.c **** 			{
+  57:../Sources/reles.c **** 				gpio_set(PTE,0,ON);
+ 197              		.loc 1 57 0
+ 198 004c 0420     		mov	r0, #4
+ 199 004e 0021     		mov	r1, #0
+ 200 0050 0122     		mov	r2, #1
+ 201 0052 FFF7FEFF 		bl	gpio_set
+  58:../Sources/reles.c **** 			}
+  59:../Sources/reles.c **** 			else
+  60:../Sources/reles.c **** 			{
+  61:../Sources/reles.c **** 				gpio_set(PTE,0,OFF);
+  62:../Sources/reles.c **** 			}
+  63:../Sources/reles.c **** 		break;
+ 202              		.loc 1 63 0
+ 203 0056 45E0     		b	.L12
+ 204              	.L23:
+  61:../Sources/reles.c **** 				gpio_set(PTE,0,OFF);
+ 205              		.loc 1 61 0
+ 206 0058 0420     		mov	r0, #4
+ 207 005a 0021     		mov	r1, #0
+ 208 005c 0022     		mov	r2, #0
+ 209 005e FFF7FEFF 		bl	gpio_set
+ 210              		.loc 1 63 0
+ 211 0062 3FE0     		b	.L12
+ 212              	.L16:
+  64:../Sources/reles.c **** 		case RELE3:
+  65:../Sources/reles.c **** 			if(st==ON)
+ 213              		.loc 1 65 0
+ 214 0064 BB1D     		add	r3, r7, #6
+ 215 0066 1B78     		ldrb	r3, [r3]
+ 216 0068 012B     		cmp	r3, #1
+ 217 006a 05D1     		bne	.L25
+  66:../Sources/reles.c **** 			{
+  67:../Sources/reles.c **** 				gpio_set(PTD,1,ON);
+ 218              		.loc 1 67 0
+ 219 006c 0320     		mov	r0, #3
+ 220 006e 0121     		mov	r1, #1
+ 221 0070 0122     		mov	r2, #1
+ 222 0072 FFF7FEFF 		bl	gpio_set
+  68:../Sources/reles.c **** 			}
+  69:../Sources/reles.c **** 			else
+  70:../Sources/reles.c **** 			{
+  71:../Sources/reles.c **** 				gpio_set(PTD,1,OFF);
+  72:../Sources/reles.c **** 			}
+  73:../Sources/reles.c **** 		break;
+ 223              		.loc 1 73 0
+ 224 0076 35E0     		b	.L12
+ 225              	.L25:
+  71:../Sources/reles.c **** 				gpio_set(PTD,1,OFF);
+ 226              		.loc 1 71 0
+ 227 0078 0320     		mov	r0, #3
+ 228 007a 0121     		mov	r1, #1
+ 229 007c 0022     		mov	r2, #0
+ 230 007e FFF7FEFF 		bl	gpio_set
+ 231              		.loc 1 73 0
+ 232 0082 2FE0     		b	.L12
+ 233              	.L17:
+  74:../Sources/reles.c **** 		case RELE4:
+  75:../Sources/reles.c **** 			if(st==ON)
+ 234              		.loc 1 75 0
+ 235 0084 BB1D     		add	r3, r7, #6
+ 236 0086 1B78     		ldrb	r3, [r3]
+ 237 0088 012B     		cmp	r3, #1
+ 238 008a 05D1     		bne	.L27
+  76:../Sources/reles.c **** 			{
+  77:../Sources/reles.c **** 				gpio_set(PTD,3,ON);
+ 239              		.loc 1 77 0
+ 240 008c 0320     		mov	r0, #3
+ 241 008e 0321     		mov	r1, #3
+ 242 0090 0122     		mov	r2, #1
+ 243 0092 FFF7FEFF 		bl	gpio_set
+  78:../Sources/reles.c **** 			}
+  79:../Sources/reles.c **** 			else
+  80:../Sources/reles.c **** 			{
+  81:../Sources/reles.c **** 				gpio_set(PTD,3,OFF);
+  82:../Sources/reles.c **** 			}
+  83:../Sources/reles.c **** 		break;
+ 244              		.loc 1 83 0
+ 245 0096 25E0     		b	.L12
+ 246              	.L27:
+  81:../Sources/reles.c **** 				gpio_set(PTD,3,OFF);
+ 247              		.loc 1 81 0
+ 248 0098 0320     		mov	r0, #3
+ 249 009a 0321     		mov	r1, #3
+ 250 009c 0022     		mov	r2, #0
+ 251 009e FFF7FEFF 		bl	gpio_set
+ 252              		.loc 1 83 0
+ 253 00a2 1FE0     		b	.L12
+ 254              	.L18:
+  84:../Sources/reles.c **** 		case RELE5:
+  85:../Sources/reles.c **** 			if(st==ON)
+ 255              		.loc 1 85 0
+ 256 00a4 BB1D     		add	r3, r7, #6
+ 257 00a6 1B78     		ldrb	r3, [r3]
+ 258 00a8 012B     		cmp	r3, #1
+ 259 00aa 05D1     		bne	.L29
+  86:../Sources/reles.c **** 			{
+  87:../Sources/reles.c **** 				gpio_set(PTD,2,ON);
+ 260              		.loc 1 87 0
+ 261 00ac 0320     		mov	r0, #3
+ 262 00ae 0221     		mov	r1, #2
+ 263 00b0 0122     		mov	r2, #1
+ 264 00b2 FFF7FEFF 		bl	gpio_set
+  88:../Sources/reles.c **** 			}
+  89:../Sources/reles.c **** 			else
+  90:../Sources/reles.c **** 			{
+  91:../Sources/reles.c **** 				gpio_set(PTD,2,OFF);
+  92:../Sources/reles.c **** 			}
+  93:../Sources/reles.c **** 		break;
+ 265              		.loc 1 93 0
+ 266 00b6 15E0     		b	.L12
+ 267              	.L29:
+  91:../Sources/reles.c **** 				gpio_set(PTD,2,OFF);
+ 268              		.loc 1 91 0
+ 269 00b8 0320     		mov	r0, #3
+ 270 00ba 0221     		mov	r1, #2
+ 271 00bc 0022     		mov	r2, #0
+ 272 00be FFF7FEFF 		bl	gpio_set
+ 273              		.loc 1 93 0
+ 274 00c2 0FE0     		b	.L12
+ 275              	.L19:
+  94:../Sources/reles.c **** 		case RELE6:
+  95:../Sources/reles.c **** 			if(st==ON)
+ 276              		.loc 1 95 0
+ 277 00c4 BB1D     		add	r3, r7, #6
+ 278 00c6 1B78     		ldrb	r3, [r3]
+ 279 00c8 012B     		cmp	r3, #1
+ 280 00ca 05D1     		bne	.L31
+  96:../Sources/reles.c **** 			{
+  97:../Sources/reles.c **** 				gpio_set(PTD,0,ON);
+ 281              		.loc 1 97 0
+ 282 00cc 0320     		mov	r0, #3
+ 283 00ce 0021     		mov	r1, #0
+ 284 00d0 0122     		mov	r2, #1
+ 285 00d2 FFF7FEFF 		bl	gpio_set
+  98:../Sources/reles.c **** 			}
+  99:../Sources/reles.c **** 			else
+ 100:../Sources/reles.c **** 			{
+ 101:../Sources/reles.c **** 				gpio_set(PTD,0,OFF);
+ 102:../Sources/reles.c **** 			}
+ 103:../Sources/reles.c **** 		break;
+ 286              		.loc 1 103 0
+ 287 00d6 04E0     		b	.L33
+ 288              	.L31:
+ 101:../Sources/reles.c **** 				gpio_set(PTD,0,OFF);
+ 289              		.loc 1 101 0
+ 290 00d8 0320     		mov	r0, #3
+ 291 00da 0021     		mov	r1, #0
+ 292 00dc 0022     		mov	r2, #0
+ 293 00de FFF7FEFF 		bl	gpio_set
+ 294              	.L33:
+ 295              		.loc 1 103 0
+ 296 00e2 C046     		mov	r8, r8
+ 297              	.L12:
+ 104:../Sources/reles.c **** 	}
+ 105:../Sources/reles.c **** 	
+ 106:../Sources/reles.c **** }
+ 298              		.loc 1 106 0
+ 299 00e4 BD46     		mov	sp, r7
+ 300 00e6 02B0     		add	sp, sp, #8
+ 301              		@ sp needed for prologue
+ 302 00e8 80BD     		pop	{r7, pc}
+ 303              	.L35:
+ 304 00ea C046     		.align	2
+ 305              	.L34:
+ 306 00ec 00000000 		.word	.L20
+ 307              		.cfi_endproc
+ 308              	.LFE1:
+ 310              		.text
+ 311              	.Letext0:
+ 312              		.file 2 "../Sources/types.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 reles.c
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:18     .text.InicializaRele:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:23     .text.InicializaRele:00000000 InicializaRele
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:53     .rodata.InicializaRele:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:119    .text.InicializaRele:0000006c $d
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:124    .text.AcionaRele:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:129    .text.AcionaRele:00000000 AcionaRele
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:161    .rodata.AcionaRele:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\ccvCGAVE.s:306    .text.AcionaRele:000000ec $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+gpio_direction
+gpio_set

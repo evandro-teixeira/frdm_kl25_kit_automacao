@@ -13,6 +13,8 @@
 #include "types.h"
 #include "derivative.h" 
 #include "reles.h"
+#include "saidas.h"
+#include "entradas.h"
 #include <MKL25Z4.h>    /* I/O map for MKL25Z128VLK4 */
 
 #endif /* EXTERNS_H_ */
