@@ -14,22 +14,22 @@ void InicializaRele(uint8_t rl)
 	switch(rl)
 	{
 		case RELE1:
-			gpio_direction(PTE,1,OUTPUT);
+			gpio_direction(PTE,1,OUTPUT,NO_PULL_RESISTOR);
 		break;
 		case RELE2:
-			gpio_direction(PTE,0,OUTPUT);
+			gpio_direction(PTE,0,OUTPUT,NO_PULL_RESISTOR);
 		break;
 		case RELE3:
-			gpio_direction(PTD,1,OUTPUT);
+			gpio_direction(PTD,1,OUTPUT,NO_PULL_RESISTOR);
 		break;
 		case RELE4:
-			gpio_direction(PTD,3,OUTPUT);
+			gpio_direction(PTD,3,OUTPUT,NO_PULL_RESISTOR);
 		break;
 		case RELE5:
-			gpio_direction(PTD,2,OUTPUT);
+			gpio_direction(PTD,2,OUTPUT,NO_PULL_RESISTOR);
 		break;
 		case RELE6:
-			gpio_direction(PTD,0,OUTPUT);
+			gpio_direction(PTD,0,OUTPUT,NO_PULL_RESISTOR);
 		break;
 	}
 }

@@ -15,6 +15,9 @@
 #include "reles.h"
 #include "saidas.h"
 #include "entradas.h"
+#include "uart.h"
+#include "serial.h"
+#include "init_cpu.h"
 #include <MKL25Z4.h>    /* I/O map for MKL25Z128VLK4 */
 
 #endif /* EXTERNS_H_ */

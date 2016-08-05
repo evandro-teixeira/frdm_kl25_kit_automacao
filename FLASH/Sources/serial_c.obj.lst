@@ -1,0 +1,255 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"serial.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.InicializaSerial,"ax",%progbits
+  18              		.align	2
+  19              		.global	InicializaSerial
+  20              		.code	16
+  21              		.thumb_func
+  23              	InicializaSerial:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/serial.c"
+   1:../Sources/serial.c **** /*
+   2:../Sources/serial.c ****  * serial.c
+   3:../Sources/serial.c ****  *
+   4:../Sources/serial.c ****  *  Created on: Aug 5, 2016
+   5:../Sources/serial.c ****  *      Author: PDI
+   6:../Sources/serial.c ****  */
+   7:../Sources/serial.c **** #include "serial.h"
+   8:../Sources/serial.c **** //=========================================================
+   9:../Sources/serial.c **** //
+  10:../Sources/serial.c **** //
+  11:../Sources/serial.c **** //=========================================================
+  12:../Sources/serial.c **** void InicializaSerial(uint32_t baud_rate)
+  13:../Sources/serial.c **** {
+  26              		.loc 1 13 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+  14:../Sources/serial.c **** 	/* Habilita uart0 - pinos PTA1-RX, PTA2-TX */
+  15:../Sources/serial.c **** 	uart_init(UART0_BASE_PTR,(21000000/1000),baud_rate);
+  40              		.loc 1 15 0
+  41 0008 7B68     		ldr	r3, [r7, #4]
+  42 000a 0549     		ldr	r1, .L2
+  43 000c 054A     		ldr	r2, .L2+4
+  44 000e 081C     		mov	r0, r1
+  45 0010 111C     		mov	r1, r2
+  46 0012 1A1C     		mov	r2, r3
+  47 0014 FFF7FEFF 		bl	uart_init
+  16:../Sources/serial.c **** }
+  48              		.loc 1 16 0
+  49 0018 BD46     		mov	sp, r7
+  50 001a 02B0     		add	sp, sp, #8
+  51              		@ sp needed for prologue
+  52 001c 80BD     		pop	{r7, pc}
+  53              	.L3:
+  54 001e C046     		.align	2
+  55              	.L2:
+  56 0020 00A00640 		.word	1074176000
+  57 0024 08520000 		.word	21000
+  58              		.cfi_endproc
+  59              	.LFE0:
+  61              		.section	.text.EnviaCh,"ax",%progbits
+  62              		.align	2
+  63              		.global	EnviaCh
+  64              		.code	16
+  65              		.thumb_func
+  67              	EnviaCh:
+  68              	.LFB1:
+  17:../Sources/serial.c **** //=========================================================
+  18:../Sources/serial.c **** //
+  19:../Sources/serial.c **** //
+  20:../Sources/serial.c **** //=========================================================
+  21:../Sources/serial.c **** void EnviaCh(char ch)
+  22:../Sources/serial.c **** {
+  69              		.loc 1 22 0
+  70              		.cfi_startproc
+  71 0000 80B5     		push	{r7, lr}
+  72              	.LCFI3:
+  73              		.cfi_def_cfa_offset 8
+  74              		.cfi_offset 7, -8
+  75              		.cfi_offset 14, -4
+  76 0002 82B0     		sub	sp, sp, #8
+  77              	.LCFI4:
+  78              		.cfi_def_cfa_offset 16
+  79 0004 00AF     		add	r7, sp, #0
+  80              	.LCFI5:
+  81              		.cfi_def_cfa_register 7
+  82 0006 021C     		mov	r2, r0
+  83 0008 FB1D     		add	r3, r7, #7
+  84 000a 1A70     		strb	r2, [r3]
+  23:../Sources/serial.c **** 	/* enviar uart0 */
+  24:../Sources/serial.c **** 	uart_putchar(UART0_BASE_PTR,ch) ;
+  85              		.loc 1 24 0
+  86 000c 044A     		ldr	r2, .L5
+  87 000e FB1D     		add	r3, r7, #7
+  88 0010 1B78     		ldrb	r3, [r3]
+  89 0012 101C     		mov	r0, r2
+  90 0014 191C     		mov	r1, r3
+  91 0016 FFF7FEFF 		bl	uart_putchar
+  25:../Sources/serial.c **** }
+  92              		.loc 1 25 0
+  93 001a BD46     		mov	sp, r7
+  94 001c 02B0     		add	sp, sp, #8
+  95              		@ sp needed for prologue
+  96 001e 80BD     		pop	{r7, pc}
+  97              	.L6:
+  98              		.align	2
+  99              	.L5:
+ 100 0020 00A00640 		.word	1074176000
+ 101              		.cfi_endproc
+ 102              	.LFE1:
+ 104              		.section	.text.RecebeCh,"ax",%progbits
+ 105              		.align	2
+ 106              		.global	RecebeCh
+ 107              		.code	16
+ 108              		.thumb_func
+ 110              	RecebeCh:
+ 111              	.LFB2:
+  26:../Sources/serial.c **** //=========================================================
+  27:../Sources/serial.c **** //
+  28:../Sources/serial.c **** //
+  29:../Sources/serial.c **** //=========================================================
+  30:../Sources/serial.c **** char RecebeCh(void)
+  31:../Sources/serial.c **** {
+ 112              		.loc 1 31 0
+ 113              		.cfi_startproc
+ 114 0000 80B5     		push	{r7, lr}
+ 115              	.LCFI6:
+ 116              		.cfi_def_cfa_offset 8
+ 117              		.cfi_offset 7, -8
+ 118              		.cfi_offset 14, -4
+ 119 0002 00AF     		add	r7, sp, #0
+ 120              	.LCFI7:
+ 121              		.cfi_def_cfa_register 7
+  32:../Sources/serial.c **** 	/* uart0 */
+  33:../Sources/serial.c **** 	return uart_getchar(UART0_BASE_PTR);
+ 122              		.loc 1 33 0
+ 123 0004 034B     		ldr	r3, .L8
+ 124 0006 181C     		mov	r0, r3
+ 125 0008 FFF7FEFF 		bl	uart_getchar
+ 126 000c 031C     		mov	r3, r0
+  34:../Sources/serial.c **** }
+ 127              		.loc 1 34 0
+ 128 000e 181C     		mov	r0, r3
+ 129 0010 BD46     		mov	sp, r7
+ 130              		@ sp needed for prologue
+ 131 0012 80BD     		pop	{r7, pc}
+ 132              	.L9:
+ 133              		.align	2
+ 134              	.L8:
+ 135 0014 00A00640 		.word	1074176000
+ 136              		.cfi_endproc
+ 137              	.LFE2:
+ 139              		.section	.text.EnviaString,"ax",%progbits
+ 140              		.align	2
+ 141              		.global	EnviaString
+ 142              		.code	16
+ 143              		.thumb_func
+ 145              	EnviaString:
+ 146              	.LFB3:
+  35:../Sources/serial.c **** //=========================================================
+  36:../Sources/serial.c **** //
+  37:../Sources/serial.c **** //
+  38:../Sources/serial.c **** //=========================================================
+  39:../Sources/serial.c **** void EnviaString(char* msg)
+  40:../Sources/serial.c **** {
+ 147              		.loc 1 40 0
+ 148              		.cfi_startproc
+ 149 0000 80B5     		push	{r7, lr}
+ 150              	.LCFI8:
+ 151              		.cfi_def_cfa_offset 8
+ 152              		.cfi_offset 7, -8
+ 153              		.cfi_offset 14, -4
+ 154 0002 82B0     		sub	sp, sp, #8
+ 155              	.LCFI9:
+ 156              		.cfi_def_cfa_offset 16
+ 157 0004 00AF     		add	r7, sp, #0
+ 158              	.LCFI10:
+ 159              		.cfi_def_cfa_register 7
+ 160 0006 7860     		str	r0, [r7, #4]
+  41:../Sources/serial.c **** 	/* envia string uart0  */
+  42:../Sources/serial.c **** 	while(*msg)
+ 161              		.loc 1 42 0
+ 162 0008 09E0     		b	.L11
+ 163              	.L12:
+  43:../Sources/serial.c **** 	{
+  44:../Sources/serial.c **** 		uart_putchar(UART0_BASE_PTR,*msg) ;
+ 164              		.loc 1 44 0
+ 165 000a 7B68     		ldr	r3, [r7, #4]
+ 166 000c 1B78     		ldrb	r3, [r3]
+ 167 000e 074A     		ldr	r2, .L13
+ 168 0010 101C     		mov	r0, r2
+ 169 0012 191C     		mov	r1, r3
+ 170 0014 FFF7FEFF 		bl	uart_putchar
+  45:../Sources/serial.c **** 		msg++;
+ 171              		.loc 1 45 0
+ 172 0018 7B68     		ldr	r3, [r7, #4]
+ 173 001a 0133     		add	r3, r3, #1
+ 174 001c 7B60     		str	r3, [r7, #4]
+ 175              	.L11:
+  42:../Sources/serial.c **** 	while(*msg)
+ 176              		.loc 1 42 0 discriminator 1
+ 177 001e 7B68     		ldr	r3, [r7, #4]
+ 178 0020 1B78     		ldrb	r3, [r3]
+ 179 0022 002B     		cmp	r3, #0
+ 180 0024 F1D1     		bne	.L12
+  46:../Sources/serial.c **** 	}
+  47:../Sources/serial.c **** }
+ 181              		.loc 1 47 0
+ 182 0026 BD46     		mov	sp, r7
+ 183 0028 02B0     		add	sp, sp, #8
+ 184              		@ sp needed for prologue
+ 185 002a 80BD     		pop	{r7, pc}
+ 186              	.L14:
+ 187              		.align	2
+ 188              	.L13:
+ 189 002c 00A00640 		.word	1074176000
+ 190              		.cfi_endproc
+ 191              	.LFE3:
+ 193              		.text
+ 194              	.Letext0:
+ 195              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 serial.c
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:18     .text.InicializaSerial:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:23     .text.InicializaSerial:00000000 InicializaSerial
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:56     .text.InicializaSerial:00000020 $d
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:62     .text.EnviaCh:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:67     .text.EnviaCh:00000000 EnviaCh
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:100    .text.EnviaCh:00000020 $d
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:105    .text.RecebeCh:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:110    .text.RecebeCh:00000000 RecebeCh
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:135    .text.RecebeCh:00000014 $d
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:140    .text.EnviaString:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:145    .text.EnviaString:00000000 EnviaString
+C:\Users\PDI\AppData\Local\Temp\ccYdvwXu.s:189    .text.EnviaString:0000002c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+uart_init
+uart_putchar
+uart_getchar

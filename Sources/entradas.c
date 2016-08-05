@@ -14,16 +14,16 @@ void InicializaEntradas(uint8_t di)
 	switch(di)
 	{
 		case IN_D0:
-			gpio_direction(PTD,5,INPUT);
+			gpio_direction(PTD,5,INPUT,NO_PULL_RESISTOR);
 		break;
 		case IN_D1:
-			gpio_direction(PTA,13,INPUT);
+			gpio_direction(PTA,13,INPUT,NO_PULL_RESISTOR);
 		break;
 		case IN_D2:
-			gpio_direction(PTC,9,INPUT);
+			gpio_direction(PTC,9,INPUT,NO_PULL_RESISTOR);
 		break;
 		case IN_D3:
-			gpio_direction(PTC,8,INPUT);
+			gpio_direction(PTC,8,INPUT,NO_PULL_RESISTOR);
 		break;
 	}
 }

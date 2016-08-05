@@ -1,0 +1,106 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"init_cpu.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.InicializaCPU,"ax",%progbits
+  18              		.align	2
+  19              		.global	InicializaCPU
+  20              		.code	16
+  21              		.thumb_func
+  23              	InicializaCPU:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/init_cpu.c"
+   1:../Sources/init_cpu.c **** /*
+   2:../Sources/init_cpu.c ****  * init_cpu.c
+   3:../Sources/init_cpu.c ****  *
+   4:../Sources/init_cpu.c ****  *  Created on: Aug 5, 2016
+   5:../Sources/init_cpu.c ****  *      Author: PDI
+   6:../Sources/init_cpu.c ****  */
+   7:../Sources/init_cpu.c **** 
+   8:../Sources/init_cpu.c **** #include "init_cpu.h"
+   9:../Sources/init_cpu.c **** 
+  10:../Sources/init_cpu.c **** void InicializaCPU(void)
+  11:../Sources/init_cpu.c **** {
+  26              		.loc 1 11 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 00AF     		add	r7, sp, #0
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_register 7
+  12:../Sources/init_cpu.c ****    /* Enable all of the port clocks. These have to be enabled to configure
+  13:../Sources/init_cpu.c **** 	* pin muxing options, so most code will need all of these on anyway.
+  14:../Sources/init_cpu.c **** 	*/
+  15:../Sources/init_cpu.c **** 	SIM_SCGC5 	|= (SIM_SCGC5_PORTA_MASK
+  36              		.loc 1 15 0
+  37 0004 074A     		ldr	r2, .L2
+  38 0006 0749     		ldr	r1, .L2
+  39 0008 074B     		ldr	r3, .L2+4
+  40 000a CB58     		ldr	r3, [r1, r3]
+  41 000c F821     		mov	r1, #248
+  42 000e 8901     		lsl	r1, r1, #6
+  43 0010 1943     		orr	r1, r3
+  44 0012 054B     		ldr	r3, .L2+4
+  45 0014 D150     		str	r1, [r2, r3]
+  16:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTB_MASK
+  17:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTC_MASK
+  18:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTD_MASK
+  19:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTE_MASK );
+  20:../Sources/init_cpu.c **** 	
+  21:../Sources/init_cpu.c ****    /* Ramp up the system clock */
+  22:../Sources/init_cpu.c ****    /* Set the system dividers */
+  23:../Sources/init_cpu.c ****    /* NOTE: The PLL init will not configure the system clock dividers,
+  24:../Sources/init_cpu.c **** 	* so they must be configured appropriately before calling the PLL
+  25:../Sources/init_cpu.c **** 	* init function to ensure that clocks remain in valid ranges.
+  26:../Sources/init_cpu.c **** 	*/  
+  27:../Sources/init_cpu.c **** 	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
+  46              		.loc 1 27 0
+  47 0016 034A     		ldr	r2, .L2
+  48 0018 044B     		ldr	r3, .L2+8
+  49 001a 8021     		mov	r1, #128
+  50 001c 4902     		lsl	r1, r1, #9
+  51 001e D150     		str	r1, [r2, r3]
+  28:../Sources/init_cpu.c **** 	
+  29:../Sources/init_cpu.c **** 	// If PLL initialization is not desired, set FLL to 48 MHz clock in default FEI mode
+  30:../Sources/init_cpu.c **** 	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);
+  31:../Sources/init_cpu.c **** 	
+  32:../Sources/init_cpu.c **** 	//SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock sour
+  33:../Sources/init_cpu.c **** }
+  52              		.loc 1 33 0
+  53 0020 BD46     		mov	sp, r7
+  54              		@ sp needed for prologue
+  55 0022 80BD     		pop	{r7, pc}
+  56              	.L3:
+  57              		.align	2
+  58              	.L2:
+  59 0024 00700440 		.word	1074032640
+  60 0028 38100000 		.word	4152
+  61 002c 44100000 		.word	4164
+  62              		.cfi_endproc
+  63              	.LFE0:
+  65              		.text
+  66              	.Letext0:
+  67              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 init_cpu.c
+C:\Users\PDI\AppData\Local\Temp\ccaThBm7.s:18     .text.InicializaCPU:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccaThBm7.s:23     .text.InicializaCPU:00000000 InicializaCPU
+C:\Users\PDI\AppData\Local\Temp\ccaThBm7.s:59     .text.InicializaCPU:00000024 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

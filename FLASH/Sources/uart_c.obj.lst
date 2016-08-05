@@ -1,0 +1,425 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"uart.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__aeabi_idiv
+  18              		.section	.text.uart_init,"ax",%progbits
+  19              		.align	2
+  20              		.global	uart_init
+  21              		.code	16
+  22              		.thumb_func
+  24              	uart_init:
+  25              	.LFB0:
+  26              		.file 1 "../Sources/uart.c"
+   1:../Sources/uart.c ****  /*
+   2:../Sources/uart.c ****  * uart.c
+   3:../Sources/uart.c ****  *
+   4:../Sources/uart.c ****  *  Created on: Jul 20, 2016
+   5:../Sources/uart.c ****  *      Author: PDI
+   6:../Sources/uart.c ****  */
+   7:../Sources/uart.c **** #include "uart.h"
+   8:../Sources/uart.c **** #include "derivative.h" /* include peripheral declarations */
+   9:../Sources/uart.c **** #include <MKL25Z4.h>
+  10:../Sources/uart.c **** #include <stdio.h>
+  11:../Sources/uart.c **** 
+  12:../Sources/uart.c **** //void InitUart0(void)
+  13:../Sources/uart.c **** void uart_init (UART_MemMapPtr uartch, int sysclk, int baud)
+  14:../Sources/uart.c **** {
+  27              		.loc 1 14 0
+  28              		.cfi_startproc
+  29 0000 90B5     		push	{r4, r7, lr}
+  30              	.LCFI0:
+  31              		.cfi_def_cfa_offset 12
+  32              		.cfi_offset 4, -12
+  33              		.cfi_offset 7, -8
+  34              		.cfi_offset 14, -4
+  35 0002 87B0     		sub	sp, sp, #28
+  36              	.LCFI1:
+  37              		.cfi_def_cfa_offset 40
+  38 0004 00AF     		add	r7, sp, #0
+  39              	.LCFI2:
+  40              		.cfi_def_cfa_register 7
+  41 0006 F860     		str	r0, [r7, #12]
+  42 0008 B960     		str	r1, [r7, #8]
+  43 000a 7A60     		str	r2, [r7, #4]
+  15:../Sources/uart.c **** 	register unsigned int sbr;
+  16:../Sources/uart.c **** 	unsigned char temp;
+  17:../Sources/uart.c **** 	
+  18:../Sources/uart.c **** 	//switch(uartch)
+  19:../Sources/uart.c **** 	//{
+  20:../Sources/uart.c **** 	//	case UART0_BASE_PTR:
+  21:../Sources/uart.c **** 	if(uartch == (UART_MemMapPtr)UART0_BASE_PTR)
+  44              		.loc 1 21 0
+  45 000c FA68     		ldr	r2, [r7, #12]
+  46 000e 424B     		ldr	r3, .L5
+  47 0010 9A42     		cmp	r2, r3
+  48 0012 1AD1     		bne	.L2
+  22:../Sources/uart.c **** 	{
+  23:../Sources/uart.c **** 			/* Enable the SCI0_TXD function on the pin */
+  24:../Sources/uart.c **** 			PORTA_PCR1 = PORT_PCR_MUX(0x2);
+  49              		.loc 1 24 0
+  50 0014 414B     		ldr	r3, .L5+4
+  51 0016 8022     		mov	r2, #128
+  52 0018 9200     		lsl	r2, r2, #2
+  53 001a 5A60     		str	r2, [r3, #4]
+  25:../Sources/uart.c **** 			/* Enable the SCI0_RXD function on the pin */
+  26:../Sources/uart.c **** 			PORTA_PCR2 = PORT_PCR_MUX(0x2);
+  54              		.loc 1 26 0
+  55 001c 3F4B     		ldr	r3, .L5+4
+  56 001e 8022     		mov	r2, #128
+  57 0020 9200     		lsl	r2, r2, #2
+  58 0022 9A60     		str	r2, [r3, #8]
+  27:../Sources/uart.c **** 			/* Select the clock source for UART0 */
+  28:../Sources/uart.c **** 			SIM_SOPT2 |= SIM_SOPT2_UART0SRC(1);
+  59              		.loc 1 28 0
+  60 0024 3E4A     		ldr	r2, .L5+8
+  61 0026 3E49     		ldr	r1, .L5+8
+  62 0028 3E4B     		ldr	r3, .L5+12
+  63 002a CB58     		ldr	r3, [r1, r3]
+  64 002c 8021     		mov	r1, #128
+  65 002e C904     		lsl	r1, r1, #19
+  66 0030 1943     		orr	r1, r3
+  67 0032 3C4B     		ldr	r3, .L5+12
+  68 0034 D150     		str	r1, [r2, r3]
+  29:../Sources/uart.c **** 			/* UART0 and UART1 are clocked from the core clock, but all other UARTs are
+  30:../Sources/uart.c **** 			* clocked from the peripheral clock. So we have to determine which clock
+  31:../Sources/uart.c **** 			* to send to the uart_init function.
+  32:../Sources/uart.c **** 			*/
+  33:../Sources/uart.c **** 			/* Enable the clock to the selected UART */
+  34:../Sources/uart.c **** 			SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;
+  69              		.loc 1 34 0
+  70 0036 3A4A     		ldr	r2, .L5+8
+  71 0038 3949     		ldr	r1, .L5+8
+  72 003a 3B4B     		ldr	r3, .L5+16
+  73 003c CB58     		ldr	r3, [r1, r3]
+  74 003e 8021     		mov	r1, #128
+  75 0040 C900     		lsl	r1, r1, #3
+  76 0042 1943     		orr	r1, r3
+  77 0044 384B     		ldr	r3, .L5+16
+  78 0046 D150     		str	r1, [r2, r3]
+  79 0048 2AE0     		b	.L3
+  80              	.L2:
+  35:../Sources/uart.c **** 	}		
+  36:../Sources/uart.c **** 	//	break;		
+  37:../Sources/uart.c **** 	//	case UART1_BASE_PTR:
+  38:../Sources/uart.c **** 	else if(uartch == (UART_MemMapPtr)UART1_BASE_PTR)	
+  81              		.loc 1 38 0
+  82 004a FA68     		ldr	r2, [r7, #12]
+  83 004c 374B     		ldr	r3, .L5+20
+  84 004e 9A42     		cmp	r2, r3
+  85 0050 11D1     		bne	.L4
+  39:../Sources/uart.c **** 	{	
+  40:../Sources/uart.c **** 			/* Enable the UART_TXD function on PTC4 */
+  41:../Sources/uart.c **** 			PORTC_PCR4 = PORT_PCR_MUX(0x3); // UART1 is alt3 function for this pin
+  86              		.loc 1 41 0
+  87 0052 374B     		ldr	r3, .L5+24
+  88 0054 C022     		mov	r2, #192
+  89 0056 9200     		lsl	r2, r2, #2
+  90 0058 1A61     		str	r2, [r3, #16]
+  42:../Sources/uart.c **** 			/* Enable the UART_RXD function on PTC3 */
+  43:../Sources/uart.c **** 			PORTC_PCR3 = PORT_PCR_MUX(0x3); // UART1 is alt3 function for this pin
+  91              		.loc 1 43 0
+  92 005a 354B     		ldr	r3, .L5+24
+  93 005c C022     		mov	r2, #192
+  94 005e 9200     		lsl	r2, r2, #2
+  95 0060 DA60     		str	r2, [r3, #12]
+  44:../Sources/uart.c **** 			/* Select the clock source for UART1 */
+  45:../Sources/uart.c **** 			//SIM_SOPT2 |= SIM_SOPT2_UART1SRC(1);
+  46:../Sources/uart.c **** 			/* Enable the clock to the selected UART */
+  47:../Sources/uart.c **** 			SIM_SCGC4 |= SIM_SCGC4_UART1_MASK;
+  96              		.loc 1 47 0
+  97 0062 2F4A     		ldr	r2, .L5+8
+  98 0064 2E49     		ldr	r1, .L5+8
+  99 0066 304B     		ldr	r3, .L5+16
+ 100 0068 CB58     		ldr	r3, [r1, r3]
+ 101 006a 8021     		mov	r1, #128
+ 102 006c 0901     		lsl	r1, r1, #4
+ 103 006e 1943     		orr	r1, r3
+ 104 0070 2D4B     		ldr	r3, .L5+16
+ 105 0072 D150     		str	r1, [r2, r3]
+ 106 0074 14E0     		b	.L3
+ 107              	.L4:
+  48:../Sources/uart.c **** 	}		
+  49:../Sources/uart.c **** 	//	break;			
+  50:../Sources/uart.c **** 	//	case UART2_BASE_PTR:
+  51:../Sources/uart.c **** 	else if(uartch == (UART_MemMapPtr)UART2_BASE_PTR)
+ 108              		.loc 1 51 0
+ 109 0076 FA68     		ldr	r2, [r7, #12]
+ 110 0078 2E4B     		ldr	r3, .L5+28
+ 111 007a 9A42     		cmp	r2, r3
+ 112 007c 10D1     		bne	.L3
+  52:../Sources/uart.c **** 	{
+  53:../Sources/uart.c **** 			/* Enable the UART_TXD function on PTD3 */
+  54:../Sources/uart.c **** 			PORTD_PCR3 = PORT_PCR_MUX(0x3); // UART2 is alt3 function for this pin
+ 113              		.loc 1 54 0
+ 114 007e 2E4B     		ldr	r3, .L5+32
+ 115 0080 C022     		mov	r2, #192
+ 116 0082 9200     		lsl	r2, r2, #2
+ 117 0084 DA60     		str	r2, [r3, #12]
+  55:../Sources/uart.c **** 			/* Enable the UART_RXD function on PTD2 */
+  56:../Sources/uart.c **** 			PORTD_PCR2 = PORT_PCR_MUX(0x3); // UART2 is alt3 function for this pin	
+ 118              		.loc 1 56 0
+ 119 0086 2C4B     		ldr	r3, .L5+32
+ 120 0088 C022     		mov	r2, #192
+ 121 008a 9200     		lsl	r2, r2, #2
+ 122 008c 9A60     		str	r2, [r3, #8]
+  57:../Sources/uart.c **** 			/* Select the clock source for UART1 */
+  58:../Sources/uart.c **** 			//SIM_SOPT2 |= SIM_SOPT2_UART2SRC(1);
+  59:../Sources/uart.c **** 			/* Enable the clock to the selected UART */
+  60:../Sources/uart.c **** 			SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
+ 123              		.loc 1 60 0
+ 124 008e 244A     		ldr	r2, .L5+8
+ 125 0090 2349     		ldr	r1, .L5+8
+ 126 0092 254B     		ldr	r3, .L5+16
+ 127 0094 CB58     		ldr	r3, [r1, r3]
+ 128 0096 8021     		mov	r1, #128
+ 129 0098 4901     		lsl	r1, r1, #5
+ 130 009a 1943     		orr	r1, r3
+ 131 009c 224B     		ldr	r3, .L5+16
+ 132 009e D150     		str	r1, [r2, r3]
+ 133              	.L3:
+  61:../Sources/uart.c **** 	}
+  62:../Sources/uart.c **** 	//break;		
+  63:../Sources/uart.c **** 	//}
+  64:../Sources/uart.c ****    /* Make sure that the transmitter and receiver are disabled while we
+  65:../Sources/uart.c **** 	* change settings.
+  66:../Sources/uart.c **** 	*/
+  67:../Sources/uart.c **** 	UART_C2_REG(uartch) &= ~(UART_C2_TE_MASK | UART_C2_RE_MASK );
+ 134              		.loc 1 67 0
+ 135 00a0 FB68     		ldr	r3, [r7, #12]
+ 136 00a2 DB78     		ldrb	r3, [r3, #3]
+ 137 00a4 DBB2     		uxtb	r3, r3
+ 138 00a6 0C22     		mov	r2, #12
+ 139 00a8 9343     		bic	r3, r2
+ 140 00aa DAB2     		uxtb	r2, r3
+ 141 00ac FB68     		ldr	r3, [r7, #12]
+ 142 00ae DA70     		strb	r2, [r3, #3]
+  68:../Sources/uart.c **** 
+  69:../Sources/uart.c **** 	/* Configure the UART for 8-bit mode, no parity */
+  70:../Sources/uart.c **** 	UART_C1_REG(uartch) = 0;	/* We need all default settings, so entire register is cleared */
+ 143              		.loc 1 70 0
+ 144 00b0 FB68     		ldr	r3, [r7, #12]
+ 145 00b2 0022     		mov	r2, #0
+ 146 00b4 9A70     		strb	r2, [r3, #2]
+  71:../Sources/uart.c **** 
+  72:../Sources/uart.c **** 	/* Calculate baud settings */
+  73:../Sources/uart.c **** 	sbr = (unsigned int) ((sysclk*1000)/(baud * 16));
+ 147              		.loc 1 73 0
+ 148 00b6 BB68     		ldr	r3, [r7, #8]
+ 149 00b8 FA22     		mov	r2, #250
+ 150 00ba 9200     		lsl	r2, r2, #2
+ 151 00bc 5A43     		mul	r2, r3
+ 152 00be 7B68     		ldr	r3, [r7, #4]
+ 153 00c0 1B01     		lsl	r3, r3, #4
+ 154 00c2 101C     		mov	r0, r2
+ 155 00c4 191C     		mov	r1, r3
+ 156 00c6 FFF7FEFF 		bl	__aeabi_idiv
+ 157 00ca 031C     		mov	r3, r0
+ 158 00cc 1C1C     		mov	r4, r3
+  74:../Sources/uart.c **** 
+  75:../Sources/uart.c **** 	/* Save off the current value of the UARTx_BDH except for the SBR field */
+  76:../Sources/uart.c **** 	temp = UART_BDH_REG(uartch) & ~(UART_BDH_SBR(0x1F));
+ 159              		.loc 1 76 0
+ 160 00ce FB68     		ldr	r3, [r7, #12]
+ 161 00d0 1B78     		ldrb	r3, [r3]
+ 162 00d2 DAB2     		uxtb	r2, r3
+ 163 00d4 3B1C     		mov	r3, r7
+ 164 00d6 1733     		add	r3, r3, #23
+ 165 00d8 1F21     		mov	r1, #31
+ 166 00da 8A43     		bic	r2, r1
+ 167 00dc 1A70     		strb	r2, [r3]
+  77:../Sources/uart.c **** 
+  78:../Sources/uart.c **** 	UART_BDH_REG(uartch) = temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
+ 168              		.loc 1 78 0
+ 169 00de F823     		mov	r3, #248
+ 170 00e0 5B01     		lsl	r3, r3, #5
+ 171 00e2 2340     		and	r3, r4
+ 172 00e4 1B0A     		lsr	r3, r3, #8
+ 173 00e6 DAB2     		uxtb	r2, r3
+ 174 00e8 1F23     		mov	r3, #31
+ 175 00ea 1340     		and	r3, r2
+ 176 00ec DAB2     		uxtb	r2, r3
+ 177 00ee 3B1C     		mov	r3, r7
+ 178 00f0 1733     		add	r3, r3, #23
+ 179 00f2 1B78     		ldrb	r3, [r3]
+ 180 00f4 1343     		orr	r3, r2
+ 181 00f6 DAB2     		uxtb	r2, r3
+ 182 00f8 FB68     		ldr	r3, [r7, #12]
+ 183 00fa 1A70     		strb	r2, [r3]
+  79:../Sources/uart.c **** 	UART_BDL_REG(uartch) = (unsigned char)(sbr & UART_BDL_SBR_MASK);
+ 184              		.loc 1 79 0
+ 185 00fc E2B2     		uxtb	r2, r4
+ 186 00fe FB68     		ldr	r3, [r7, #12]
+ 187 0100 5A70     		strb	r2, [r3, #1]
+  80:../Sources/uart.c **** 
+  81:../Sources/uart.c **** 	/* Enable receiver and transmitter */
+  82:../Sources/uart.c **** 	UART_C2_REG(uartch) |= (UART_C2_TE_MASK | UART_C2_RE_MASK );
+ 188              		.loc 1 82 0
+ 189 0102 FB68     		ldr	r3, [r7, #12]
+ 190 0104 DB78     		ldrb	r3, [r3, #3]
+ 191 0106 DBB2     		uxtb	r3, r3
+ 192 0108 0C22     		mov	r2, #12
+ 193 010a 1343     		orr	r3, r2
+ 194 010c DAB2     		uxtb	r2, r3
+ 195 010e FB68     		ldr	r3, [r7, #12]
+ 196 0110 DA70     		strb	r2, [r3, #3]
+  83:../Sources/uart.c **** 
+  84:../Sources/uart.c **** }
+ 197              		.loc 1 84 0
+ 198 0112 BD46     		mov	sp, r7
+ 199 0114 07B0     		add	sp, sp, #28
+ 200              		@ sp needed for prologue
+ 201 0116 90BD     		pop	{r4, r7, pc}
+ 202              	.L6:
+ 203              		.align	2
+ 204              	.L5:
+ 205 0118 00A00640 		.word	1074176000
+ 206 011c 00900440 		.word	1074040832
+ 207 0120 00700440 		.word	1074032640
+ 208 0124 04100000 		.word	4100
+ 209 0128 34100000 		.word	4148
+ 210 012c 00B00640 		.word	1074180096
+ 211 0130 00B00440 		.word	1074049024
+ 212 0134 00C00640 		.word	1074184192
+ 213 0138 00C00440 		.word	1074053120
+ 214              		.cfi_endproc
+ 215              	.LFE0:
+ 217              		.section	.text.uart_putchar,"ax",%progbits
+ 218              		.align	2
+ 219              		.global	uart_putchar
+ 220              		.code	16
+ 221              		.thumb_func
+ 223              	uart_putchar:
+ 224              	.LFB1:
+  85:../Sources/uart.c **** 
+  86:../Sources/uart.c **** 
+  87:../Sources/uart.c **** void uart_putchar (UART_MemMapPtr channel, char ch)
+  88:../Sources/uart.c **** {
+ 225              		.loc 1 88 0
+ 226              		.cfi_startproc
+ 227 0000 80B5     		push	{r7, lr}
+ 228              	.LCFI3:
+ 229              		.cfi_def_cfa_offset 8
+ 230              		.cfi_offset 7, -8
+ 231              		.cfi_offset 14, -4
+ 232 0002 82B0     		sub	sp, sp, #8
+ 233              	.LCFI4:
+ 234              		.cfi_def_cfa_offset 16
+ 235 0004 00AF     		add	r7, sp, #0
+ 236              	.LCFI5:
+ 237              		.cfi_def_cfa_register 7
+ 238 0006 7860     		str	r0, [r7, #4]
+ 239 0008 0A1C     		mov	r2, r1
+ 240 000a FB1C     		add	r3, r7, #3
+ 241 000c 1A70     		strb	r2, [r3]
+  89:../Sources/uart.c ****     /* Wait until space is available in the FIFO */
+  90:../Sources/uart.c ****     while(!(UART_S1_REG(channel) & UART_S1_TDRE_MASK));
+ 242              		.loc 1 90 0
+ 243 000e C046     		mov	r8, r8
+ 244              	.L8:
+ 245              		.loc 1 90 0 is_stmt 0 discriminator 1
+ 246 0010 7B68     		ldr	r3, [r7, #4]
+ 247 0012 1B79     		ldrb	r3, [r3, #4]
+ 248 0014 DBB2     		uxtb	r3, r3
+ 249 0016 DBB2     		uxtb	r3, r3
+ 250 0018 5BB2     		sxtb	r3, r3
+ 251 001a 002B     		cmp	r3, #0
+ 252 001c F8DA     		bge	.L8
+  91:../Sources/uart.c **** 
+  92:../Sources/uart.c ****     /* Send the character */
+  93:../Sources/uart.c ****     UART_D_REG(channel) = (unsigned char)ch;
+ 253              		.loc 1 93 0 is_stmt 1
+ 254 001e 7B68     		ldr	r3, [r7, #4]
+ 255 0020 FA1C     		add	r2, r7, #3
+ 256 0022 1278     		ldrb	r2, [r2]
+ 257 0024 DA71     		strb	r2, [r3, #7]
+  94:../Sources/uart.c **** }
+ 258              		.loc 1 94 0
+ 259 0026 BD46     		mov	sp, r7
+ 260 0028 02B0     		add	sp, sp, #8
+ 261              		@ sp needed for prologue
+ 262 002a 80BD     		pop	{r7, pc}
+ 263              		.cfi_endproc
+ 264              	.LFE1:
+ 266              		.section	.text.uart_getchar,"ax",%progbits
+ 267              		.align	2
+ 268              		.global	uart_getchar
+ 269              		.code	16
+ 270              		.thumb_func
+ 272              	uart_getchar:
+ 273              	.LFB2:
+  95:../Sources/uart.c **** 
+  96:../Sources/uart.c **** 
+  97:../Sources/uart.c **** char uart_getchar (UART_MemMapPtr channel)
+  98:../Sources/uart.c **** {
+ 274              		.loc 1 98 0
+ 275              		.cfi_startproc
+ 276 0000 80B5     		push	{r7, lr}
+ 277              	.LCFI6:
+ 278              		.cfi_def_cfa_offset 8
+ 279              		.cfi_offset 7, -8
+ 280              		.cfi_offset 14, -4
+ 281 0002 82B0     		sub	sp, sp, #8
+ 282              	.LCFI7:
+ 283              		.cfi_def_cfa_offset 16
+ 284 0004 00AF     		add	r7, sp, #0
+ 285              	.LCFI8:
+ 286              		.cfi_def_cfa_register 7
+ 287 0006 7860     		str	r0, [r7, #4]
+  99:../Sources/uart.c ****     /* Wait until character has been received */
+ 100:../Sources/uart.c ****     while (!(UART_S1_REG(channel) & UART_S1_RDRF_MASK));
+ 288              		.loc 1 100 0
+ 289 0008 C046     		mov	r8, r8
+ 290              	.L10:
+ 291              		.loc 1 100 0 is_stmt 0 discriminator 1
+ 292 000a 7B68     		ldr	r3, [r7, #4]
+ 293 000c 1B79     		ldrb	r3, [r3, #4]
+ 294 000e DBB2     		uxtb	r3, r3
+ 295 0010 1A1C     		mov	r2, r3
+ 296 0012 2023     		mov	r3, #32
+ 297 0014 1340     		and	r3, r2
+ 298 0016 F8D0     		beq	.L10
+ 101:../Sources/uart.c **** 
+ 102:../Sources/uart.c ****     /* Return the 8-bit data from the receiver */
+ 103:../Sources/uart.c ****     return UART_D_REG(channel);
+ 299              		.loc 1 103 0 is_stmt 1
+ 300 0018 7B68     		ldr	r3, [r7, #4]
+ 301 001a DB79     		ldrb	r3, [r3, #7]
+ 302 001c DBB2     		uxtb	r3, r3
+ 104:../Sources/uart.c **** }
+ 303              		.loc 1 104 0
+ 304 001e 181C     		mov	r0, r3
+ 305 0020 BD46     		mov	sp, r7
+ 306 0022 02B0     		add	sp, sp, #8
+ 307              		@ sp needed for prologue
+ 308 0024 80BD     		pop	{r7, pc}
+ 309              		.cfi_endproc
+ 310              	.LFE2:
+ 312 0026 C046     		.text
+ 313              	.Letext0:
+ 314              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 uart.c
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:19     .text.uart_init:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:24     .text.uart_init:00000000 uart_init
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:205    .text.uart_init:00000118 $d
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:218    .text.uart_putchar:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:223    .text.uart_putchar:00000000 uart_putchar
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:267    .text.uart_getchar:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cckPwcKt.s:272    .text.uart_getchar:00000000 uart_getchar
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_idiv

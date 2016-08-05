@@ -8,13 +8,17 @@
 /********************************************************************/
 // função que define a direção do pino
 /********************************************************************/
-void gpio_direction(uint8_t port, uint8_t pin, uint8_t mode)
+void gpio_direction(uint8_t port, uint8_t pin, uint8_t mode,bool pull_resistor)
 {
 	switch(port)
 	{	    
 		case PTA:
 			SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;
 			PORT_PCR_REG(PORTA_BASE_PTR,pin) = PORT_PCR_MUX(1);
+			if(pull_resistor == TRUE)
+			{
+				PORT_PCR_REG(PORTA_BASE_PTR,pin) |= PORT_PCR_PE(1);
+			}
 			if(mode == OUTPUT)
 			{
 				GPIOA_PDDR |= (1 << pin);
@@ -30,6 +34,10 @@ void gpio_direction(uint8_t port, uint8_t pin, uint8_t mode)
 			//{
 			SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
 			PORT_PCR_REG(PORTB_BASE_PTR,pin) = PORT_PCR_MUX(1);
+			if(pull_resistor == TRUE)
+			{
+				PORT_PCR_REG(PORTA_BASE_PTR,pin) |= PORT_PCR_PE(1);
+			}
 			if(mode == OUTPUT)
 			{
 				GPIOB_PDDR |= (1 << pin);
@@ -44,6 +52,10 @@ void gpio_direction(uint8_t port, uint8_t pin, uint8_t mode)
 		case PTC:
 			SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
 			PORT_PCR_REG(PORTC_BASE_PTR,pin) = PORT_PCR_MUX(1);
+			if(pull_resistor == TRUE)
+			{
+				PORT_PCR_REG(PORTA_BASE_PTR,pin) |= PORT_PCR_PE(1);
+			}
 			if(mode == OUTPUT)
 			{
 				GPIOC_PDDR |= (1 << pin);
@@ -57,6 +69,10 @@ void gpio_direction(uint8_t port, uint8_t pin, uint8_t mode)
 		case PTD:
 			SIM_SCGC5 |= SIM_SCGC5_PORTD_MASK;
 			PORT_PCR_REG(PORTD_BASE_PTR,pin) = PORT_PCR_MUX(1);
+			if(pull_resistor == TRUE)
+			{
+				PORT_PCR_REG(PORTA_BASE_PTR,pin) |= PORT_PCR_PE(1);
+			}
 			if(mode == OUTPUT)
 			{
 				GPIOD_PDDR |= (1 << pin);
@@ -70,6 +86,10 @@ void gpio_direction(uint8_t port, uint8_t pin, uint8_t mode)
 		case PTE:
 			SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;
 			PORT_PCR_REG(PORTE_BASE_PTR,pin) = PORT_PCR_MUX(1);
+			if(pull_resistor == TRUE)
+			{
+				PORT_PCR_REG(PORTA_BASE_PTR,pin) |= PORT_PCR_PE(1);
+			}
 			if(mode == OUTPUT)
 			{
 				GPIOE_PDDR |= (1 << pin);

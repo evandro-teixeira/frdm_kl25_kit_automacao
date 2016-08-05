@@ -56,237 +56,241 @@
   43 000c FB1D     		add	r3, r7, #7
   44 000e 1B78     		ldrb	r3, [r3]
   45 0010 012B     		cmp	r3, #1
-  46 0012 0ED0     		beq	.L4
+  46 0012 0FD0     		beq	.L4
   47 0014 02DC     		bgt	.L7
   48 0016 002B     		cmp	r3, #0
   49 0018 05D0     		beq	.L3
-  50 001a 1CE0     		b	.L1
+  50 001a 20E0     		b	.L1
   51              	.L7:
   52 001c 022B     		cmp	r3, #2
-  53 001e 0ED0     		beq	.L5
+  53 001e 10D0     		beq	.L5
   54 0020 032B     		cmp	r3, #3
-  55 0022 12D0     		beq	.L6
-  56 0024 17E0     		b	.L1
+  55 0022 15D0     		beq	.L6
+  56 0024 1BE0     		b	.L1
   57              	.L3:
   15:../Sources/entradas.c **** 	{
   16:../Sources/entradas.c **** 		case IN_D0:
-  17:../Sources/entradas.c **** 			gpio_direction(PTD,5,INPUT);
+  17:../Sources/entradas.c **** 			gpio_direction(PTD,5,INPUT,NO_PULL_RESISTOR);
   58              		.loc 1 17 0
   59 0026 0320     		mov	r0, #3
   60 0028 0521     		mov	r1, #5
   61 002a 0022     		mov	r2, #0
-  62 002c FFF7FEFF 		bl	gpio_direction
+  62 002c 0023     		mov	r3, #0
+  63 002e FFF7FEFF 		bl	gpio_direction
   18:../Sources/entradas.c **** 		break;
-  63              		.loc 1 18 0
-  64 0030 11E0     		b	.L1
-  65              	.L4:
+  64              		.loc 1 18 0
+  65 0032 14E0     		b	.L1
+  66              	.L4:
   19:../Sources/entradas.c **** 		case IN_D1:
-  20:../Sources/entradas.c **** 			gpio_direction(PTA,13,INPUT);
-  66              		.loc 1 20 0
-  67 0032 0020     		mov	r0, #0
-  68 0034 0D21     		mov	r1, #13
-  69 0036 0022     		mov	r2, #0
-  70 0038 FFF7FEFF 		bl	gpio_direction
+  20:../Sources/entradas.c **** 			gpio_direction(PTA,13,INPUT,NO_PULL_RESISTOR);
+  67              		.loc 1 20 0
+  68 0034 0020     		mov	r0, #0
+  69 0036 0D21     		mov	r1, #13
+  70 0038 0022     		mov	r2, #0
+  71 003a 0023     		mov	r3, #0
+  72 003c FFF7FEFF 		bl	gpio_direction
   21:../Sources/entradas.c **** 		break;
-  71              		.loc 1 21 0
-  72 003c 0BE0     		b	.L1
-  73              	.L5:
+  73              		.loc 1 21 0
+  74 0040 0DE0     		b	.L1
+  75              	.L5:
   22:../Sources/entradas.c **** 		case IN_D2:
-  23:../Sources/entradas.c **** 			gpio_direction(PTC,9,INPUT);
-  74              		.loc 1 23 0
-  75 003e 0220     		mov	r0, #2
-  76 0040 0921     		mov	r1, #9
-  77 0042 0022     		mov	r2, #0
-  78 0044 FFF7FEFF 		bl	gpio_direction
+  23:../Sources/entradas.c **** 			gpio_direction(PTC,9,INPUT,NO_PULL_RESISTOR);
+  76              		.loc 1 23 0
+  77 0042 0220     		mov	r0, #2
+  78 0044 0921     		mov	r1, #9
+  79 0046 0022     		mov	r2, #0
+  80 0048 0023     		mov	r3, #0
+  81 004a FFF7FEFF 		bl	gpio_direction
   24:../Sources/entradas.c **** 		break;
-  79              		.loc 1 24 0
-  80 0048 05E0     		b	.L1
-  81              	.L6:
+  82              		.loc 1 24 0
+  83 004e 06E0     		b	.L1
+  84              	.L6:
   25:../Sources/entradas.c **** 		case IN_D3:
-  26:../Sources/entradas.c **** 			gpio_direction(PTC,8,INPUT);
-  82              		.loc 1 26 0
-  83 004a 0220     		mov	r0, #2
-  84 004c 0821     		mov	r1, #8
-  85 004e 0022     		mov	r2, #0
-  86 0050 FFF7FEFF 		bl	gpio_direction
+  26:../Sources/entradas.c **** 			gpio_direction(PTC,8,INPUT,NO_PULL_RESISTOR);
+  85              		.loc 1 26 0
+  86 0050 0220     		mov	r0, #2
+  87 0052 0821     		mov	r1, #8
+  88 0054 0022     		mov	r2, #0
+  89 0056 0023     		mov	r3, #0
+  90 0058 FFF7FEFF 		bl	gpio_direction
   27:../Sources/entradas.c **** 		break;
-  87              		.loc 1 27 0
-  88 0054 C046     		mov	r8, r8
-  89              	.L1:
+  91              		.loc 1 27 0
+  92 005c C046     		mov	r8, r8
+  93              	.L1:
   28:../Sources/entradas.c **** 	}
   29:../Sources/entradas.c **** }
-  90              		.loc 1 29 0
-  91 0056 BD46     		mov	sp, r7
-  92 0058 02B0     		add	sp, sp, #8
-  93              		@ sp needed for prologue
-  94 005a 80BD     		pop	{r7, pc}
-  95              		.cfi_endproc
-  96              	.LFE0:
-  98              		.section	.text.EntradasDigitais,"ax",%progbits
-  99              		.align	2
- 100              		.global	EntradasDigitais
- 101              		.code	16
- 102              		.thumb_func
- 104              	EntradasDigitais:
- 105              	.LFB1:
+  94              		.loc 1 29 0
+  95 005e BD46     		mov	sp, r7
+  96 0060 02B0     		add	sp, sp, #8
+  97              		@ sp needed for prologue
+  98 0062 80BD     		pop	{r7, pc}
+  99              		.cfi_endproc
+ 100              	.LFE0:
+ 102              		.section	.text.EntradasDigitais,"ax",%progbits
+ 103              		.align	2
+ 104              		.global	EntradasDigitais
+ 105              		.code	16
+ 106              		.thumb_func
+ 108              	EntradasDigitais:
+ 109              	.LFB1:
   30:../Sources/entradas.c **** //=========================================================
   31:../Sources/entradas.c **** //
   32:../Sources/entradas.c **** //
   33:../Sources/entradas.c **** //=========================================================
   34:../Sources/entradas.c **** bool EntradasDigitais(uint8_t in)
   35:../Sources/entradas.c **** {
- 106              		.loc 1 35 0
- 107              		.cfi_startproc
- 108 0000 80B5     		push	{r7, lr}
- 109              	.LCFI3:
- 110              		.cfi_def_cfa_offset 8
- 111              		.cfi_offset 7, -8
- 112              		.cfi_offset 14, -4
- 113 0002 82B0     		sub	sp, sp, #8
- 114              	.LCFI4:
- 115              		.cfi_def_cfa_offset 16
- 116 0004 00AF     		add	r7, sp, #0
- 117              	.LCFI5:
- 118              		.cfi_def_cfa_register 7
- 119 0006 021C     		mov	r2, r0
- 120 0008 FB1D     		add	r3, r7, #7
- 121 000a 1A70     		strb	r2, [r3]
+ 110              		.loc 1 35 0
+ 111              		.cfi_startproc
+ 112 0000 80B5     		push	{r7, lr}
+ 113              	.LCFI3:
+ 114              		.cfi_def_cfa_offset 8
+ 115              		.cfi_offset 7, -8
+ 116              		.cfi_offset 14, -4
+ 117 0002 82B0     		sub	sp, sp, #8
+ 118              	.LCFI4:
+ 119              		.cfi_def_cfa_offset 16
+ 120 0004 00AF     		add	r7, sp, #0
+ 121              	.LCFI5:
+ 122              		.cfi_def_cfa_register 7
+ 123 0006 021C     		mov	r2, r0
+ 124 0008 FB1D     		add	r3, r7, #7
+ 125 000a 1A70     		strb	r2, [r3]
   36:../Sources/entradas.c **** 	switch(in)
- 122              		.loc 1 36 0
- 123 000c FB1D     		add	r3, r7, #7
- 124 000e 1B78     		ldrb	r3, [r3]
- 125 0010 012B     		cmp	r3, #1
- 126 0012 12D0     		beq	.L11
- 127 0014 02DC     		bgt	.L14
- 128 0016 002B     		cmp	r3, #0
- 129 0018 05D0     		beq	.L10
- 130 001a 2CE0     		b	.L9
- 131              	.L14:
- 132 001c 022B     		cmp	r3, #2
- 133 001e 16D0     		beq	.L12
- 134 0020 032B     		cmp	r3, #3
- 135 0022 1ED0     		beq	.L13
- 136 0024 27E0     		b	.L9
- 137              	.L10:
+ 126              		.loc 1 36 0
+ 127 000c FB1D     		add	r3, r7, #7
+ 128 000e 1B78     		ldrb	r3, [r3]
+ 129 0010 012B     		cmp	r3, #1
+ 130 0012 12D0     		beq	.L11
+ 131 0014 02DC     		bgt	.L14
+ 132 0016 002B     		cmp	r3, #0
+ 133 0018 05D0     		beq	.L10
+ 134 001a 2CE0     		b	.L9
+ 135              	.L14:
+ 136 001c 022B     		cmp	r3, #2
+ 137 001e 16D0     		beq	.L12
+ 138 0020 032B     		cmp	r3, #3
+ 139 0022 1ED0     		beq	.L13
+ 140 0024 27E0     		b	.L9
+ 141              	.L10:
   37:../Sources/entradas.c **** 	{
   38:../Sources/entradas.c **** 		case IN_D0:
   39:../Sources/entradas.c **** 			if(gpio_read(PTD,5))
- 138              		.loc 1 39 0
- 139 0026 0320     		mov	r0, #3
- 140 0028 0521     		mov	r1, #5
- 141 002a FFF7FEFF 		bl	gpio_read
- 142 002e 031C     		mov	r3, r0
- 143 0030 01D0     		beq	.L15
+ 142              		.loc 1 39 0
+ 143 0026 0320     		mov	r0, #3
+ 144 0028 0521     		mov	r1, #5
+ 145 002a FFF7FEFF 		bl	gpio_read
+ 146 002e 031C     		mov	r3, r0
+ 147 0030 01D0     		beq	.L15
   40:../Sources/entradas.c **** 			{
   41:../Sources/entradas.c **** 				return TRUE;
- 144              		.loc 1 41 0
- 145 0032 0123     		mov	r3, #1
- 146 0034 20E0     		b	.L16
- 147              	.L15:
+ 148              		.loc 1 41 0
+ 149 0032 0123     		mov	r3, #1
+ 150 0034 20E0     		b	.L16
+ 151              	.L15:
   42:../Sources/entradas.c **** 			}
   43:../Sources/entradas.c **** 			else
   44:../Sources/entradas.c **** 			{
   45:../Sources/entradas.c **** 				return FALSE;
- 148              		.loc 1 45 0
- 149 0036 0023     		mov	r3, #0
- 150 0038 1EE0     		b	.L16
- 151              	.L11:
+ 152              		.loc 1 45 0
+ 153 0036 0023     		mov	r3, #0
+ 154 0038 1EE0     		b	.L16
+ 155              	.L11:
   46:../Sources/entradas.c **** 			}
   47:../Sources/entradas.c **** 		break;
   48:../Sources/entradas.c **** 		case IN_D1:
   49:../Sources/entradas.c **** 			if(gpio_read(PTA,13))
- 152              		.loc 1 49 0
- 153 003a 0020     		mov	r0, #0
- 154 003c 0D21     		mov	r1, #13
- 155 003e FFF7FEFF 		bl	gpio_read
- 156 0042 031C     		mov	r3, r0
- 157 0044 01D0     		beq	.L17
+ 156              		.loc 1 49 0
+ 157 003a 0020     		mov	r0, #0
+ 158 003c 0D21     		mov	r1, #13
+ 159 003e FFF7FEFF 		bl	gpio_read
+ 160 0042 031C     		mov	r3, r0
+ 161 0044 01D0     		beq	.L17
   50:../Sources/entradas.c **** 			{
   51:../Sources/entradas.c **** 				return TRUE;
- 158              		.loc 1 51 0
- 159 0046 0123     		mov	r3, #1
- 160 0048 16E0     		b	.L16
- 161              	.L17:
+ 162              		.loc 1 51 0
+ 163 0046 0123     		mov	r3, #1
+ 164 0048 16E0     		b	.L16
+ 165              	.L17:
   52:../Sources/entradas.c **** 			}
   53:../Sources/entradas.c **** 			else
   54:../Sources/entradas.c **** 			{
   55:../Sources/entradas.c **** 				return FALSE;
- 162              		.loc 1 55 0
- 163 004a 0023     		mov	r3, #0
- 164 004c 14E0     		b	.L16
- 165              	.L12:
+ 166              		.loc 1 55 0
+ 167 004a 0023     		mov	r3, #0
+ 168 004c 14E0     		b	.L16
+ 169              	.L12:
   56:../Sources/entradas.c **** 			}
   57:../Sources/entradas.c **** 		break;
   58:../Sources/entradas.c **** 		case IN_D2:
   59:../Sources/entradas.c **** 			if(gpio_read(PTC,9))
- 166              		.loc 1 59 0
- 167 004e 0220     		mov	r0, #2
- 168 0050 0921     		mov	r1, #9
- 169 0052 FFF7FEFF 		bl	gpio_read
- 170 0056 031C     		mov	r3, r0
- 171 0058 01D0     		beq	.L18
+ 170              		.loc 1 59 0
+ 171 004e 0220     		mov	r0, #2
+ 172 0050 0921     		mov	r1, #9
+ 173 0052 FFF7FEFF 		bl	gpio_read
+ 174 0056 031C     		mov	r3, r0
+ 175 0058 01D0     		beq	.L18
   60:../Sources/entradas.c **** 			{
   61:../Sources/entradas.c **** 				return TRUE;
- 172              		.loc 1 61 0
- 173 005a 0123     		mov	r3, #1
- 174 005c 0CE0     		b	.L16
- 175              	.L18:
+ 176              		.loc 1 61 0
+ 177 005a 0123     		mov	r3, #1
+ 178 005c 0CE0     		b	.L16
+ 179              	.L18:
   62:../Sources/entradas.c **** 			}
   63:../Sources/entradas.c **** 			else
   64:../Sources/entradas.c **** 			{
   65:../Sources/entradas.c **** 				return FALSE;
- 176              		.loc 1 65 0
- 177 005e 0023     		mov	r3, #0
- 178 0060 0AE0     		b	.L16
- 179              	.L13:
+ 180              		.loc 1 65 0
+ 181 005e 0023     		mov	r3, #0
+ 182 0060 0AE0     		b	.L16
+ 183              	.L13:
   66:../Sources/entradas.c **** 			}
   67:../Sources/entradas.c **** 		break;
   68:../Sources/entradas.c **** 		case IN_D3:
   69:../Sources/entradas.c **** 			if(gpio_read(PTC,8))
- 180              		.loc 1 69 0
- 181 0062 0220     		mov	r0, #2
- 182 0064 0821     		mov	r1, #8
- 183 0066 FFF7FEFF 		bl	gpio_read
- 184 006a 031C     		mov	r3, r0
- 185 006c 01D0     		beq	.L19
+ 184              		.loc 1 69 0
+ 185 0062 0220     		mov	r0, #2
+ 186 0064 0821     		mov	r1, #8
+ 187 0066 FFF7FEFF 		bl	gpio_read
+ 188 006a 031C     		mov	r3, r0
+ 189 006c 01D0     		beq	.L19
   70:../Sources/entradas.c **** 			{
   71:../Sources/entradas.c **** 				return TRUE;
- 186              		.loc 1 71 0
- 187 006e 0123     		mov	r3, #1
- 188 0070 02E0     		b	.L16
- 189              	.L19:
+ 190              		.loc 1 71 0
+ 191 006e 0123     		mov	r3, #1
+ 192 0070 02E0     		b	.L16
+ 193              	.L19:
   72:../Sources/entradas.c **** 			}
   73:../Sources/entradas.c **** 			else
   74:../Sources/entradas.c **** 			{
   75:../Sources/entradas.c **** 				return FALSE;
- 190              		.loc 1 75 0
- 191 0072 0023     		mov	r3, #0
- 192 0074 00E0     		b	.L16
- 193              	.L9:
- 194 0076 FFE7     		b	.L8
- 195              	.L16:
- 196              	.L8:
+ 194              		.loc 1 75 0
+ 195 0072 0023     		mov	r3, #0
+ 196 0074 00E0     		b	.L16
+ 197              	.L9:
+ 198 0076 FFE7     		b	.L8
+ 199              	.L16:
+ 200              	.L8:
   76:../Sources/entradas.c **** 			}
   77:../Sources/entradas.c **** 		break;
   78:../Sources/entradas.c **** 	}
   79:../Sources/entradas.c **** }
- 197              		.loc 1 79 0
- 198 0078 181C     		mov	r0, r3
- 199 007a BD46     		mov	sp, r7
- 200 007c 02B0     		add	sp, sp, #8
- 201              		@ sp needed for prologue
- 202 007e 80BD     		pop	{r7, pc}
- 203              		.cfi_endproc
- 204              	.LFE1:
- 206              		.text
- 207              	.Letext0:
- 208              		.file 2 "../Sources/types.h"
+ 201              		.loc 1 79 0
+ 202 0078 181C     		mov	r0, r3
+ 203 007a BD46     		mov	sp, r7
+ 204 007c 02B0     		add	sp, sp, #8
+ 205              		@ sp needed for prologue
+ 206 007e 80BD     		pop	{r7, pc}
+ 207              		.cfi_endproc
+ 208              	.LFE1:
+ 210              		.text
+ 211              	.Letext0:
+ 212              		.file 2 "../Sources/types.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 entradas.c
-C:\Users\PDI\AppData\Local\Temp\cc541ZvR.s:18     .text.InicializaEntradas:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc541ZvR.s:23     .text.InicializaEntradas:00000000 InicializaEntradas
-C:\Users\PDI\AppData\Local\Temp\cc541ZvR.s:99     .text.EntradasDigitais:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc541ZvR.s:104    .text.EntradasDigitais:00000000 EntradasDigitais
+C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:18     .text.InicializaEntradas:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:23     .text.InicializaEntradas:00000000 InicializaEntradas
+C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:103    .text.EntradasDigitais:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:108    .text.EntradasDigitais:00000000 EntradasDigitais
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
