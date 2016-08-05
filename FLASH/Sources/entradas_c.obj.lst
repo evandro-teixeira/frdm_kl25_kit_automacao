@@ -287,10 +287,10 @@
  212              		.file 2 "../Sources/types.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 entradas.c
-C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:18     .text.InicializaEntradas:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:23     .text.InicializaEntradas:00000000 InicializaEntradas
-C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:103    .text.EntradasDigitais:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc3kHiz2.s:108    .text.EntradasDigitais:00000000 EntradasDigitais
+C:\Users\PDI\AppData\Local\Temp\ccj3YKVb.s:18     .text.InicializaEntradas:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccj3YKVb.s:23     .text.InicializaEntradas:00000000 InicializaEntradas
+C:\Users\PDI\AppData\Local\Temp\ccj3YKVb.s:103    .text.EntradasDigitais:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccj3YKVb.s:108    .text.EntradasDigitais:00000000 EntradasDigitais
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

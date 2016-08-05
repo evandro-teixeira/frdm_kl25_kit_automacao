@@ -1,0 +1,476 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"adc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.InicializaADC,"ax",%progbits
+  18              		.align	2
+  19              		.global	InicializaADC
+  20              		.code	16
+  21              		.thumb_func
+  23              	InicializaADC:
+  24              	.LFB0:
+  25              		.file 1 "../Sources/adc.c"
+   1:../Sources/adc.c **** /**************************************************************
+   2:../Sources/adc.c ****  * adc.c
+   3:../Sources/adc.c ****  *
+   4:../Sources/adc.c ****  *  Created on: Aug 5, 2016
+   5:../Sources/adc.c ****  *      Author: PDI
+   6:../Sources/adc.c ****  **************************************************************/
+   7:../Sources/adc.c **** #include "adc.h"
+   8:../Sources/adc.c **** /*************************************************************
+   9:../Sources/adc.c ****  * 
+  10:../Sources/adc.c ****  * adc_init()
+  11:../Sources/adc.c ****  * Calibrates and initializes adc to perform single conversions and generate
+  12:../Sources/adc.c ****  * DMA requests at the end of the conversion
+  13:../Sources/adc.c ****  * 
+  14:../Sources/adc.c ****  ************************************************************/
+  15:../Sources/adc.c **** void InicializaADC(void)
+  16:../Sources/adc.c **** {
+  26              		.loc 1 16 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 00AF     		add	r7, sp, #0
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_register 7
+  17:../Sources/adc.c **** 	// Enable clocks
+  18:../Sources/adc.c **** 	SIM_SCGC6 |= SIM_SCGC6_ADC0_MASK;	// ADC 0 clock
+  36              		.loc 1 18 0
+  37 0004 164A     		ldr	r2, .L2
+  38 0006 1649     		ldr	r1, .L2
+  39 0008 164B     		ldr	r3, .L2+4
+  40 000a CB58     		ldr	r3, [r1, r3]
+  41 000c 8021     		mov	r1, #128
+  42 000e 0905     		lsl	r1, r1, #20
+  43 0010 1943     		orr	r1, r3
+  44 0012 144B     		ldr	r3, .L2+4
+  45 0014 D150     		str	r1, [r2, r3]
+  19:../Sources/adc.c **** 	SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;	// PTB0 clock
+  46              		.loc 1 19 0
+  47 0016 124A     		ldr	r2, .L2
+  48 0018 1149     		ldr	r1, .L2
+  49 001a 134B     		ldr	r3, .L2+8
+  50 001c CB58     		ldr	r3, [r1, r3]
+  51 001e 8021     		mov	r1, #128
+  52 0020 C900     		lsl	r1, r1, #3
+  53 0022 1943     		orr	r1, r3
+  54 0024 104B     		ldr	r3, .L2+8
+  55 0026 D150     		str	r1, [r2, r3]
+  20:../Sources/adc.c **** 	
+  21:../Sources/adc.c **** 	// Calibrate ADC
+  22:../Sources/adc.c **** 	adc_cal();
+  56              		.loc 1 22 0
+  57 0028 FFF7FEFF 		bl	adc_cal
+  23:../Sources/adc.c **** 
+  24:../Sources/adc.c **** 	// Configure ADC
+  25:../Sources/adc.c **** 	ADC0_CFG1 = 0; // Reset register
+  58              		.loc 1 25 0
+  59 002c 0F4B     		ldr	r3, .L2+12
+  60 002e 0022     		mov	r2, #0
+  61 0030 9A60     		str	r2, [r3, #8]
+  26:../Sources/adc.c **** 	
+  27:../Sources/adc.c **** 	ADC0_CFG1 |= (ADC_CFG1_MODE(3)  |  	// 16 bits mode
+  62              		.loc 1 27 0
+  63 0032 0E4B     		ldr	r3, .L2+12
+  64 0034 0D4A     		ldr	r2, .L2+12
+  65 0036 9268     		ldr	r2, [r2, #8]
+  66 0038 2C21     		mov	r1, #44
+  67 003a 0A43     		orr	r2, r1
+  68 003c 9A60     		str	r2, [r3, #8]
+  28:../Sources/adc.c **** 				  ADC_CFG1_ADICLK(0)|	// Input Bus Clock (20-25 MHz out of reset (FEI mode))
+  29:../Sources/adc.c **** 				  ADC_CFG1_ADIV(1)) ;	// Clock divide by 2 (10-12.5 MHz)
+  30:../Sources/adc.c **** 	
+  31:../Sources/adc.c **** 	ADC0_SC2 |= ADC_SC2_DMAEN_MASK;    // DMA Enable
+  69              		.loc 1 31 0
+  70 003e 0B4B     		ldr	r3, .L2+12
+  71 0040 0A4A     		ldr	r2, .L2+12
+  72 0042 126A     		ldr	r2, [r2, #32]
+  73 0044 0421     		mov	r1, #4
+  74 0046 0A43     		orr	r2, r1
+  75 0048 1A62     		str	r2, [r3, #32]
+  32:../Sources/adc.c **** 	
+  33:../Sources/adc.c **** 	ADC0_SC3 = 0; // Reset SC3
+  76              		.loc 1 33 0
+  77 004a 084B     		ldr	r3, .L2+12
+  78 004c 0022     		mov	r2, #0
+  79 004e 5A62     		str	r2, [r3, #36]
+  34:../Sources/adc.c **** 	
+  35:../Sources/adc.c **** 	ADC0_SC1A |= ADC_SC1_ADCH(31); // Disable module
+  80              		.loc 1 35 0
+  81 0050 064B     		ldr	r3, .L2+12
+  82 0052 064A     		ldr	r2, .L2+12
+  83 0054 1268     		ldr	r2, [r2]
+  84 0056 1F21     		mov	r1, #31
+  85 0058 0A43     		orr	r2, r1
+  86 005a 1A60     		str	r2, [r3]
+  36:../Sources/adc.c **** }
+  87              		.loc 1 36 0
+  88 005c BD46     		mov	sp, r7
+  89              		@ sp needed for prologue
+  90 005e 80BD     		pop	{r7, pc}
+  91              	.L3:
+  92              		.align	2
+  93              	.L2:
+  94 0060 00700440 		.word	1074032640
+  95 0064 3C100000 		.word	4156
+  96 0068 38100000 		.word	4152
+  97 006c 00B00340 		.word	1073983488
+  98              		.cfi_endproc
+  99              	.LFE0:
+ 101              		.section	.text.LeADC,"ax",%progbits
+ 102              		.align	2
+ 103              		.global	LeADC
+ 104              		.code	16
+ 105              		.thumb_func
+ 107              	LeADC:
+ 108              	.LFB1:
+  37:../Sources/adc.c **** /************************************************************
+  38:../Sources/adc.c ****  * 
+  39:../Sources/adc.c ****  * adc_cal
+  40:../Sources/adc.c ****  * Calibrates the adc
+  41:../Sources/adc.c ****  * Returns 0 if successful calibration
+  42:../Sources/adc.c ****  * Returns 1 otherwise
+  43:../Sources/adc.c ****  * 
+  44:../Sources/adc.c ****  ************************************************************/
+  45:../Sources/adc.c **** void LeADC(unsigned int ch)
+  46:../Sources/adc.c **** {
+ 109              		.loc 1 46 0
+ 110              		.cfi_startproc
+ 111 0000 80B5     		push	{r7, lr}
+ 112              	.LCFI2:
+ 113              		.cfi_def_cfa_offset 8
+ 114              		.cfi_offset 7, -8
+ 115              		.cfi_offset 14, -4
+ 116 0002 82B0     		sub	sp, sp, #8
+ 117              	.LCFI3:
+ 118              		.cfi_def_cfa_offset 16
+ 119 0004 00AF     		add	r7, sp, #0
+ 120              	.LCFI4:
+ 121              		.cfi_def_cfa_register 7
+ 122 0006 7860     		str	r0, [r7, #4]
+  47:../Sources/adc.c **** 	ADC0_SC1A = (ch & ADC_SC1_ADCH_MASK) | 
+ 123              		.loc 1 47 0
+ 124 0008 0E4B     		ldr	r3, .L7
+ 125 000a 7968     		ldr	r1, [r7, #4]
+ 126 000c 1F22     		mov	r2, #31
+ 127 000e 1140     		and	r1, r2
+  48:../Sources/adc.c **** 				(ADC0_SC1A & (ADC_SC1_AIEN_MASK | ADC_SC1_DIFF_MASK));     // Write to SC1A to start conversion
+ 128              		.loc 1 48 0
+ 129 0010 0C4A     		ldr	r2, .L7
+ 130 0012 1268     		ldr	r2, [r2]
+ 131 0014 101C     		mov	r0, r2
+ 132 0016 6022     		mov	r2, #96
+ 133 0018 0240     		and	r2, r0
+  47:../Sources/adc.c **** 	ADC0_SC1A = (ch & ADC_SC1_ADCH_MASK) | 
+ 134              		.loc 1 47 0
+ 135 001a 0A43     		orr	r2, r1
+ 136 001c 1A60     		str	r2, [r3]
+  49:../Sources/adc.c **** 	while(ADC0_SC2 & ADC_SC2_ADACT_MASK); 	 // Conversion in progress
+ 137              		.loc 1 49 0
+ 138 001e C046     		mov	r8, r8
+ 139              	.L5:
+ 140              		.loc 1 49 0 is_stmt 0 discriminator 1
+ 141 0020 084B     		ldr	r3, .L7
+ 142 0022 1B6A     		ldr	r3, [r3, #32]
+ 143 0024 1A1C     		mov	r2, r3
+ 144 0026 8023     		mov	r3, #128
+ 145 0028 1340     		and	r3, r2
+ 146 002a F9D1     		bne	.L5
+  50:../Sources/adc.c **** 	while(!(ADC0_SC1A & ADC_SC1_COCO_MASK)); // Run until the conversion is complete
+ 147              		.loc 1 50 0 is_stmt 1
+ 148 002c C046     		mov	r8, r8
+ 149              	.L6:
+ 150              		.loc 1 50 0 is_stmt 0 discriminator 1
+ 151 002e 054B     		ldr	r3, .L7
+ 152 0030 1B68     		ldr	r3, [r3]
+ 153 0032 1A1C     		mov	r2, r3
+ 154 0034 8023     		mov	r3, #128
+ 155 0036 1340     		and	r3, r2
+ 156 0038 F9D0     		beq	.L6
+  51:../Sources/adc.c **** 	return ADC0_RA;
+ 157              		.loc 1 51 0 is_stmt 1
+ 158 003a 024B     		ldr	r3, .L7
+ 159 003c 1B69     		ldr	r3, [r3, #16]
+  52:../Sources/adc.c **** }
+ 160              		.loc 1 52 0
+ 161 003e BD46     		mov	sp, r7
+ 162 0040 02B0     		add	sp, sp, #8
+ 163              		@ sp needed for prologue
+ 164 0042 80BD     		pop	{r7, pc}
+ 165              	.L8:
+ 166              		.align	2
+ 167              	.L7:
+ 168 0044 00B00340 		.word	1073983488
+ 169              		.cfi_endproc
+ 170              	.LFE1:
+ 172              		.section	.text.adc_cal,"ax",%progbits
+ 173              		.align	2
+ 174              		.global	adc_cal
+ 175              		.code	16
+ 176              		.thumb_func
+ 178              	adc_cal:
+ 179              	.LFB2:
+  53:../Sources/adc.c **** /***********************************************************
+  54:../Sources/adc.c ****  * 
+  55:../Sources/adc.c ****  * adc_cal
+  56:../Sources/adc.c ****  * Calibrates the adc
+  57:../Sources/adc.c ****  * Returns 0 if successful calibration
+  58:../Sources/adc.c ****  * Returns 1 otherwise
+  59:../Sources/adc.c ****  * 
+  60:../Sources/adc.c ****  ***********************************************************/
+  61:../Sources/adc.c **** int adc_cal(void)
+  62:../Sources/adc.c **** {
+ 180              		.loc 1 62 0
+ 181              		.cfi_startproc
+ 182 0000 80B5     		push	{r7, lr}
+ 183              	.LCFI5:
+ 184              		.cfi_def_cfa_offset 8
+ 185              		.cfi_offset 7, -8
+ 186              		.cfi_offset 14, -4
+ 187 0002 82B0     		sub	sp, sp, #8
+ 188              	.LCFI6:
+ 189              		.cfi_def_cfa_offset 16
+ 190 0004 00AF     		add	r7, sp, #0
+ 191              	.LCFI7:
+ 192              		.cfi_def_cfa_register 7
+  63:../Sources/adc.c **** 	ADC0_CFG1 |= (ADC_CFG1_MODE(3)  |  	// 16 bits mode
+ 193              		.loc 1 63 0
+ 194 0006 434B     		ldr	r3, .L13
+ 195 0008 424A     		ldr	r2, .L13
+ 196 000a 9268     		ldr	r2, [r2, #8]
+ 197 000c 4D21     		mov	r1, #77
+ 198 000e 0A43     		orr	r2, r1
+ 199 0010 9A60     		str	r2, [r3, #8]
+  64:../Sources/adc.c **** 				  ADC_CFG1_ADICLK(1)|	// Input Bus Clock divided by 2 (20-25 MHz out of reset (FEI mode) / 2)
+  65:../Sources/adc.c **** 				  ADC_CFG1_ADIV(2)) ;	// Clock divide by 4 (2.5-3 MHz)
+  66:../Sources/adc.c **** 	
+  67:../Sources/adc.c **** 	ADC0_SC3 |= ADC_SC3_AVGE_MASK |		// Enable HW average
+ 200              		.loc 1 67 0
+ 201 0012 404B     		ldr	r3, .L13
+ 202 0014 3F4A     		ldr	r2, .L13
+ 203 0016 526A     		ldr	r2, [r2, #36]
+ 204 0018 8721     		mov	r1, #135
+ 205 001a 0A43     		orr	r2, r1
+ 206 001c 5A62     		str	r2, [r3, #36]
+  68:../Sources/adc.c **** 				ADC_SC3_AVGS(3)   |		// Set HW average of 32 samples
+  69:../Sources/adc.c **** 				ADC_SC3_CAL_MASK;		// Start calibration process
+  70:../Sources/adc.c **** 	
+  71:../Sources/adc.c **** 	while(ADC0_SC3 & ADC_SC3_CAL_MASK); // Wait for calibration to end
+ 207              		.loc 1 71 0
+ 208 001e C046     		mov	r8, r8
+ 209              	.L10:
+ 210              		.loc 1 71 0 is_stmt 0 discriminator 1
+ 211 0020 3C4B     		ldr	r3, .L13
+ 212 0022 5B6A     		ldr	r3, [r3, #36]
+ 213 0024 1A1C     		mov	r2, r3
+ 214 0026 8023     		mov	r3, #128
+ 215 0028 1340     		and	r3, r2
+ 216 002a F9D1     		bne	.L10
+  72:../Sources/adc.c **** 	
+  73:../Sources/adc.c **** 	if(ADC0_SC3 & ADC_SC3_CALF_MASK)	// Check for successful calibration
+ 217              		.loc 1 73 0 is_stmt 1
+ 218 002c 394B     		ldr	r3, .L13
+ 219 002e 5B6A     		ldr	r3, [r3, #36]
+ 220 0030 1A1C     		mov	r2, r3
+ 221 0032 4023     		mov	r3, #64
+ 222 0034 1340     		and	r3, r2
+ 223 0036 01D0     		beq	.L11
+  74:../Sources/adc.c **** 		return 1; 
+ 224              		.loc 1 74 0
+ 225 0038 0123     		mov	r3, #1
+ 226 003a 66E0     		b	.L12
+ 227              	.L11:
+  75:../Sources/adc.c **** 	
+  76:../Sources/adc.c **** 	uint16_t calib = 0; // calibration variable 
+ 228              		.loc 1 76 0
+ 229 003c BB1D     		add	r3, r7, #6
+ 230 003e 0022     		mov	r2, #0
+ 231 0040 1A80     		strh	r2, [r3]
+  77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
+ 232              		.loc 1 77 0
+ 233 0042 344B     		ldr	r3, .L13
+ 234 0044 9B6B     		ldr	r3, [r3, #56]
+ 235 0046 9AB2     		uxth	r2, r3
+ 236 0048 324B     		ldr	r3, .L13
+ 237 004a DB6B     		ldr	r3, [r3, #60]
+ 238 004c 9BB2     		uxth	r3, r3
+ 239 004e D318     		add	r3, r2, r3
+ 240 0050 9AB2     		uxth	r2, r3
+ 241 0052 304B     		ldr	r3, .L13
+ 242 0054 1B6C     		ldr	r3, [r3, #64]
+ 243 0056 9BB2     		uxth	r3, r3
+ 244 0058 D318     		add	r3, r2, r3
+ 245 005a 9AB2     		uxth	r2, r3
+  78:../Sources/adc.c **** 			 ADC0_CLP2 + ADC0_CLP1 + ADC0_CLP0;
+ 246              		.loc 1 78 0
+ 247 005c 2D4B     		ldr	r3, .L13
+ 248 005e 5B6C     		ldr	r3, [r3, #68]
+  77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
+ 249              		.loc 1 77 0
+ 250 0060 9BB2     		uxth	r3, r3
+ 251 0062 D318     		add	r3, r2, r3
+ 252 0064 9AB2     		uxth	r2, r3
+ 253              		.loc 1 78 0
+ 254 0066 2B4B     		ldr	r3, .L13
+ 255 0068 9B6C     		ldr	r3, [r3, #72]
+  77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
+ 256              		.loc 1 77 0
+ 257 006a 9BB2     		uxth	r3, r3
+ 258 006c D318     		add	r3, r2, r3
+ 259 006e 9AB2     		uxth	r2, r3
+ 260              		.loc 1 78 0
+ 261 0070 284B     		ldr	r3, .L13
+ 262 0072 DB6C     		ldr	r3, [r3, #76]
+  77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
+ 263              		.loc 1 77 0
+ 264 0074 9BB2     		uxth	r3, r3
+ 265 0076 D318     		add	r3, r2, r3
+ 266 0078 99B2     		uxth	r1, r3
+ 267 007a BB1D     		add	r3, r7, #6
+ 268 007c BA1D     		add	r2, r7, #6
+ 269 007e 1288     		ldrh	r2, [r2]
+ 270 0080 8A18     		add	r2, r1, r2
+ 271 0082 1A80     		strh	r2, [r3]
+  79:../Sources/adc.c **** 	calib /= 2;
+ 272              		.loc 1 79 0
+ 273 0084 BB1D     		add	r3, r7, #6
+ 274 0086 BA1D     		add	r2, r7, #6
+ 275 0088 1288     		ldrh	r2, [r2]
+ 276 008a 5208     		lsr	r2, r2, #1
+ 277 008c 1A80     		strh	r2, [r3]
+  80:../Sources/adc.c **** 	calib |= 0x8000; 	// Set MSB 
+ 278              		.loc 1 80 0
+ 279 008e BB1D     		add	r3, r7, #6
+ 280 0090 BA1D     		add	r2, r7, #6
+ 281 0092 1288     		ldrh	r2, [r2]
+ 282 0094 2049     		ldr	r1, .L13+4
+ 283 0096 0A43     		orr	r2, r1
+ 284 0098 1A80     		strh	r2, [r3]
+  81:../Sources/adc.c **** 	ADC0_PG = calib;
+ 285              		.loc 1 81 0
+ 286 009a 1E4B     		ldr	r3, .L13
+ 287 009c BA1D     		add	r2, r7, #6
+ 288 009e 1288     		ldrh	r2, [r2]
+ 289 00a0 DA62     		str	r2, [r3, #44]
+  82:../Sources/adc.c **** 	calib = 0;
+ 290              		.loc 1 82 0
+ 291 00a2 BB1D     		add	r3, r7, #6
+ 292 00a4 0022     		mov	r2, #0
+ 293 00a6 1A80     		strh	r2, [r3]
+  83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
+ 294              		.loc 1 83 0
+ 295 00a8 1A4B     		ldr	r3, .L13
+ 296 00aa 9B6D     		ldr	r3, [r3, #88]
+ 297 00ac 9AB2     		uxth	r2, r3
+ 298 00ae 194B     		ldr	r3, .L13
+ 299 00b0 DB6D     		ldr	r3, [r3, #92]
+ 300 00b2 9BB2     		uxth	r3, r3
+ 301 00b4 D318     		add	r3, r2, r3
+ 302 00b6 9AB2     		uxth	r2, r3
+ 303 00b8 164B     		ldr	r3, .L13
+ 304 00ba 1B6E     		ldr	r3, [r3, #96]
+ 305 00bc 9BB2     		uxth	r3, r3
+ 306 00be D318     		add	r3, r2, r3
+ 307 00c0 9AB2     		uxth	r2, r3
+  84:../Sources/adc.c **** 			 ADC0_CLM2 + ADC0_CLM1 + ADC0_CLM0;
+ 308              		.loc 1 84 0
+ 309 00c2 144B     		ldr	r3, .L13
+ 310 00c4 5B6E     		ldr	r3, [r3, #100]
+  83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
+ 311              		.loc 1 83 0
+ 312 00c6 9BB2     		uxth	r3, r3
+ 313 00c8 D318     		add	r3, r2, r3
+ 314 00ca 9AB2     		uxth	r2, r3
+ 315              		.loc 1 84 0
+ 316 00cc 114B     		ldr	r3, .L13
+ 317 00ce 9B6E     		ldr	r3, [r3, #104]
+  83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
+ 318              		.loc 1 83 0
+ 319 00d0 9BB2     		uxth	r3, r3
+ 320 00d2 D318     		add	r3, r2, r3
+ 321 00d4 9AB2     		uxth	r2, r3
+ 322              		.loc 1 84 0
+ 323 00d6 0F4B     		ldr	r3, .L13
+ 324 00d8 DB6E     		ldr	r3, [r3, #108]
+  83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
+ 325              		.loc 1 83 0
+ 326 00da 9BB2     		uxth	r3, r3
+ 327 00dc D318     		add	r3, r2, r3
+ 328 00de 99B2     		uxth	r1, r3
+ 329 00e0 BB1D     		add	r3, r7, #6
+ 330 00e2 BA1D     		add	r2, r7, #6
+ 331 00e4 1288     		ldrh	r2, [r2]
+ 332 00e6 8A18     		add	r2, r1, r2
+ 333 00e8 1A80     		strh	r2, [r3]
+  85:../Sources/adc.c **** 	calib /= 2;
+ 334              		.loc 1 85 0
+ 335 00ea BB1D     		add	r3, r7, #6
+ 336 00ec BA1D     		add	r2, r7, #6
+ 337 00ee 1288     		ldrh	r2, [r2]
+ 338 00f0 5208     		lsr	r2, r2, #1
+ 339 00f2 1A80     		strh	r2, [r3]
+  86:../Sources/adc.c **** 	calib |= 0x8000;	// Set MSB
+ 340              		.loc 1 86 0
+ 341 00f4 BB1D     		add	r3, r7, #6
+ 342 00f6 BA1D     		add	r2, r7, #6
+ 343 00f8 1288     		ldrh	r2, [r2]
+ 344 00fa 0749     		ldr	r1, .L13+4
+ 345 00fc 0A43     		orr	r2, r1
+ 346 00fe 1A80     		strh	r2, [r3]
+  87:../Sources/adc.c **** 	ADC0_MG = calib;
+ 347              		.loc 1 87 0
+ 348 0100 044B     		ldr	r3, .L13
+ 349 0102 BA1D     		add	r2, r7, #6
+ 350 0104 1288     		ldrh	r2, [r2]
+ 351 0106 1A63     		str	r2, [r3, #48]
+  88:../Sources/adc.c **** 	
+  89:../Sources/adc.c **** 	return 0;
+ 352              		.loc 1 89 0
+ 353 0108 0023     		mov	r3, #0
+ 354              	.L12:
+  90:../Sources/adc.c **** }
+ 355              		.loc 1 90 0
+ 356 010a 181C     		mov	r0, r3
+ 357 010c BD46     		mov	sp, r7
+ 358 010e 02B0     		add	sp, sp, #8
+ 359              		@ sp needed for prologue
+ 360 0110 80BD     		pop	{r7, pc}
+ 361              	.L14:
+ 362 0112 C046     		.align	2
+ 363              	.L13:
+ 364 0114 00B00340 		.word	1073983488
+ 365 0118 0080FFFF 		.word	-32768
+ 366              		.cfi_endproc
+ 367              	.LFE2:
+ 369              		.text
+ 370              	.Letext0:
+ 371              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc.c
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:18     .text.InicializaADC:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:23     .text.InicializaADC:00000000 InicializaADC
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:178    .text.adc_cal:00000000 adc_cal
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:94     .text.InicializaADC:00000060 $d
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:102    .text.LeADC:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:107    .text.LeADC:00000000 LeADC
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:168    .text.LeADC:00000044 $d
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:173    .text.adc_cal:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:364    .text.adc_cal:00000114 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

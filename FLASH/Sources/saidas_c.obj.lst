@@ -319,10 +319,10 @@
  240              		.file 2 "../Sources/types.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 saidas.c
-C:\Users\PDI\AppData\Local\Temp\ccMzettj.s:18     .text.InicializaSaidas:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccMzettj.s:23     .text.InicializaSaidas:00000000 InicializaSaidas
-C:\Users\PDI\AppData\Local\Temp\ccMzettj.s:103    .text.SaidasDigitais:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccMzettj.s:108    .text.SaidasDigitais:00000000 SaidasDigitais
+C:\Users\PDI\AppData\Local\Temp\ccbeGsQK.s:18     .text.InicializaSaidas:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccbeGsQK.s:23     .text.InicializaSaidas:00000000 InicializaSaidas
+C:\Users\PDI\AppData\Local\Temp\ccbeGsQK.s:103    .text.SaidasDigitais:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccbeGsQK.s:108    .text.SaidasDigitais:00000000 SaidasDigitais
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

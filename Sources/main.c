@@ -26,7 +26,7 @@ int main(void)
 	{	   	   
 		AcionaRele(RELE1,OFF);
 		
-		if(EntradasDigitais(IN_D0)==TRUE)
+		if(EntradasDigitais(IN_D0) == TRUE)
 		{
 			SaidasDigitais(OUT_D0,ON);
 		}

@@ -98,9 +98,9 @@
   67              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 init_cpu.c
-C:\Users\PDI\AppData\Local\Temp\ccaThBm7.s:18     .text.InicializaCPU:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccaThBm7.s:23     .text.InicializaCPU:00000000 InicializaCPU
-C:\Users\PDI\AppData\Local\Temp\ccaThBm7.s:59     .text.InicializaCPU:00000024 $d
+C:\Users\PDI\AppData\Local\Temp\ccExwK8g.s:18     .text.InicializaCPU:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccExwK8g.s:23     .text.InicializaCPU:00000000 InicializaCPU
+C:\Users\PDI\AppData\Local\Temp\ccExwK8g.s:59     .text.InicializaCPU:00000024 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS
