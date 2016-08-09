@@ -24,10 +24,11 @@ void InicializaCPU(void)
 	* so they must be configured appropriately before calling the PLL
 	* init function to ensure that clocks remain in valid ranges.
 	*/  
-	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
+	//SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
+	
+	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(1) | SIM_CLKDIV1_OUTDIV4(0) );
 	
 	// If PLL initialization is not desired, set FLL to 48 MHz clock in default FEI mode
-	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);
-	
+	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);	
 	//SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock source
 }

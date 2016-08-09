@@ -426,14 +426,14 @@
  318              		.file 2 "../Sources/types.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 reles.c
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:18     .text.InicializaRele:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:23     .text.InicializaRele:00000000 InicializaRele
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:53     .rodata.InicializaRele:00000000 $d
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:125    .text.InicializaRele:00000078 $d
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:130    .text.AcionaRele:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:135    .text.AcionaRele:00000000 AcionaRele
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:167    .rodata.AcionaRele:00000000 $d
-C:\Users\PDI\AppData\Local\Temp\cc3pUyJF.s:312    .text.AcionaRele:000000ec $d
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:18     .text.InicializaRele:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:23     .text.InicializaRele:00000000 InicializaRele
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:53     .rodata.InicializaRele:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:125    .text.InicializaRele:00000078 $d
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:130    .text.AcionaRele:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:135    .text.AcionaRele:00000000 AcionaRele
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:167    .rodata.AcionaRele:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\cc1FNbkD.s:312    .text.AcionaRele:000000ec $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

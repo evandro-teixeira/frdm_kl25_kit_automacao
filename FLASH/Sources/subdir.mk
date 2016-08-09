@@ -7,6 +7,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
 "../Sources/adc.c" \
+"../Sources/analogico.c" \
 "../Sources/entradas.c" \
 "../Sources/gpio.c" \
 "../Sources/init_cpu.c" \
@@ -19,6 +20,7 @@ C_SRCS_QUOTED += \
 
 C_SRCS += \
 ../Sources/adc.c \
+../Sources/analogico.c \
 ../Sources/entradas.c \
 ../Sources/gpio.c \
 ../Sources/init_cpu.c \
@@ -31,6 +33,7 @@ C_SRCS += \
 
 OBJS += \
 ./Sources/adc_c.obj \
+./Sources/analogico_c.obj \
 ./Sources/entradas_c.obj \
 ./Sources/gpio_c.obj \
 ./Sources/init_cpu_c.obj \
@@ -43,6 +46,7 @@ OBJS += \
 
 C_DEPS += \
 ./Sources/adc.d \
+./Sources/analogico.d \
 ./Sources/entradas.d \
 ./Sources/gpio.d \
 ./Sources/init_cpu.d \
@@ -55,6 +59,7 @@ C_DEPS += \
 
 OBJS_QUOTED += \
 "./Sources/adc_c.obj" \
+"./Sources/analogico_c.obj" \
 "./Sources/entradas_c.obj" \
 "./Sources/gpio_c.obj" \
 "./Sources/init_cpu_c.obj" \
@@ -67,6 +72,7 @@ OBJS_QUOTED += \
 
 C_DEPS_QUOTED += \
 "./Sources/adc.d" \
+"./Sources/analogico.d" \
 "./Sources/entradas.d" \
 "./Sources/gpio.d" \
 "./Sources/init_cpu.d" \
@@ -79,6 +85,7 @@ C_DEPS_QUOTED += \
 
 OBJS_OS_FORMAT += \
 ./Sources/adc_c.obj \
+./Sources/analogico_c.obj \
 ./Sources/entradas_c.obj \
 ./Sources/gpio_c.obj \
 ./Sources/init_cpu_c.obj \
@@ -99,9 +106,17 @@ Sources/adc_c.obj: ../Sources/adc.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/entradas_c.obj: ../Sources/entradas.c
+Sources/analogico_c.obj: ../Sources/analogico.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #2 $<'
+	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/analogico.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/analogico_c.obj"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/entradas_c.obj: ../Sources/entradas.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #3 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/entradas.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/entradas_c.obj"
 	@echo 'Finished building: $<'
@@ -109,7 +124,7 @@ Sources/entradas_c.obj: ../Sources/entradas.c
 
 Sources/gpio_c.obj: ../Sources/gpio.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #3 $<'
+	@echo 'Executing target #4 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/gpio.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/gpio_c.obj"
 	@echo 'Finished building: $<'
@@ -117,7 +132,7 @@ Sources/gpio_c.obj: ../Sources/gpio.c
 
 Sources/init_cpu_c.obj: ../Sources/init_cpu.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #4 $<'
+	@echo 'Executing target #5 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/init_cpu.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/init_cpu_c.obj"
 	@echo 'Finished building: $<'
@@ -125,7 +140,7 @@ Sources/init_cpu_c.obj: ../Sources/init_cpu.c
 
 Sources/main_c.obj: ../Sources/main.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #5 $<'
+	@echo 'Executing target #6 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/main.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/main_c.obj"
 	@echo 'Finished building: $<'
@@ -133,7 +148,7 @@ Sources/main_c.obj: ../Sources/main.c
 
 Sources/reles_c.obj: ../Sources/reles.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #6 $<'
+	@echo 'Executing target #7 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/reles.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/reles_c.obj"
 	@echo 'Finished building: $<'
@@ -141,7 +156,7 @@ Sources/reles_c.obj: ../Sources/reles.c
 
 Sources/sa_mtb_c.obj: ../Sources/sa_mtb.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #7 $<'
+	@echo 'Executing target #8 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/sa_mtb.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/sa_mtb_c.obj"
 	@echo 'Finished building: $<'
@@ -149,7 +164,7 @@ Sources/sa_mtb_c.obj: ../Sources/sa_mtb.c
 
 Sources/saidas_c.obj: ../Sources/saidas.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #8 $<'
+	@echo 'Executing target #9 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/saidas.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/saidas_c.obj"
 	@echo 'Finished building: $<'
@@ -157,7 +172,7 @@ Sources/saidas_c.obj: ../Sources/saidas.c
 
 Sources/serial_c.obj: ../Sources/serial.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #9 $<'
+	@echo 'Executing target #10 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/serial.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/serial_c.obj"
 	@echo 'Finished building: $<'
@@ -165,7 +180,7 @@ Sources/serial_c.obj: ../Sources/serial.c
 
 Sources/uart_c.obj: ../Sources/uart.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #10 $<'
+	@echo 'Executing target #11 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/uart.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/uart_c.obj"
 	@echo 'Finished building: $<'

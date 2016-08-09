@@ -68,20 +68,21 @@
   24:../Sources/init_cpu.c **** 	* so they must be configured appropriately before calling the PLL
   25:../Sources/init_cpu.c **** 	* init function to ensure that clocks remain in valid ranges.
   26:../Sources/init_cpu.c **** 	*/  
-  27:../Sources/init_cpu.c **** 	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
-  46              		.loc 1 27 0
+  27:../Sources/init_cpu.c **** 	//SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
+  28:../Sources/init_cpu.c **** 	
+  29:../Sources/init_cpu.c **** 	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(1) | SIM_CLKDIV1_OUTDIV4(0) );
+  46              		.loc 1 29 0
   47 0016 034A     		ldr	r2, .L2
   48 0018 044B     		ldr	r3, .L2+8
   49 001a 8021     		mov	r1, #128
-  50 001c 4902     		lsl	r1, r1, #9
+  50 001c 4905     		lsl	r1, r1, #21
   51 001e D150     		str	r1, [r2, r3]
-  28:../Sources/init_cpu.c **** 	
-  29:../Sources/init_cpu.c **** 	// If PLL initialization is not desired, set FLL to 48 MHz clock in default FEI mode
-  30:../Sources/init_cpu.c **** 	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);
-  31:../Sources/init_cpu.c **** 	
-  32:../Sources/init_cpu.c **** 	//SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock sour
-  33:../Sources/init_cpu.c **** }
-  52              		.loc 1 33 0
+  30:../Sources/init_cpu.c **** 	
+  31:../Sources/init_cpu.c **** 	// If PLL initialization is not desired, set FLL to 48 MHz clock in default FEI mode
+  32:../Sources/init_cpu.c **** 	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);	
+  33:../Sources/init_cpu.c **** 	//SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock sour
+  34:../Sources/init_cpu.c **** }
+  52              		.loc 1 34 0
   53 0020 BD46     		mov	sp, r7
   54              		@ sp needed for prologue
   55 0022 80BD     		pop	{r7, pc}
@@ -98,9 +99,9 @@
   67              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 init_cpu.c
-C:\Users\PDI\AppData\Local\Temp\ccExwK8g.s:18     .text.InicializaCPU:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccExwK8g.s:23     .text.InicializaCPU:00000000 InicializaCPU
-C:\Users\PDI\AppData\Local\Temp\ccExwK8g.s:59     .text.InicializaCPU:00000024 $d
+C:\Users\PDI\AppData\Local\Temp\ccbOZ4RO.s:18     .text.InicializaCPU:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccbOZ4RO.s:23     .text.InicializaCPU:00000000 InicializaCPU
+C:\Users\PDI\AppData\Local\Temp\ccbOZ4RO.s:59     .text.InicializaCPU:00000024 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS

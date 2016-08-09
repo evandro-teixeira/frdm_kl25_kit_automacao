@@ -42,7 +42,7 @@ void InicializaADC(void)
  * Returns 1 otherwise
  * 
  ************************************************************/
-void LeADC(unsigned int ch)
+unsigned int LeADC(unsigned int ch)
 {
 	ADC0_SC1A = (ch & ADC_SC1_ADCH_MASK) | 
 				(ADC0_SC1A & (ADC_SC1_AIEN_MASK | ADC_SC1_DIFF_MASK));     // Write to SC1A to start conversion
@@ -73,7 +73,7 @@ int adc_cal(void)
 	if(ADC0_SC3 & ADC_SC3_CALF_MASK)	// Check for successful calibration
 		return 1; 
 	
-	uint16_t calib = 0; // calibration variable 
+	uint16_t calib = 0; 				// calibration variable 
 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
 			 ADC0_CLP2 + ADC0_CLP1 + ADC0_CLP0;
 	calib /= 2;

@@ -19,6 +19,7 @@
 #include "serial.h"
 #include "init_cpu.h"
 #include "adc.h"
+#include "analogico.h"
 #include <MKL25Z4.h>    /* I/O map for MKL25Z128VLK4 */
 
 #endif /* EXTERNS_H_ */

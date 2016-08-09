@@ -147,7 +147,7 @@
   42:../Sources/adc.c ****  * Returns 1 otherwise
   43:../Sources/adc.c ****  * 
   44:../Sources/adc.c ****  ************************************************************/
-  45:../Sources/adc.c **** void LeADC(unsigned int ch)
+  45:../Sources/adc.c **** unsigned int LeADC(unsigned int ch)
   46:../Sources/adc.c **** {
  109              		.loc 1 46 0
  110              		.cfi_startproc
@@ -165,13 +165,13 @@
  122 0006 7860     		str	r0, [r7, #4]
   47:../Sources/adc.c **** 	ADC0_SC1A = (ch & ADC_SC1_ADCH_MASK) | 
  123              		.loc 1 47 0
- 124 0008 0E4B     		ldr	r3, .L7
+ 124 0008 0F4B     		ldr	r3, .L7
  125 000a 7968     		ldr	r1, [r7, #4]
  126 000c 1F22     		mov	r2, #31
  127 000e 1140     		and	r1, r2
   48:../Sources/adc.c **** 				(ADC0_SC1A & (ADC_SC1_AIEN_MASK | ADC_SC1_DIFF_MASK));     // Write to SC1A to start conversion
  128              		.loc 1 48 0
- 129 0010 0C4A     		ldr	r2, .L7
+ 129 0010 0D4A     		ldr	r2, .L7
  130 0012 1268     		ldr	r2, [r2]
  131 0014 101C     		mov	r0, r2
  132 0016 6022     		mov	r2, #96
@@ -185,7 +185,7 @@
  138 001e C046     		mov	r8, r8
  139              	.L5:
  140              		.loc 1 49 0 is_stmt 0 discriminator 1
- 141 0020 084B     		ldr	r3, .L7
+ 141 0020 094B     		ldr	r3, .L7
  142 0022 1B6A     		ldr	r3, [r3, #32]
  143 0024 1A1C     		mov	r2, r3
  144 0026 8023     		mov	r3, #128
@@ -196,7 +196,7 @@
  148 002c C046     		mov	r8, r8
  149              	.L6:
  150              		.loc 1 50 0 is_stmt 0 discriminator 1
- 151 002e 054B     		ldr	r3, .L7
+ 151 002e 064B     		ldr	r3, .L7
  152 0030 1B68     		ldr	r3, [r3]
  153 0032 1A1C     		mov	r2, r3
  154 0034 8023     		mov	r3, #128
@@ -204,27 +204,28 @@
  156 0038 F9D0     		beq	.L6
   51:../Sources/adc.c **** 	return ADC0_RA;
  157              		.loc 1 51 0 is_stmt 1
- 158 003a 024B     		ldr	r3, .L7
+ 158 003a 034B     		ldr	r3, .L7
  159 003c 1B69     		ldr	r3, [r3, #16]
   52:../Sources/adc.c **** }
  160              		.loc 1 52 0
- 161 003e BD46     		mov	sp, r7
- 162 0040 02B0     		add	sp, sp, #8
- 163              		@ sp needed for prologue
- 164 0042 80BD     		pop	{r7, pc}
- 165              	.L8:
- 166              		.align	2
- 167              	.L7:
- 168 0044 00B00340 		.word	1073983488
- 169              		.cfi_endproc
- 170              	.LFE1:
- 172              		.section	.text.adc_cal,"ax",%progbits
- 173              		.align	2
- 174              		.global	adc_cal
- 175              		.code	16
- 176              		.thumb_func
- 178              	adc_cal:
- 179              	.LFB2:
+ 161 003e 181C     		mov	r0, r3
+ 162 0040 BD46     		mov	sp, r7
+ 163 0042 02B0     		add	sp, sp, #8
+ 164              		@ sp needed for prologue
+ 165 0044 80BD     		pop	{r7, pc}
+ 166              	.L8:
+ 167 0046 C046     		.align	2
+ 168              	.L7:
+ 169 0048 00B00340 		.word	1073983488
+ 170              		.cfi_endproc
+ 171              	.LFE1:
+ 173              		.section	.text.adc_cal,"ax",%progbits
+ 174              		.align	2
+ 175              		.global	adc_cal
+ 176              		.code	16
+ 177              		.thumb_func
+ 179              	adc_cal:
+ 180              	.LFB2:
   53:../Sources/adc.c **** /***********************************************************
   54:../Sources/adc.c ****  * 
   55:../Sources/adc.c ****  * adc_cal
@@ -235,242 +236,242 @@
   60:../Sources/adc.c ****  ***********************************************************/
   61:../Sources/adc.c **** int adc_cal(void)
   62:../Sources/adc.c **** {
- 180              		.loc 1 62 0
- 181              		.cfi_startproc
- 182 0000 80B5     		push	{r7, lr}
- 183              	.LCFI5:
- 184              		.cfi_def_cfa_offset 8
- 185              		.cfi_offset 7, -8
- 186              		.cfi_offset 14, -4
- 187 0002 82B0     		sub	sp, sp, #8
- 188              	.LCFI6:
- 189              		.cfi_def_cfa_offset 16
- 190 0004 00AF     		add	r7, sp, #0
- 191              	.LCFI7:
- 192              		.cfi_def_cfa_register 7
+ 181              		.loc 1 62 0
+ 182              		.cfi_startproc
+ 183 0000 80B5     		push	{r7, lr}
+ 184              	.LCFI5:
+ 185              		.cfi_def_cfa_offset 8
+ 186              		.cfi_offset 7, -8
+ 187              		.cfi_offset 14, -4
+ 188 0002 82B0     		sub	sp, sp, #8
+ 189              	.LCFI6:
+ 190              		.cfi_def_cfa_offset 16
+ 191 0004 00AF     		add	r7, sp, #0
+ 192              	.LCFI7:
+ 193              		.cfi_def_cfa_register 7
   63:../Sources/adc.c **** 	ADC0_CFG1 |= (ADC_CFG1_MODE(3)  |  	// 16 bits mode
- 193              		.loc 1 63 0
- 194 0006 434B     		ldr	r3, .L13
- 195 0008 424A     		ldr	r2, .L13
- 196 000a 9268     		ldr	r2, [r2, #8]
- 197 000c 4D21     		mov	r1, #77
- 198 000e 0A43     		orr	r2, r1
- 199 0010 9A60     		str	r2, [r3, #8]
+ 194              		.loc 1 63 0
+ 195 0006 434B     		ldr	r3, .L13
+ 196 0008 424A     		ldr	r2, .L13
+ 197 000a 9268     		ldr	r2, [r2, #8]
+ 198 000c 4D21     		mov	r1, #77
+ 199 000e 0A43     		orr	r2, r1
+ 200 0010 9A60     		str	r2, [r3, #8]
   64:../Sources/adc.c **** 				  ADC_CFG1_ADICLK(1)|	// Input Bus Clock divided by 2 (20-25 MHz out of reset (FEI mode) / 2)
   65:../Sources/adc.c **** 				  ADC_CFG1_ADIV(2)) ;	// Clock divide by 4 (2.5-3 MHz)
   66:../Sources/adc.c **** 	
   67:../Sources/adc.c **** 	ADC0_SC3 |= ADC_SC3_AVGE_MASK |		// Enable HW average
- 200              		.loc 1 67 0
- 201 0012 404B     		ldr	r3, .L13
- 202 0014 3F4A     		ldr	r2, .L13
- 203 0016 526A     		ldr	r2, [r2, #36]
- 204 0018 8721     		mov	r1, #135
- 205 001a 0A43     		orr	r2, r1
- 206 001c 5A62     		str	r2, [r3, #36]
+ 201              		.loc 1 67 0
+ 202 0012 404B     		ldr	r3, .L13
+ 203 0014 3F4A     		ldr	r2, .L13
+ 204 0016 526A     		ldr	r2, [r2, #36]
+ 205 0018 8721     		mov	r1, #135
+ 206 001a 0A43     		orr	r2, r1
+ 207 001c 5A62     		str	r2, [r3, #36]
   68:../Sources/adc.c **** 				ADC_SC3_AVGS(3)   |		// Set HW average of 32 samples
   69:../Sources/adc.c **** 				ADC_SC3_CAL_MASK;		// Start calibration process
   70:../Sources/adc.c **** 	
   71:../Sources/adc.c **** 	while(ADC0_SC3 & ADC_SC3_CAL_MASK); // Wait for calibration to end
- 207              		.loc 1 71 0
- 208 001e C046     		mov	r8, r8
- 209              	.L10:
- 210              		.loc 1 71 0 is_stmt 0 discriminator 1
- 211 0020 3C4B     		ldr	r3, .L13
- 212 0022 5B6A     		ldr	r3, [r3, #36]
- 213 0024 1A1C     		mov	r2, r3
- 214 0026 8023     		mov	r3, #128
- 215 0028 1340     		and	r3, r2
- 216 002a F9D1     		bne	.L10
+ 208              		.loc 1 71 0
+ 209 001e C046     		mov	r8, r8
+ 210              	.L10:
+ 211              		.loc 1 71 0 is_stmt 0 discriminator 1
+ 212 0020 3C4B     		ldr	r3, .L13
+ 213 0022 5B6A     		ldr	r3, [r3, #36]
+ 214 0024 1A1C     		mov	r2, r3
+ 215 0026 8023     		mov	r3, #128
+ 216 0028 1340     		and	r3, r2
+ 217 002a F9D1     		bne	.L10
   72:../Sources/adc.c **** 	
   73:../Sources/adc.c **** 	if(ADC0_SC3 & ADC_SC3_CALF_MASK)	// Check for successful calibration
- 217              		.loc 1 73 0 is_stmt 1
- 218 002c 394B     		ldr	r3, .L13
- 219 002e 5B6A     		ldr	r3, [r3, #36]
- 220 0030 1A1C     		mov	r2, r3
- 221 0032 4023     		mov	r3, #64
- 222 0034 1340     		and	r3, r2
- 223 0036 01D0     		beq	.L11
+ 218              		.loc 1 73 0 is_stmt 1
+ 219 002c 394B     		ldr	r3, .L13
+ 220 002e 5B6A     		ldr	r3, [r3, #36]
+ 221 0030 1A1C     		mov	r2, r3
+ 222 0032 4023     		mov	r3, #64
+ 223 0034 1340     		and	r3, r2
+ 224 0036 01D0     		beq	.L11
   74:../Sources/adc.c **** 		return 1; 
- 224              		.loc 1 74 0
- 225 0038 0123     		mov	r3, #1
- 226 003a 66E0     		b	.L12
- 227              	.L11:
+ 225              		.loc 1 74 0
+ 226 0038 0123     		mov	r3, #1
+ 227 003a 66E0     		b	.L12
+ 228              	.L11:
   75:../Sources/adc.c **** 	
-  76:../Sources/adc.c **** 	uint16_t calib = 0; // calibration variable 
- 228              		.loc 1 76 0
- 229 003c BB1D     		add	r3, r7, #6
- 230 003e 0022     		mov	r2, #0
- 231 0040 1A80     		strh	r2, [r3]
+  76:../Sources/adc.c **** 	uint16_t calib = 0; 				// calibration variable 
+ 229              		.loc 1 76 0
+ 230 003c BB1D     		add	r3, r7, #6
+ 231 003e 0022     		mov	r2, #0
+ 232 0040 1A80     		strh	r2, [r3]
   77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
- 232              		.loc 1 77 0
- 233 0042 344B     		ldr	r3, .L13
- 234 0044 9B6B     		ldr	r3, [r3, #56]
- 235 0046 9AB2     		uxth	r2, r3
- 236 0048 324B     		ldr	r3, .L13
- 237 004a DB6B     		ldr	r3, [r3, #60]
- 238 004c 9BB2     		uxth	r3, r3
- 239 004e D318     		add	r3, r2, r3
- 240 0050 9AB2     		uxth	r2, r3
- 241 0052 304B     		ldr	r3, .L13
- 242 0054 1B6C     		ldr	r3, [r3, #64]
- 243 0056 9BB2     		uxth	r3, r3
- 244 0058 D318     		add	r3, r2, r3
- 245 005a 9AB2     		uxth	r2, r3
+ 233              		.loc 1 77 0
+ 234 0042 344B     		ldr	r3, .L13
+ 235 0044 9B6B     		ldr	r3, [r3, #56]
+ 236 0046 9AB2     		uxth	r2, r3
+ 237 0048 324B     		ldr	r3, .L13
+ 238 004a DB6B     		ldr	r3, [r3, #60]
+ 239 004c 9BB2     		uxth	r3, r3
+ 240 004e D318     		add	r3, r2, r3
+ 241 0050 9AB2     		uxth	r2, r3
+ 242 0052 304B     		ldr	r3, .L13
+ 243 0054 1B6C     		ldr	r3, [r3, #64]
+ 244 0056 9BB2     		uxth	r3, r3
+ 245 0058 D318     		add	r3, r2, r3
+ 246 005a 9AB2     		uxth	r2, r3
   78:../Sources/adc.c **** 			 ADC0_CLP2 + ADC0_CLP1 + ADC0_CLP0;
- 246              		.loc 1 78 0
- 247 005c 2D4B     		ldr	r3, .L13
- 248 005e 5B6C     		ldr	r3, [r3, #68]
+ 247              		.loc 1 78 0
+ 248 005c 2D4B     		ldr	r3, .L13
+ 249 005e 5B6C     		ldr	r3, [r3, #68]
   77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
- 249              		.loc 1 77 0
- 250 0060 9BB2     		uxth	r3, r3
- 251 0062 D318     		add	r3, r2, r3
- 252 0064 9AB2     		uxth	r2, r3
- 253              		.loc 1 78 0
- 254 0066 2B4B     		ldr	r3, .L13
- 255 0068 9B6C     		ldr	r3, [r3, #72]
+ 250              		.loc 1 77 0
+ 251 0060 9BB2     		uxth	r3, r3
+ 252 0062 D318     		add	r3, r2, r3
+ 253 0064 9AB2     		uxth	r2, r3
+ 254              		.loc 1 78 0
+ 255 0066 2B4B     		ldr	r3, .L13
+ 256 0068 9B6C     		ldr	r3, [r3, #72]
   77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
- 256              		.loc 1 77 0
- 257 006a 9BB2     		uxth	r3, r3
- 258 006c D318     		add	r3, r2, r3
- 259 006e 9AB2     		uxth	r2, r3
- 260              		.loc 1 78 0
- 261 0070 284B     		ldr	r3, .L13
- 262 0072 DB6C     		ldr	r3, [r3, #76]
+ 257              		.loc 1 77 0
+ 258 006a 9BB2     		uxth	r3, r3
+ 259 006c D318     		add	r3, r2, r3
+ 260 006e 9AB2     		uxth	r2, r3
+ 261              		.loc 1 78 0
+ 262 0070 284B     		ldr	r3, .L13
+ 263 0072 DB6C     		ldr	r3, [r3, #76]
   77:../Sources/adc.c **** 	calib += ADC0_CLPS + ADC0_CLP4 + ADC0_CLP3 +
- 263              		.loc 1 77 0
- 264 0074 9BB2     		uxth	r3, r3
- 265 0076 D318     		add	r3, r2, r3
- 266 0078 99B2     		uxth	r1, r3
- 267 007a BB1D     		add	r3, r7, #6
- 268 007c BA1D     		add	r2, r7, #6
- 269 007e 1288     		ldrh	r2, [r2]
- 270 0080 8A18     		add	r2, r1, r2
- 271 0082 1A80     		strh	r2, [r3]
+ 264              		.loc 1 77 0
+ 265 0074 9BB2     		uxth	r3, r3
+ 266 0076 D318     		add	r3, r2, r3
+ 267 0078 99B2     		uxth	r1, r3
+ 268 007a BB1D     		add	r3, r7, #6
+ 269 007c BA1D     		add	r2, r7, #6
+ 270 007e 1288     		ldrh	r2, [r2]
+ 271 0080 8A18     		add	r2, r1, r2
+ 272 0082 1A80     		strh	r2, [r3]
   79:../Sources/adc.c **** 	calib /= 2;
- 272              		.loc 1 79 0
- 273 0084 BB1D     		add	r3, r7, #6
- 274 0086 BA1D     		add	r2, r7, #6
- 275 0088 1288     		ldrh	r2, [r2]
- 276 008a 5208     		lsr	r2, r2, #1
- 277 008c 1A80     		strh	r2, [r3]
+ 273              		.loc 1 79 0
+ 274 0084 BB1D     		add	r3, r7, #6
+ 275 0086 BA1D     		add	r2, r7, #6
+ 276 0088 1288     		ldrh	r2, [r2]
+ 277 008a 5208     		lsr	r2, r2, #1
+ 278 008c 1A80     		strh	r2, [r3]
   80:../Sources/adc.c **** 	calib |= 0x8000; 	// Set MSB 
- 278              		.loc 1 80 0
- 279 008e BB1D     		add	r3, r7, #6
- 280 0090 BA1D     		add	r2, r7, #6
- 281 0092 1288     		ldrh	r2, [r2]
- 282 0094 2049     		ldr	r1, .L13+4
- 283 0096 0A43     		orr	r2, r1
- 284 0098 1A80     		strh	r2, [r3]
+ 279              		.loc 1 80 0
+ 280 008e BB1D     		add	r3, r7, #6
+ 281 0090 BA1D     		add	r2, r7, #6
+ 282 0092 1288     		ldrh	r2, [r2]
+ 283 0094 2049     		ldr	r1, .L13+4
+ 284 0096 0A43     		orr	r2, r1
+ 285 0098 1A80     		strh	r2, [r3]
   81:../Sources/adc.c **** 	ADC0_PG = calib;
- 285              		.loc 1 81 0
- 286 009a 1E4B     		ldr	r3, .L13
- 287 009c BA1D     		add	r2, r7, #6
- 288 009e 1288     		ldrh	r2, [r2]
- 289 00a0 DA62     		str	r2, [r3, #44]
+ 286              		.loc 1 81 0
+ 287 009a 1E4B     		ldr	r3, .L13
+ 288 009c BA1D     		add	r2, r7, #6
+ 289 009e 1288     		ldrh	r2, [r2]
+ 290 00a0 DA62     		str	r2, [r3, #44]
   82:../Sources/adc.c **** 	calib = 0;
- 290              		.loc 1 82 0
- 291 00a2 BB1D     		add	r3, r7, #6
- 292 00a4 0022     		mov	r2, #0
- 293 00a6 1A80     		strh	r2, [r3]
+ 291              		.loc 1 82 0
+ 292 00a2 BB1D     		add	r3, r7, #6
+ 293 00a4 0022     		mov	r2, #0
+ 294 00a6 1A80     		strh	r2, [r3]
   83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
- 294              		.loc 1 83 0
- 295 00a8 1A4B     		ldr	r3, .L13
- 296 00aa 9B6D     		ldr	r3, [r3, #88]
- 297 00ac 9AB2     		uxth	r2, r3
- 298 00ae 194B     		ldr	r3, .L13
- 299 00b0 DB6D     		ldr	r3, [r3, #92]
- 300 00b2 9BB2     		uxth	r3, r3
- 301 00b4 D318     		add	r3, r2, r3
- 302 00b6 9AB2     		uxth	r2, r3
- 303 00b8 164B     		ldr	r3, .L13
- 304 00ba 1B6E     		ldr	r3, [r3, #96]
- 305 00bc 9BB2     		uxth	r3, r3
- 306 00be D318     		add	r3, r2, r3
- 307 00c0 9AB2     		uxth	r2, r3
+ 295              		.loc 1 83 0
+ 296 00a8 1A4B     		ldr	r3, .L13
+ 297 00aa 9B6D     		ldr	r3, [r3, #88]
+ 298 00ac 9AB2     		uxth	r2, r3
+ 299 00ae 194B     		ldr	r3, .L13
+ 300 00b0 DB6D     		ldr	r3, [r3, #92]
+ 301 00b2 9BB2     		uxth	r3, r3
+ 302 00b4 D318     		add	r3, r2, r3
+ 303 00b6 9AB2     		uxth	r2, r3
+ 304 00b8 164B     		ldr	r3, .L13
+ 305 00ba 1B6E     		ldr	r3, [r3, #96]
+ 306 00bc 9BB2     		uxth	r3, r3
+ 307 00be D318     		add	r3, r2, r3
+ 308 00c0 9AB2     		uxth	r2, r3
   84:../Sources/adc.c **** 			 ADC0_CLM2 + ADC0_CLM1 + ADC0_CLM0;
- 308              		.loc 1 84 0
- 309 00c2 144B     		ldr	r3, .L13
- 310 00c4 5B6E     		ldr	r3, [r3, #100]
+ 309              		.loc 1 84 0
+ 310 00c2 144B     		ldr	r3, .L13
+ 311 00c4 5B6E     		ldr	r3, [r3, #100]
   83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
- 311              		.loc 1 83 0
- 312 00c6 9BB2     		uxth	r3, r3
- 313 00c8 D318     		add	r3, r2, r3
- 314 00ca 9AB2     		uxth	r2, r3
- 315              		.loc 1 84 0
- 316 00cc 114B     		ldr	r3, .L13
- 317 00ce 9B6E     		ldr	r3, [r3, #104]
+ 312              		.loc 1 83 0
+ 313 00c6 9BB2     		uxth	r3, r3
+ 314 00c8 D318     		add	r3, r2, r3
+ 315 00ca 9AB2     		uxth	r2, r3
+ 316              		.loc 1 84 0
+ 317 00cc 114B     		ldr	r3, .L13
+ 318 00ce 9B6E     		ldr	r3, [r3, #104]
   83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
- 318              		.loc 1 83 0
- 319 00d0 9BB2     		uxth	r3, r3
- 320 00d2 D318     		add	r3, r2, r3
- 321 00d4 9AB2     		uxth	r2, r3
- 322              		.loc 1 84 0
- 323 00d6 0F4B     		ldr	r3, .L13
- 324 00d8 DB6E     		ldr	r3, [r3, #108]
+ 319              		.loc 1 83 0
+ 320 00d0 9BB2     		uxth	r3, r3
+ 321 00d2 D318     		add	r3, r2, r3
+ 322 00d4 9AB2     		uxth	r2, r3
+ 323              		.loc 1 84 0
+ 324 00d6 0F4B     		ldr	r3, .L13
+ 325 00d8 DB6E     		ldr	r3, [r3, #108]
   83:../Sources/adc.c **** 	calib += ADC0_CLMS + ADC0_CLM4 + ADC0_CLM3 +
- 325              		.loc 1 83 0
- 326 00da 9BB2     		uxth	r3, r3
- 327 00dc D318     		add	r3, r2, r3
- 328 00de 99B2     		uxth	r1, r3
- 329 00e0 BB1D     		add	r3, r7, #6
- 330 00e2 BA1D     		add	r2, r7, #6
- 331 00e4 1288     		ldrh	r2, [r2]
- 332 00e6 8A18     		add	r2, r1, r2
- 333 00e8 1A80     		strh	r2, [r3]
+ 326              		.loc 1 83 0
+ 327 00da 9BB2     		uxth	r3, r3
+ 328 00dc D318     		add	r3, r2, r3
+ 329 00de 99B2     		uxth	r1, r3
+ 330 00e0 BB1D     		add	r3, r7, #6
+ 331 00e2 BA1D     		add	r2, r7, #6
+ 332 00e4 1288     		ldrh	r2, [r2]
+ 333 00e6 8A18     		add	r2, r1, r2
+ 334 00e8 1A80     		strh	r2, [r3]
   85:../Sources/adc.c **** 	calib /= 2;
- 334              		.loc 1 85 0
- 335 00ea BB1D     		add	r3, r7, #6
- 336 00ec BA1D     		add	r2, r7, #6
- 337 00ee 1288     		ldrh	r2, [r2]
- 338 00f0 5208     		lsr	r2, r2, #1
- 339 00f2 1A80     		strh	r2, [r3]
+ 335              		.loc 1 85 0
+ 336 00ea BB1D     		add	r3, r7, #6
+ 337 00ec BA1D     		add	r2, r7, #6
+ 338 00ee 1288     		ldrh	r2, [r2]
+ 339 00f0 5208     		lsr	r2, r2, #1
+ 340 00f2 1A80     		strh	r2, [r3]
   86:../Sources/adc.c **** 	calib |= 0x8000;	// Set MSB
- 340              		.loc 1 86 0
- 341 00f4 BB1D     		add	r3, r7, #6
- 342 00f6 BA1D     		add	r2, r7, #6
- 343 00f8 1288     		ldrh	r2, [r2]
- 344 00fa 0749     		ldr	r1, .L13+4
- 345 00fc 0A43     		orr	r2, r1
- 346 00fe 1A80     		strh	r2, [r3]
+ 341              		.loc 1 86 0
+ 342 00f4 BB1D     		add	r3, r7, #6
+ 343 00f6 BA1D     		add	r2, r7, #6
+ 344 00f8 1288     		ldrh	r2, [r2]
+ 345 00fa 0749     		ldr	r1, .L13+4
+ 346 00fc 0A43     		orr	r2, r1
+ 347 00fe 1A80     		strh	r2, [r3]
   87:../Sources/adc.c **** 	ADC0_MG = calib;
- 347              		.loc 1 87 0
- 348 0100 044B     		ldr	r3, .L13
- 349 0102 BA1D     		add	r2, r7, #6
- 350 0104 1288     		ldrh	r2, [r2]
- 351 0106 1A63     		str	r2, [r3, #48]
+ 348              		.loc 1 87 0
+ 349 0100 044B     		ldr	r3, .L13
+ 350 0102 BA1D     		add	r2, r7, #6
+ 351 0104 1288     		ldrh	r2, [r2]
+ 352 0106 1A63     		str	r2, [r3, #48]
   88:../Sources/adc.c **** 	
   89:../Sources/adc.c **** 	return 0;
- 352              		.loc 1 89 0
- 353 0108 0023     		mov	r3, #0
- 354              	.L12:
+ 353              		.loc 1 89 0
+ 354 0108 0023     		mov	r3, #0
+ 355              	.L12:
   90:../Sources/adc.c **** }
- 355              		.loc 1 90 0
- 356 010a 181C     		mov	r0, r3
- 357 010c BD46     		mov	sp, r7
- 358 010e 02B0     		add	sp, sp, #8
- 359              		@ sp needed for prologue
- 360 0110 80BD     		pop	{r7, pc}
- 361              	.L14:
- 362 0112 C046     		.align	2
- 363              	.L13:
- 364 0114 00B00340 		.word	1073983488
- 365 0118 0080FFFF 		.word	-32768
- 366              		.cfi_endproc
- 367              	.LFE2:
- 369              		.text
- 370              	.Letext0:
- 371              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+ 356              		.loc 1 90 0
+ 357 010a 181C     		mov	r0, r3
+ 358 010c BD46     		mov	sp, r7
+ 359 010e 02B0     		add	sp, sp, #8
+ 360              		@ sp needed for prologue
+ 361 0110 80BD     		pop	{r7, pc}
+ 362              	.L14:
+ 363 0112 C046     		.align	2
+ 364              	.L13:
+ 365 0114 00B00340 		.word	1073983488
+ 366 0118 0080FFFF 		.word	-32768
+ 367              		.cfi_endproc
+ 368              	.LFE2:
+ 370              		.text
+ 371              	.Letext0:
+ 372              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 adc.c
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:18     .text.InicializaADC:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:23     .text.InicializaADC:00000000 InicializaADC
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:178    .text.adc_cal:00000000 adc_cal
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:94     .text.InicializaADC:00000060 $d
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:102    .text.LeADC:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:107    .text.LeADC:00000000 LeADC
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:168    .text.LeADC:00000044 $d
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:173    .text.adc_cal:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccXxtwca.s:364    .text.adc_cal:00000114 $d
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:18     .text.InicializaADC:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:23     .text.InicializaADC:00000000 InicializaADC
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:179    .text.adc_cal:00000000 adc_cal
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:94     .text.InicializaADC:00000060 $d
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:102    .text.LeADC:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:107    .text.LeADC:00000000 LeADC
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:169    .text.LeADC:00000048 $d
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:174    .text.adc_cal:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccPKKzec.s:365    .text.adc_cal:00000114 $d
                      .debug_frame:00000010 $d
 
 NO UNDEFINED SYMBOLS
