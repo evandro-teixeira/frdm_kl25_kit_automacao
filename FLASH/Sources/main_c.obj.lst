@@ -14,44 +14,42 @@
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.global	texto
-  18              		.section	.data.texto,"aw",%progbits
-  19              		.align	2
-  22              	texto:
-  23 0000 20202020 		.ascii	"         \000"
-  23      20202020 
-  23      2000
-  24 000a 0000     		.section	.rodata
-  25              		.align	2
-  26              	.LC0:
-  27 0000 0A0D5465 		.ascii	"\012\015Teste Serial FRDM-KL25\012\015\000"
-  27      73746520 
-  27      53657269 
-  27      616C2046 
-  27      52444D2D 
-  28 001b 00       		.align	2
-  29              	.LC2:
-  30 001c 0A0D2041 		.ascii	"\012\015 A0: %d \000"
-  30      303A2025 
-  30      642000
-  31 0027 00       		.align	2
-  32              	.LC5:
-  33 0028 0A0D2041 		.ascii	"\012\015 A1: %d \000"
-  33      313A2025 
-  33      642000
-  34 0033 00       		.align	2
-  35              	.LC7:
-  36 0034 0A0D2041 		.ascii	"\012\015 A2: %d \000"
-  36      323A2025 
-  36      642000
-  37 003f 00       		.section	.text.main,"ax",%progbits
-  38              		.align	2
-  39              		.global	main
-  40              		.code	16
-  41              		.thumb_func
-  43              	main:
-  44              	.LFB0:
-  45              		.file 1 "../Sources/main.c"
+  17              		.section	.rodata
+  18              		.align	2
+  19              	.LC2:
+  20 0000 0A0D5465 		.ascii	"\012\015Teste Serial FRDM-KL25\012\015\000"
+  20      73746520 
+  20      53657269 
+  20      616C2046 
+  20      52444D2D 
+  21 001b 00       		.align	2
+  22              	.LC4:
+  23 001c 0A0D2041 		.ascii	"\012\015 A0: %d \000"
+  23      303A2025 
+  23      642000
+  24 0027 00       		.align	2
+  25              	.LC6:
+  26 0028 0A0D2041 		.ascii	"\012\015 A1: %d \000"
+  26      313A2025 
+  26      642000
+  27 0033 00       		.align	2
+  28              	.LC8:
+  29 0034 0A0D2041 		.ascii	"\012\015 A2: %d \000"
+  29      323A2025 
+  29      642000
+  30 003f 00       		.align	2
+  31              	.LC0:
+  32 0040 20202020 		.ascii	"         \000"
+  32      20202020 
+  32      2000
+  33 004a 0000     		.section	.text.main,"ax",%progbits
+  34              		.align	2
+  35              		.global	main
+  36              		.code	16
+  37              		.thumb_func
+  39              	main:
+  40              	.LFB0:
+  41              		.file 1 "../Sources/main.c"
    1:../Sources/main.c **** /*****************************************************************
    2:../Sources/main.c ****  * 
    3:../Sources/main.c ****  * Projeto: Biblioteca FRDM-KL25 para KiT de Automação 
@@ -62,188 +60,197 @@
    8:../Sources/main.c ****  *****************************************************************/
    9:../Sources/main.c **** #include "derivative.h" 	/* include peripheral declarations */
   10:../Sources/main.c **** #include "externs.h"   		/* Inclui os arquivos da biblioteca kit de Automação */
-  11:../Sources/main.c **** char texto[10] = "         ";
+  11:../Sources/main.c **** 
   12:../Sources/main.c **** 
   13:../Sources/main.c **** /* Aplicação de Demo KiT de Automação */
   14:../Sources/main.c **** int main(void)
   15:../Sources/main.c **** {	
-  46              		.loc 1 15 0
-  47              		.cfi_startproc
-  48 0000 90B5     		push	{r4, r7, lr}
-  49              	.LCFI0:
-  50              		.cfi_def_cfa_offset 12
-  51              		.cfi_offset 4, -12
-  52              		.cfi_offset 7, -8
-  53              		.cfi_offset 14, -4
-  54 0002 83B0     		sub	sp, sp, #12
-  55              	.LCFI1:
-  56              		.cfi_def_cfa_offset 24
-  57 0004 00AF     		add	r7, sp, #0
-  58              	.LCFI2:
-  59              		.cfi_def_cfa_register 7
+  42              		.loc 1 15 0
+  43              		.cfi_startproc
+  44 0000 90B5     		push	{r4, r7, lr}
+  45              	.LCFI0:
+  46              		.cfi_def_cfa_offset 12
+  47              		.cfi_offset 4, -12
+  48              		.cfi_offset 7, -8
+  49              		.cfi_offset 14, -4
+  50 0002 85B0     		sub	sp, sp, #20
+  51              	.LCFI1:
+  52              		.cfi_def_cfa_offset 32
+  53 0004 00AF     		add	r7, sp, #0
+  54              	.LCFI2:
+  55              		.cfi_def_cfa_register 7
   16:../Sources/main.c **** 	char c = 0;					
-  60              		.loc 1 16 0
-  61 0006 FB1D     		add	r3, r7, #7
-  62 0008 0022     		mov	r2, #0
-  63 000a 1A70     		strb	r2, [r3]
-  17:../Sources/main.c **** 	
-  18:../Sources/main.c **** 	InicializaCPU();			// Inicializa CPU
-  64              		.loc 1 18 0
-  65 000c FFF7FEFF 		bl	InicializaCPU
-  19:../Sources/main.c **** 	InicializaRele(RELE1);		// Inicializa Rele 1 
-  66              		.loc 1 19 0
-  67 0010 0020     		mov	r0, #0
-  68 0012 FFF7FEFF 		bl	InicializaRele
-  20:../Sources/main.c **** 	InicializaSaidas(OUT_D0);   // Inicializa Saída D0
-  69              		.loc 1 20 0
-  70 0016 0020     		mov	r0, #0
-  71 0018 FFF7FEFF 		bl	InicializaSaidas
-  21:../Sources/main.c **** 	InicializaEntradas(IN_D0);  // Inicializa Entrada D0
-  72              		.loc 1 21 0
-  73 001c 0020     		mov	r0, #0
-  74 001e FFF7FEFF 		bl	InicializaEntradas
-  22:../Sources/main.c **** 	InicializaSerial(115200);   // Inicializa Serial com Baud Rate 115200	
-  75              		.loc 1 22 0
-  76 0022 E123     		mov	r3, #225
-  77 0024 5B02     		lsl	r3, r3, #9
-  78 0026 181C     		mov	r0, r3
-  79 0028 FFF7FEFF 		bl	InicializaSerial
-  23:../Sources/main.c **** 	InicialidaAnalogico();		// Inicializa Analogico  
-  80              		.loc 1 23 0
-  81 002c FFF7FEFF 		bl	InicialidaAnalogico
-  24:../Sources/main.c **** 			
-  25:../Sources/main.c **** 	EnviaString("\n\rTeste Serial FRDM-KL25\n\r"); // Escreve String 
-  82              		.loc 1 25 0
-  83 0030 254B     		ldr	r3, .L5
-  84 0032 181C     		mov	r0, r3
-  85 0034 FFF7FEFF 		bl	EnviaString
-  86              	.L4:
-  26:../Sources/main.c **** 	
-  27:../Sources/main.c **** 	for(;;) 
-  28:../Sources/main.c **** 	{		
-  29:../Sources/main.c **** 		// Le entrada analogica A0
-  30:../Sources/main.c **** 		sprintf(texto,"\n\r A0: %d ",LeAnalogicoA0());		
-  87              		.loc 1 30 0
-  88 0038 244C     		ldr	r4, .L5+4
-  89 003a FFF7FEFF 		bl	LeAnalogicoA0
-  90 003e 031C     		mov	r3, r0
-  91 0040 234A     		ldr	r2, .L5+8
-  92 0042 101C     		mov	r0, r2
-  93 0044 211C     		mov	r1, r4
-  94 0046 1A1C     		mov	r2, r3
-  95 0048 FFF7FEFF 		bl	sprintf
-  31:../Sources/main.c **** 		EnviaString(texto);
-  96              		.loc 1 31 0
-  97 004c 204B     		ldr	r3, .L5+8
-  98 004e 181C     		mov	r0, r3
-  99 0050 FFF7FEFF 		bl	EnviaString
-  32:../Sources/main.c **** 		
-  33:../Sources/main.c **** 		// Le entrada analogica A1
-  34:../Sources/main.c **** 		sprintf(texto,"\n\r A1: %d ",LeAnalogicoA1());		
- 100              		.loc 1 34 0
- 101 0054 1F4C     		ldr	r4, .L5+12
- 102 0056 FFF7FEFF 		bl	LeAnalogicoA1
- 103 005a 031C     		mov	r3, r0
- 104 005c 1C4A     		ldr	r2, .L5+8
- 105 005e 101C     		mov	r0, r2
- 106 0060 211C     		mov	r1, r4
- 107 0062 1A1C     		mov	r2, r3
- 108 0064 FFF7FEFF 		bl	sprintf
-  35:../Sources/main.c **** 		EnviaString(texto);
- 109              		.loc 1 35 0
- 110 0068 194B     		ldr	r3, .L5+8
- 111 006a 181C     		mov	r0, r3
- 112 006c FFF7FEFF 		bl	EnviaString
-  36:../Sources/main.c **** 		
-  37:../Sources/main.c **** 		// Le entrada analogica A2
-  38:../Sources/main.c **** 		sprintf(texto,"\n\r A2: %d ",LeAnalogicoA2());		
- 113              		.loc 1 38 0
- 114 0070 194C     		ldr	r4, .L5+16
- 115 0072 FFF7FEFF 		bl	LeAnalogicoA2
- 116 0076 031C     		mov	r3, r0
- 117 0078 154A     		ldr	r2, .L5+8
- 118 007a 101C     		mov	r0, r2
- 119 007c 211C     		mov	r1, r4
- 120 007e 1A1C     		mov	r2, r3
- 121 0080 FFF7FEFF 		bl	sprintf
-  39:../Sources/main.c **** 		EnviaString(texto);
- 122              		.loc 1 39 0
- 123 0084 124B     		ldr	r3, .L5+8
- 124 0086 181C     		mov	r0, r3
- 125 0088 FFF7FEFF 		bl	EnviaString
-  40:../Sources/main.c **** 		
-  41:../Sources/main.c **** 		// Aciona o Rele 1
-  42:../Sources/main.c **** 		AcionaRele(RELE1,ON);
- 126              		.loc 1 42 0
- 127 008c 0020     		mov	r0, #0
- 128 008e 0121     		mov	r1, #1
- 129 0090 FFF7FEFF 		bl	AcionaRele
-  43:../Sources/main.c **** 		
-  44:../Sources/main.c **** 		// Le entrada D0
-  45:../Sources/main.c **** 		if(EntradasDigitais(IN_D0) == TRUE)
- 130              		.loc 1 45 0
- 131 0094 0020     		mov	r0, #0
- 132 0096 FFF7FEFF 		bl	EntradasDigitais
- 133 009a 031C     		mov	r3, r0
- 134 009c 012B     		cmp	r3, #1
- 135 009e 04D1     		bne	.L2
-  46:../Sources/main.c **** 		{
-  47:../Sources/main.c **** 			// Aciona saida digital D0
-  48:../Sources/main.c **** 			SaidasDigitais(OUT_D0,ON);
- 136              		.loc 1 48 0
- 137 00a0 0020     		mov	r0, #0
- 138 00a2 0121     		mov	r1, #1
- 139 00a4 FFF7FEFF 		bl	SaidasDigitais
- 140 00a8 03E0     		b	.L3
- 141              	.L2:
-  49:../Sources/main.c **** 		}
-  50:../Sources/main.c **** 		else
-  51:../Sources/main.c **** 		{
-  52:../Sources/main.c **** 			// Aciona saida digital D1
-  53:../Sources/main.c **** 			SaidasDigitais(OUT_D0,OFF);
- 142              		.loc 1 53 0
- 143 00aa 0020     		mov	r0, #0
- 144 00ac 0021     		mov	r1, #0
- 145 00ae FFF7FEFF 		bl	SaidasDigitais
- 146              	.L3:
-  54:../Sources/main.c **** 		}
-  55:../Sources/main.c **** 				
-  56:../Sources/main.c **** 		c = RecebeCh();		// Recebe character 
- 147              		.loc 1 56 0
- 148 00b2 FC1D     		add	r4, r7, #7
- 149 00b4 FFF7FEFF 		bl	RecebeCh
- 150 00b8 031C     		mov	r3, r0
- 151 00ba 2370     		strb	r3, [r4]
-  57:../Sources/main.c **** 		EnviaCh(c);			// Envia character
- 152              		.loc 1 57 0
- 153 00bc FB1D     		add	r3, r7, #7
- 154 00be 1B78     		ldrb	r3, [r3]
- 155 00c0 181C     		mov	r0, r3
- 156 00c2 FFF7FEFF 		bl	EnviaCh
-  58:../Sources/main.c **** 	}	
+  56              		.loc 1 16 0
+  57 0006 3B1C     		mov	r3, r7
+  58 0008 0F33     		add	r3, r3, #15
+  59 000a 0022     		mov	r2, #0
+  60 000c 1A70     		strb	r2, [r3]
+  17:../Sources/main.c **** 	char texto[10] = "         ";
+  61              		.loc 1 17 0
+  62 000e 3B1D     		add	r3, r7, #4
+  63 0010 324A     		ldr	r2, .L5
+  64 0012 03CA     		ldmia	r2!, {r0, r1}
+  65 0014 03C3     		stmia	r3!, {r0, r1}
+  66 0016 1288     		ldrh	r2, [r2]
+  67 0018 1A80     		strh	r2, [r3]
+  18:../Sources/main.c **** 	
+  19:../Sources/main.c **** 	InicializaCPU();			// Inicializa CPU
+  68              		.loc 1 19 0
+  69 001a FFF7FEFF 		bl	InicializaCPU
+  20:../Sources/main.c **** 	InicializaRele(RELE1);		// Inicializa Rele 1 
+  70              		.loc 1 20 0
+  71 001e 0020     		mov	r0, #0
+  72 0020 FFF7FEFF 		bl	InicializaRele
+  21:../Sources/main.c **** 	InicializaSaidas(OUT_D0);   // Inicializa Saída D0
+  73              		.loc 1 21 0
+  74 0024 0020     		mov	r0, #0
+  75 0026 FFF7FEFF 		bl	InicializaSaidas
+  22:../Sources/main.c **** 	InicializaEntradas(IN_D0);  // Inicializa Entrada D0
+  76              		.loc 1 22 0
+  77 002a 0020     		mov	r0, #0
+  78 002c FFF7FEFF 		bl	InicializaEntradas
+  23:../Sources/main.c **** 	InicializaSerial(115200);   // Inicializa Serial com Baud Rate 115200	
+  79              		.loc 1 23 0
+  80 0030 E123     		mov	r3, #225
+  81 0032 5B02     		lsl	r3, r3, #9
+  82 0034 181C     		mov	r0, r3
+  83 0036 FFF7FEFF 		bl	InicializaSerial
+  24:../Sources/main.c **** 	InicialidaAnalogico();		// Inicializa Analogico  
+  84              		.loc 1 24 0
+  85 003a FFF7FEFF 		bl	InicialidaAnalogico
+  25:../Sources/main.c **** 			
+  26:../Sources/main.c **** 	EnviaString("\n\rTeste Serial FRDM-KL25\n\r"); // Escreve String 
+  86              		.loc 1 26 0
+  87 003e 284B     		ldr	r3, .L5+4
+  88 0040 181C     		mov	r0, r3
+  89 0042 FFF7FEFF 		bl	EnviaString
+  90              	.L4:
+  27:../Sources/main.c **** 	
+  28:../Sources/main.c **** 	for(;;) 
+  29:../Sources/main.c **** 	{		
+  30:../Sources/main.c **** 		// Le entrada analogica A0
+  31:../Sources/main.c **** 		sprintf(texto,"\n\r A0: %d ",LeAnalogicoA0());		
+  91              		.loc 1 31 0
+  92 0046 274C     		ldr	r4, .L5+8
+  93 0048 FFF7FEFF 		bl	LeAnalogicoA0
+  94 004c 031C     		mov	r3, r0
+  95 004e 3A1D     		add	r2, r7, #4
+  96 0050 101C     		mov	r0, r2
+  97 0052 211C     		mov	r1, r4
+  98 0054 1A1C     		mov	r2, r3
+  99 0056 FFF7FEFF 		bl	sprintf
+  32:../Sources/main.c **** 		EnviaString(texto);
+ 100              		.loc 1 32 0
+ 101 005a 3B1D     		add	r3, r7, #4
+ 102 005c 181C     		mov	r0, r3
+ 103 005e FFF7FEFF 		bl	EnviaString
+  33:../Sources/main.c **** 		
+  34:../Sources/main.c **** 		// Le entrada analogica A1
+  35:../Sources/main.c **** 		sprintf(texto,"\n\r A1: %d ",LeAnalogicoA1());		
+ 104              		.loc 1 35 0
+ 105 0062 214C     		ldr	r4, .L5+12
+ 106 0064 FFF7FEFF 		bl	LeAnalogicoA1
+ 107 0068 031C     		mov	r3, r0
+ 108 006a 3A1D     		add	r2, r7, #4
+ 109 006c 101C     		mov	r0, r2
+ 110 006e 211C     		mov	r1, r4
+ 111 0070 1A1C     		mov	r2, r3
+ 112 0072 FFF7FEFF 		bl	sprintf
+  36:../Sources/main.c **** 		EnviaString(texto);
+ 113              		.loc 1 36 0
+ 114 0076 3B1D     		add	r3, r7, #4
+ 115 0078 181C     		mov	r0, r3
+ 116 007a FFF7FEFF 		bl	EnviaString
+  37:../Sources/main.c **** 		
+  38:../Sources/main.c **** 		// Le entrada analogica A2
+  39:../Sources/main.c **** 		sprintf(texto,"\n\r A2: %d ",LeAnalogicoA2());		
+ 117              		.loc 1 39 0
+ 118 007e 1B4C     		ldr	r4, .L5+16
+ 119 0080 FFF7FEFF 		bl	LeAnalogicoA2
+ 120 0084 031C     		mov	r3, r0
+ 121 0086 3A1D     		add	r2, r7, #4
+ 122 0088 101C     		mov	r0, r2
+ 123 008a 211C     		mov	r1, r4
+ 124 008c 1A1C     		mov	r2, r3
+ 125 008e FFF7FEFF 		bl	sprintf
+  40:../Sources/main.c **** 		EnviaString(texto);
+ 126              		.loc 1 40 0
+ 127 0092 3B1D     		add	r3, r7, #4
+ 128 0094 181C     		mov	r0, r3
+ 129 0096 FFF7FEFF 		bl	EnviaString
+  41:../Sources/main.c **** 		
+  42:../Sources/main.c **** 		// Aciona o Rele 1
+  43:../Sources/main.c **** 		AcionaRele(RELE1,ON);
+ 130              		.loc 1 43 0
+ 131 009a 0020     		mov	r0, #0
+ 132 009c 0121     		mov	r1, #1
+ 133 009e FFF7FEFF 		bl	AcionaRele
+  44:../Sources/main.c **** 		
+  45:../Sources/main.c **** 		// Le entrada D0
+  46:../Sources/main.c **** 		if(EntradasDigitais(IN_D0) == TRUE)
+ 134              		.loc 1 46 0
+ 135 00a2 0020     		mov	r0, #0
+ 136 00a4 FFF7FEFF 		bl	EntradasDigitais
+ 137 00a8 031C     		mov	r3, r0
+ 138 00aa 012B     		cmp	r3, #1
+ 139 00ac 04D1     		bne	.L2
+  47:../Sources/main.c **** 		{
+  48:../Sources/main.c **** 			// Aciona saida digital D0
+  49:../Sources/main.c **** 			SaidasDigitais(OUT_D0,ON);
+ 140              		.loc 1 49 0
+ 141 00ae 0020     		mov	r0, #0
+ 142 00b0 0121     		mov	r1, #1
+ 143 00b2 FFF7FEFF 		bl	SaidasDigitais
+ 144 00b6 03E0     		b	.L3
+ 145              	.L2:
+  50:../Sources/main.c **** 		}
+  51:../Sources/main.c **** 		else
+  52:../Sources/main.c **** 		{
+  53:../Sources/main.c **** 			// Aciona saida digital D1
+  54:../Sources/main.c **** 			SaidasDigitais(OUT_D0,OFF);
+ 146              		.loc 1 54 0
+ 147 00b8 0020     		mov	r0, #0
+ 148 00ba 0021     		mov	r1, #0
+ 149 00bc FFF7FEFF 		bl	SaidasDigitais
+ 150              	.L3:
+  55:../Sources/main.c **** 		}
+  56:../Sources/main.c **** 				
+  57:../Sources/main.c **** 		c = RecebeCh();		// Recebe character 
+ 151              		.loc 1 57 0
+ 152 00c0 3C1C     		mov	r4, r7
+ 153 00c2 0F34     		add	r4, r4, #15
+ 154 00c4 FFF7FEFF 		bl	RecebeCh
+ 155 00c8 031C     		mov	r3, r0
+ 156 00ca 2370     		strb	r3, [r4]
+  58:../Sources/main.c **** 		EnviaCh(c);			// Envia character
  157              		.loc 1 58 0
- 158 00c6 B7E7     		b	.L4
- 159              	.L6:
- 160              		.align	2
- 161              	.L5:
- 162 00c8 00000000 		.word	.LC0
- 163 00cc 1C000000 		.word	.LC2
- 164 00d0 00000000 		.word	texto
- 165 00d4 28000000 		.word	.LC5
- 166 00d8 34000000 		.word	.LC7
- 167              		.cfi_endproc
- 168              	.LFE0:
- 170              		.text
- 171              	.Letext0:
- 172              		.file 2 "../Sources/types.h"
+ 158 00cc 3B1C     		mov	r3, r7
+ 159 00ce 0F33     		add	r3, r3, #15
+ 160 00d0 1B78     		ldrb	r3, [r3]
+ 161 00d2 181C     		mov	r0, r3
+ 162 00d4 FFF7FEFF 		bl	EnviaCh
+  59:../Sources/main.c **** 	}	
+ 163              		.loc 1 59 0
+ 164 00d8 B5E7     		b	.L4
+ 165              	.L6:
+ 166 00da C046     		.align	2
+ 167              	.L5:
+ 168 00dc 40000000 		.word	.LC0
+ 169 00e0 00000000 		.word	.LC2
+ 170 00e4 1C000000 		.word	.LC4
+ 171 00e8 28000000 		.word	.LC6
+ 172 00ec 34000000 		.word	.LC8
+ 173              		.cfi_endproc
+ 174              	.LFE0:
+ 176              		.text
+ 177              	.Letext0:
+ 178              		.file 2 "../Sources/types.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\PDI\AppData\Local\Temp\ccc1OM6o.s:22     .data.texto:00000000 texto
-C:\Users\PDI\AppData\Local\Temp\ccc1OM6o.s:19     .data.texto:00000000 $d
-C:\Users\PDI\AppData\Local\Temp\ccc1OM6o.s:25     .rodata:00000000 $d
-C:\Users\PDI\AppData\Local\Temp\ccc1OM6o.s:38     .text.main:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccc1OM6o.s:43     .text.main:00000000 main
-C:\Users\PDI\AppData\Local\Temp\ccc1OM6o.s:162    .text.main:000000c8 $d
+C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:18     .rodata:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:34     .text.main:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:39     .text.main:00000000 main
+C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:168    .text.main:000000dc $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

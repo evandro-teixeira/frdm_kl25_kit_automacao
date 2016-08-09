@@ -8,12 +8,13 @@
  *****************************************************************/
 #include "derivative.h" 	/* include peripheral declarations */
 #include "externs.h"   		/* Inclui os arquivos da biblioteca kit de Automação */
-char texto[10] = "         ";
+
 
 /* Aplicação de Demo KiT de Automação */
 int main(void)
 {	
 	char c = 0;					
+	char texto[10] = "         ";
 	
 	InicializaCPU();			// Inicializa CPU
 	InicializaRele(RELE1);		// Inicializa Rele 1 
