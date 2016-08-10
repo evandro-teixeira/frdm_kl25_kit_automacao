@@ -58,6 +58,13 @@ Função de Inicialização entradas digitais
 ```sh
 InicializaEntradas(IN_D0);  // Inicializa Entrada D0 
 ```
+Função de leitura Entradas Digitais
+```sh
+if(EntradasDigitais(IN_D0) == TRUE)
+{
+...
+}
+```
 Detalhamento da função de inicialização do periférico Entrada Digital.
 ```sh
 #include "entradas.h"
@@ -129,6 +136,87 @@ bool EntradasDigitais(uint8_t in)
 				return FALSE;
 			}
 		break;
+	}
+}
+```
+
+#Saídas Digitais 
+Função de Inicialização Saídas digitais
+```sh
+InicializaSaidas(OUT_D0);   // Inicializa Saída D0
+```
+Função de acionamento das saídas digitais 
+```sh
+// Aciona saída digital D0
+SaidasDigitais(OUT_D0,ON); 
+```
+Detalhamento da função de inicialização do periférico Saídas Digital.
+```sh
+void InicializaSaidas(uint8_t di)
+{
+	switch(di)
+	{
+		case OUT_D0:
+			gpio_direction(PTA,5,OUTPUT,NO_PULL_RESISTOR);
+		break;
+		case OUT_D1:
+			gpio_direction(PTA,4,OUTPUT,NO_PULL_RESISTOR);			
+		break;
+		case OUT_D2:
+			gpio_direction(PTA,12,OUTPUT,NO_PULL_RESISTOR);
+		break;
+		case OUT_D3:
+			gpio_direction(PTD,4,OUTPUT,NO_PULL_RESISTOR);
+		break;
+	}
+}
+```
+Detalhamento da função de acionamento das saídas digitais 
+```sh
+void SaidasDigitais(uint8_t di, bool st)
+{
+	switch(di)
+	{
+		case OUT_D0:
+			if(st==ON)
+			{
+				gpio_set(PTA,5,ON);
+			}
+			else
+			{
+				gpio_set(PTA,5,OFF);
+			}
+		break;	
+		case OUT_D1:
+			if(st==ON)
+			{
+				gpio_set(PTA,4,ON);
+			}
+			else
+			{
+				gpio_set(PTA,4,OFF);
+			}
+		break;	
+		case OUT_D2:
+			if(st==ON)
+			{
+				gpio_set(PTA,12,ON);
+			}
+			else
+			{
+				gpio_set(PTA,12,OFF);
+			}
+		break;	
+		case OUT_D3:
+			if(st==ON)
+			{
+				gpio_set(PTA,4,ON);
+			}
+			else
+			{
+				gpio_set(PTA,4,OFF);
+			}
+		break;	
 	}
 }
 ```
