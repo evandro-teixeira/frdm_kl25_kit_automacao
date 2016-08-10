@@ -126,7 +126,7 @@ Saída: void
 void SaidasDigitais(uint8_t di, bool st)
 ```
 
-Acionamento Dos Relés
+#Acionamento Dos Relés
 Função de Inicialização do acionamento dos relés.
 ```sh
 InicializaRele(RELE1);		// Inicializa Rele 1 
@@ -162,5 +162,35 @@ Entrada: Relé, Estado (0 ou 1)
 Saída: void
 */
 void AcionaRele(uint8_t rl, bool st); 
+```
+
+#Comunicação Serial (UART)
+Função de inicialização da serial 
+```sh
+InicializaSerial(115200);   // Inicializa Serial com Baud Rate 115200
+```
+Função para enviar caractere 
+```sh
+EnviaCh(c);			// Envia caractere 
+```
+Função para receber caractere
+```sh
+c = RecebeCh();		// Recebe caractere  
+```
+Função para enviar String  (cadeia de caracteres )
+```sh
+EnviaString("texto");
+```
+Detalhamento da função de inicialização da serial
+```sh
+```
+Detalhamento da função envia caractere 
+```sh
+```
+Detalhamento da função recebe caractere 
+```sh
+```
+Detalhamento da função envia string (cadeia de caracteres)
+```sh
 ```
 
