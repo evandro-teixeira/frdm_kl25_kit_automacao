@@ -22,35 +22,32 @@ adc_A2 = (unsigned int)LeAnalogicoA0()); // Le entrada analógica A2
 
 Detalhamento da função de inicialização do periférico analógico: 
 ```sh
-#include "analogico.h"
-...
+/*
+Parâmetro entrada e saída da função  
+Entrada: void
+Saída: void
+*/
 void InicialidaAnalogico(void)
-{
-	InicializaADC();
-}
-...
 ```
 Detalhamento da função de leitura do canal analógico: 
 ```sh
-#include "analogico.h"
-#define A0 8  // PTB0 ~ ADC8
-#define A1 9  // PTB1 ~ ADC9
-#define A2 12 // PTB2 ~ ADC12
-...
+/*
+Parâmetro entrada e saída da função  
+Entrada: void
+Saída: resultado da leitura do canal ADC em 16 Bit (0~65535)
+*/
+/*
+Leitura entrada Analógica canal A0 - PTB0 ~ ADC8
+*/
 uint16_t LeAnalogicoA0(void)
-{
-	return (uint16_t)LeADC(A0);
-}
-
+/*
+Leitura entrada Analógica canal A1 - PTB1 ~ ADC9
+*/
 uint16_t LeAnalogicoA1(void)
-{
-	return (uint16_t)LeADC(A1);
-}
-
+/*
+Leitura entrada Analógica canal A2 - PTB3 ~ ADC12
+*/
 uint16_t LeAnalogicoA2(void)
-{
-	return (uint16_t)LeADC(A2);
-}
 ```
 
 #Entradas Digitais 
@@ -60,6 +57,7 @@ InicializaEntradas(IN_D0);  // Inicializa Entrada D0
 ```
 Função de leitura Entradas Digitais
 ```sh
+// Le entrada D0
 if(EntradasDigitais(IN_D0) == TRUE)
 {
 ...
@@ -68,76 +66,28 @@ if(EntradasDigitais(IN_D0) == TRUE)
 Detalhamento da função de inicialização do periférico Entrada Digital.
 ```sh
 #include "entradas.h"
-...
+/*
+Definição dos parâremtro entrada 
+*/
+#define IN_D0	0
+#define IN_D1	1
+#define IN_D2	2
+#define IN_D3	3
+/*
+Parâmetro entrada e saída da função  
+Entrada: Entrada Digital 
+Saída: void
+*/
 void InicializaEntradas(uint8_t di)
-{
-	switch(di)
-	{
-		case IN_D0:
-			gpio_direction(PTD,5,INPUT,NO_PULL_RESISTOR);
-		break;
-		case IN_D1:
-			gpio_direction(PTA,13,INPUT,NO_PULL_RESISTOR);
-		break;
-		case IN_D2:
-			gpio_direction(PTC,9,INPUT,NO_PULL_RESISTOR);
-		break;
-		case IN_D3:
-			gpio_direction(PTC,8,INPUT,NO_PULL_RESISTOR);
-		break;
-	}
-}
 ```
 Detalhamento da função de leitura da Entrada Digital.
 ```sh
-#include "entradas.h"
-...
+/*
+Parâmetro entrada e saída da função  
+Entrada: Entrada Digital 
+Saída: TRUE ou FALSE
+*/
 bool EntradasDigitais(uint8_t in)
-{
-	switch(in)
-	{
-		case IN_D0:
-			if(gpio_read(PTD,5))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		break;
-		case IN_D1:
-			if(gpio_read(PTA,13))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		break;
-		case IN_D2:
-			if(gpio_read(PTC,9))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		break;
-		case IN_D3:
-			if(gpio_read(PTC,8))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		break;
-	}
-}
 ```
 
 #Saídas Digitais 
