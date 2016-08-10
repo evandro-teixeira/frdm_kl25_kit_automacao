@@ -19,3 +19,116 @@ adc_A0 = (unsigned int)LeAnalogicoA0()); // Le entrada analógica A0
 adc_A1 = (unsigned int)LeAnalogicoA0()); // Le entrada analógica A1
 adc_A2 = (unsigned int)LeAnalogicoA0()); // Le entrada analógica A2
 ```
+
+Detalhamento da função de inicialização do periférico analógico: 
+```sh
+#include "analogico.h"
+...
+void InicialidaAnalogico(void)
+{
+	InicializaADC();
+}
+...
+```
+Detalhamento da função de leitura do canal analógico: 
+```sh
+#include "analogico.h"
+#define A0 8  // PTB0 ~ ADC8
+#define A1 9  // PTB1 ~ ADC9
+#define A2 12 // PTB2 ~ ADC12
+...
+uint16_t LeAnalogicoA0(void)
+{
+	return (uint16_t)LeADC(A0);
+}
+
+uint16_t LeAnalogicoA1(void)
+{
+	return (uint16_t)LeADC(A1);
+}
+
+uint16_t LeAnalogicoA2(void)
+{
+	return (uint16_t)LeADC(A2);
+}
+```
+
+#Entradas Digitais 
+Função de Inicialização entradas digitais 
+```sh
+InicializaEntradas(IN_D0);  // Inicializa Entrada D0 
+```
+Detalhamento da função de inicialização do periférico Entrada Digital.
+```sh
+#include "entradas.h"
+...
+void InicializaEntradas(uint8_t di)
+{
+	switch(di)
+	{
+		case IN_D0:
+			gpio_direction(PTD,5,INPUT,NO_PULL_RESISTOR);
+		break;
+		case IN_D1:
+			gpio_direction(PTA,13,INPUT,NO_PULL_RESISTOR);
+		break;
+		case IN_D2:
+			gpio_direction(PTC,9,INPUT,NO_PULL_RESISTOR);
+		break;
+		case IN_D3:
+			gpio_direction(PTC,8,INPUT,NO_PULL_RESISTOR);
+		break;
+	}
+}
+```
+Detalhamento da função de leitura da Entrada Digital.
+```sh
+#include "entradas.h"
+...
+bool EntradasDigitais(uint8_t in)
+{
+	switch(in)
+	{
+		case IN_D0:
+			if(gpio_read(PTD,5))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		break;
+		case IN_D1:
+			if(gpio_read(PTA,13))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		break;
+		case IN_D2:
+			if(gpio_read(PTC,9))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		break;
+		case IN_D3:
+			if(gpio_read(PTC,8))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		break;
+	}
+}
+```
