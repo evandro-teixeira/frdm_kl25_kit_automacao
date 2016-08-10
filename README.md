@@ -69,10 +69,10 @@ Detalhamento da função de inicialização do periférico Entrada Digital.
 /*
 Definição dos parâremtro entrada 
 */
-#define IN_D0	0
-#define IN_D1	1
-#define IN_D2	2
-#define IN_D3	3
+#define IN_D0	0 // PTD5
+#define IN_D1	1 // PTA13
+#define IN_D2	2 // PTC9
+#define IN_D3	3 // PTC8
 /*
 Parâmetro entrada e saída da função  
 Entrada: Entrada Digital 
@@ -102,71 +102,26 @@ SaidasDigitais(OUT_D0,ON);
 ```
 Detalhamento da função de inicialização do periférico Saídas Digital.
 ```sh
+/*
+Definição dos parâremtro Saída 
+*/
+#define OUT_D0	0 // PTA5
+#define OUT_D1	1 // PTA4
+#define OUT_D2	2 // PTA12
+#define OUT_D3	3 // PTD4
+/*
+Parâmetro entrada e saída da função  
+Entrada: Saída Digital 
+Saída: void
+*/
 void InicializaSaidas(uint8_t di)
-{
-	switch(di)
-	{
-		case OUT_D0:
-			gpio_direction(PTA,5,OUTPUT,NO_PULL_RESISTOR);
-		break;
-		case OUT_D1:
-			gpio_direction(PTA,4,OUTPUT,NO_PULL_RESISTOR);			
-		break;
-		case OUT_D2:
-			gpio_direction(PTA,12,OUTPUT,NO_PULL_RESISTOR);
-		break;
-		case OUT_D3:
-			gpio_direction(PTD,4,OUTPUT,NO_PULL_RESISTOR);
-		break;
-	}
-}
 ```
 Detalhamento da função de acionamento das saídas digitais 
 ```sh
+/*
+Parâmetro entrada e saída da função  
+Entrada: Saída Digital, estado (0 ou 1)
+Saída: void
+*/
 void SaidasDigitais(uint8_t di, bool st)
-{
-	switch(di)
-	{
-		case OUT_D0:
-			if(st==ON)
-			{
-				gpio_set(PTA,5,ON);
-			}
-			else
-			{
-				gpio_set(PTA,5,OFF);
-			}
-		break;	
-		case OUT_D1:
-			if(st==ON)
-			{
-				gpio_set(PTA,4,ON);
-			}
-			else
-			{
-				gpio_set(PTA,4,OFF);
-			}
-		break;	
-		case OUT_D2:
-			if(st==ON)
-			{
-				gpio_set(PTA,12,ON);
-			}
-			else
-			{
-				gpio_set(PTA,12,OFF);
-			}
-		break;	
-		case OUT_D3:
-			if(st==ON)
-			{
-				gpio_set(PTA,4,ON);
-			}
-			else
-			{
-				gpio_set(PTA,4,OFF);
-			}
-		break;	
-	}
-}
 ```
