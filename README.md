@@ -27,7 +27,7 @@ Parâmetro entrada e saída da função
 Entrada: void
 Saída: void
 */
-void InicialidaAnalogico(void)
+void InicializaAnalogico(void)
 ```
 Detalhamento da função de leitura do canal analógico: 
 ```sh
@@ -125,3 +125,42 @@ Saída: void
 */
 void SaidasDigitais(uint8_t di, bool st)
 ```
+
+Acionamento Dos Relés
+Função de Inicialização do acionamento dos relés.
+```sh
+InicializaRele(RELE1);		// Inicializa Rele 1 
+```
+Função de acionamento dos reles.
+```sh
+// Aciona o Rele 1
+AcionaRele(RELE1,ON);
+```
+Detalhamento da função de inicialização do acionamento dos relés.
+```sh
+/*
+Definição dos parâremtro do Relés
+*/
+#define RELE1 0
+#define RELE2 1
+#define RELE3 2
+#define RELE4 3
+#define RELE5 4
+#define RELE6 5
+/*
+Parâmetro entrada e saída da função  
+Entrada: Relé 
+Saída: void
+*/
+void InicializaRele(uint8_t rl);
+```
+Detalhamento da função de acionamento dos reles.
+```sh
+/*
+Parâmetro entrada e saída da função  
+Entrada: Relé, Estado (0 ou 1) 
+Saída: void
+*/
+void AcionaRele(uint8_t rl, bool st); 
+```
+
