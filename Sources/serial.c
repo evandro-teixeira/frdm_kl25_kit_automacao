@@ -12,7 +12,7 @@
 void InicializaSerial(uint32_t baud_rate)
 {
 	/* Habilita uart0 - pinos PTA1-RX, PTA2-TX */
-	uart_init(UART0_BASE_PTR,(21000000/1000),baud_rate);
+	uart_init(UART0_BASE_PTR,(iClock/2),baud_rate);
 }
 //=========================================================
 //

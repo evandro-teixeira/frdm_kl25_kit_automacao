@@ -22,4 +22,6 @@
 #include "analogico.h"
 #include <MKL25Z4.h>    /* I/O map for MKL25Z128VLK4 */
 
+extern uint16_t iClock;
+
 #endif /* EXTERNS_H_ */

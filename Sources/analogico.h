@@ -13,7 +13,8 @@
 #define A0 8
 #define A1 9
 #define A2 12
-void InicialidaAnalogico(void);
+
+void InicializaAnalogico(void);
 uint16_t LeAnalogicoA0(void);
 uint16_t LeAnalogicoA1(void);
 uint16_t LeAnalogicoA2(void);

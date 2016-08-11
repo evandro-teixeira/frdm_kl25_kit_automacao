@@ -14,14 +14,28 @@
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.section	.text.InicializaCPU,"ax",%progbits
-  18              		.align	2
-  19              		.global	InicializaCPU
-  20              		.code	16
-  21              		.thumb_func
-  23              	InicializaCPU:
-  24              	.LFB0:
-  25              		.file 1 "../Sources/init_cpu.c"
+  17              		.comm	mcg_clk_hz,4,4
+  18              		.comm	mcg_clk_khz,4,4
+  19              		.comm	core_clk_khz,4,4
+  20              		.comm	periph_clk_khz,4,4
+  21              		.comm	pll_clk_khz,4,4
+  22              		.comm	uart0_clk_khz,4,4
+  23              		.comm	uart0_clk_hz,4,4
+  24              		.global	iClock
+  25              		.section	.bss.iClock,"aw",%nobits
+  26              		.align	1
+  29              	iClock:
+  30 0000 0000     		.space	2
+  31              		.global	__aeabi_idiv
+  32              		.global	__aeabi_uidiv
+  33              		.section	.text.InicializaCPU,"ax",%progbits
+  34              		.align	2
+  35              		.global	InicializaCPU
+  36              		.code	16
+  37              		.thumb_func
+  39              	InicializaCPU:
+  40              	.LFB0:
+  41              		.file 1 "../Sources/init_cpu.c"
    1:../Sources/init_cpu.c **** /*
    2:../Sources/init_cpu.c ****  * init_cpu.c
    3:../Sources/init_cpu.c ****  *
@@ -31,77 +45,1259 @@
    7:../Sources/init_cpu.c **** 
    8:../Sources/init_cpu.c **** #include "init_cpu.h"
    9:../Sources/init_cpu.c **** 
-  10:../Sources/init_cpu.c **** void InicializaCPU(void)
-  11:../Sources/init_cpu.c **** {
-  26              		.loc 1 11 0
-  27              		.cfi_startproc
-  28 0000 80B5     		push	{r7, lr}
-  29              	.LCFI0:
-  30              		.cfi_def_cfa_offset 8
-  31              		.cfi_offset 7, -8
-  32              		.cfi_offset 14, -4
-  33 0002 00AF     		add	r7, sp, #0
-  34              	.LCFI1:
-  35              		.cfi_def_cfa_register 7
-  12:../Sources/init_cpu.c ****    /* Enable all of the port clocks. These have to be enabled to configure
-  13:../Sources/init_cpu.c **** 	* pin muxing options, so most code will need all of these on anyway.
-  14:../Sources/init_cpu.c **** 	*/
-  15:../Sources/init_cpu.c **** 	SIM_SCGC5 	|= (SIM_SCGC5_PORTA_MASK
-  36              		.loc 1 15 0
-  37 0004 074A     		ldr	r2, .L2
-  38 0006 0749     		ldr	r1, .L2
-  39 0008 074B     		ldr	r3, .L2+4
-  40 000a CB58     		ldr	r3, [r1, r3]
-  41 000c F821     		mov	r1, #248
-  42 000e 8901     		lsl	r1, r1, #6
-  43 0010 1943     		orr	r1, r3
-  44 0012 054B     		ldr	r3, .L2+4
-  45 0014 D150     		str	r1, [r2, r3]
-  16:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTB_MASK
-  17:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTC_MASK
-  18:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTD_MASK
-  19:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTE_MASK );
-  20:../Sources/init_cpu.c **** 	
-  21:../Sources/init_cpu.c ****    /* Ramp up the system clock */
-  22:../Sources/init_cpu.c ****    /* Set the system dividers */
-  23:../Sources/init_cpu.c ****    /* NOTE: The PLL init will not configure the system clock dividers,
-  24:../Sources/init_cpu.c **** 	* so they must be configured appropriately before calling the PLL
-  25:../Sources/init_cpu.c **** 	* init function to ensure that clocks remain in valid ranges.
-  26:../Sources/init_cpu.c **** 	*/  
-  27:../Sources/init_cpu.c **** 	//SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
-  28:../Sources/init_cpu.c **** 	
-  29:../Sources/init_cpu.c **** 	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(1) | SIM_CLKDIV1_OUTDIV4(0) );
-  46              		.loc 1 29 0
-  47 0016 034A     		ldr	r2, .L2
-  48 0018 044B     		ldr	r3, .L2+8
-  49 001a 8021     		mov	r1, #128
-  50 001c 4905     		lsl	r1, r1, #21
-  51 001e D150     		str	r1, [r2, r3]
-  30:../Sources/init_cpu.c **** 	
-  31:../Sources/init_cpu.c **** 	// If PLL initialization is not desired, set FLL to 48 MHz clock in default FEI mode
-  32:../Sources/init_cpu.c **** 	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);	
-  33:../Sources/init_cpu.c **** 	//SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock sour
-  34:../Sources/init_cpu.c **** }
-  52              		.loc 1 34 0
-  53 0020 BD46     		mov	sp, r7
-  54              		@ sp needed for prologue
-  55 0022 80BD     		pop	{r7, pc}
-  56              	.L3:
-  57              		.align	2
-  58              	.L2:
-  59 0024 00700440 		.word	1074032640
-  60 0028 38100000 		.word	4152
-  61 002c 44100000 		.word	4164
-  62              		.cfi_endproc
-  63              	.LFE0:
-  65              		.text
-  66              	.Letext0:
-  67              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+  10:../Sources/init_cpu.c **** int mcg_clk_hz;
+  11:../Sources/init_cpu.c **** int mcg_clk_khz;
+  12:../Sources/init_cpu.c **** int core_clk_khz;
+  13:../Sources/init_cpu.c **** int periph_clk_khz;
+  14:../Sources/init_cpu.c **** int pll_clk_khz;
+  15:../Sources/init_cpu.c **** int uart0_clk_khz;
+  16:../Sources/init_cpu.c **** uint32_t uart0_clk_hz;
+  17:../Sources/init_cpu.c **** uint16_t iClock = 0;
+  18:../Sources/init_cpu.c **** 
+  19:../Sources/init_cpu.c **** void InicializaCPU(void)
+  20:../Sources/init_cpu.c **** {
+  42              		.loc 1 20 0
+  43              		.cfi_startproc
+  44 0000 80B5     		push	{r7, lr}
+  45              	.LCFI0:
+  46              		.cfi_def_cfa_offset 8
+  47              		.cfi_offset 7, -8
+  48              		.cfi_offset 14, -4
+  49 0002 82B0     		sub	sp, sp, #8
+  50              	.LCFI1:
+  51              		.cfi_def_cfa_offset 16
+  52 0004 02AF     		add	r7, sp, #8
+  53              	.LCFI2:
+  54              		.cfi_def_cfa 7, 8
+  21:../Sources/init_cpu.c ****    /* Enable all of the port clocks. These have to be enabled to configure
+  22:../Sources/init_cpu.c **** 	* pin muxing options, so most code will need all of these on anyway.
+  23:../Sources/init_cpu.c **** 	*/
+  24:../Sources/init_cpu.c **** 	SIM_SCGC5 	|= (SIM_SCGC5_PORTA_MASK
+  55              		.loc 1 24 0
+  56 0006 2D4A     		ldr	r2, .L2
+  57 0008 2C49     		ldr	r1, .L2
+  58 000a 2D4B     		ldr	r3, .L2+4
+  59 000c CB58     		ldr	r3, [r1, r3]
+  60 000e F821     		mov	r1, #248
+  61 0010 8901     		lsl	r1, r1, #6
+  62 0012 1943     		orr	r1, r3
+  63 0014 2A4B     		ldr	r3, .L2+4
+  64 0016 D150     		str	r1, [r2, r3]
+  25:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTB_MASK
+  26:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTC_MASK
+  27:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTD_MASK
+  28:../Sources/init_cpu.c **** 				| SIM_SCGC5_PORTE_MASK );
+  29:../Sources/init_cpu.c **** 	
+  30:../Sources/init_cpu.c ****    /* Ramp up the system clock */
+  31:../Sources/init_cpu.c ****    /* Set the system dividers */
+  32:../Sources/init_cpu.c ****    /* NOTE: The PLL init will not configure the system clock dividers,
+  33:../Sources/init_cpu.c **** 	* so they must be configured appropriately before calling the PLL
+  34:../Sources/init_cpu.c **** 	* init function to ensure that clocks remain in valid ranges.
+  35:../Sources/init_cpu.c **** 	*/  
+  36:../Sources/init_cpu.c **** 	SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1) );
+  65              		.loc 1 36 0
+  66 0018 284A     		ldr	r2, .L2
+  67 001a 2A4B     		ldr	r3, .L2+8
+  68 001c 8021     		mov	r1, #128
+  69 001e 4902     		lsl	r1, r1, #9
+  70 0020 D150     		str	r1, [r2, r3]
+  37:../Sources/init_cpu.c **** 	//SIM_CLKDIV1 = ( 0 | SIM_CLKDIV1_OUTDIV1(1) | SIM_CLKDIV1_OUTDIV4(0) );
+  38:../Sources/init_cpu.c **** 	// If PLL initialization is not desired, set FLL to 48 MHz clock in default FEI mode
+  39:../Sources/init_cpu.c **** 	//MCG_C4 |= (MCG_C4_DRST_DRS(1) | MCG_C4_DMX32_MASK);	
+  40:../Sources/init_cpu.c **** 	//SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock sour
+  41:../Sources/init_cpu.c **** 	
+  42:../Sources/init_cpu.c **** 	/* Initialize PLL */
+  43:../Sources/init_cpu.c **** 	/* PLL will be the source for MCG CLKOUT so the core, system, and flash clocks are derived from it
+  44:../Sources/init_cpu.c **** 	mcg_clk_hz = pll_init(	 CLK0_FREQ_HZ,  /* CLKIN0 frequency */
+  71              		.loc 1 44 0
+  72 0022 294B     		ldr	r3, .L2+12
+  73 0024 1822     		mov	r2, #24
+  74 0026 0092     		str	r2, [sp]
+  75 0028 0122     		mov	r2, #1
+  76 002a 0192     		str	r2, [sp, #4]
+  77 002c 181C     		mov	r0, r3
+  78 002e 0021     		mov	r1, #0
+  79 0030 0122     		mov	r2, #1
+  80 0032 0423     		mov	r3, #4
+  81 0034 FFF7FEFF 		bl	pll_init
+  82 0038 021C     		mov	r2, r0
+  83 003a 244B     		ldr	r3, .L2+16
+  84 003c 1A60     		str	r2, [r3]
+  45:../Sources/init_cpu.c **** 							 LOW_POWER,     /* Set the oscillator for low power mode */
+  46:../Sources/init_cpu.c **** 							 CLK0_TYPE,     /* Crystal or canned oscillator clock input */
+  47:../Sources/init_cpu.c **** 							 PLL0_PRDIV,    /* PLL predivider value */
+  48:../Sources/init_cpu.c **** 							 PLL0_VDIV,     /* PLL multiplier */
+  49:../Sources/init_cpu.c **** 							 MCGOUT);       /* Use the output from this PLL as the MCGOUT */
+  50:../Sources/init_cpu.c **** 	
+  51:../Sources/init_cpu.c **** 	/*
+  52:../Sources/init_cpu.c **** 	 * Use the value obtained from the pll_init function to define variables
+  53:../Sources/init_cpu.c **** 	 * for the core clock in kHz and also the peripheral clock. These
+  54:../Sources/init_cpu.c **** 	 * variables can be used by other functions that need awareness of the
+  55:../Sources/init_cpu.c **** 	 * system frequency.
+  56:../Sources/init_cpu.c **** 	 */
+  57:../Sources/init_cpu.c **** 	mcg_clk_khz = mcg_clk_hz / 1000;
+  85              		.loc 1 57 0
+  86 003e 234B     		ldr	r3, .L2+16
+  87 0040 1B68     		ldr	r3, [r3]
+  88 0042 181C     		mov	r0, r3
+  89 0044 FA23     		mov	r3, #250
+  90 0046 9900     		lsl	r1, r3, #2
+  91 0048 FFF7FEFF 		bl	__aeabi_idiv
+  92 004c 031C     		mov	r3, r0
+  93 004e 1A1C     		mov	r2, r3
+  94 0050 1F4B     		ldr	r3, .L2+20
+  95 0052 1A60     		str	r2, [r3]
+  58:../Sources/init_cpu.c **** 	core_clk_khz = mcg_clk_khz / (((SIM_CLKDIV1 & SIM_CLKDIV1_OUTDIV1_MASK) >> 28)+ 1);
+  96              		.loc 1 58 0
+  97 0054 1E4B     		ldr	r3, .L2+20
+  98 0056 1B68     		ldr	r3, [r3]
+  99 0058 1A1C     		mov	r2, r3
+ 100 005a 1849     		ldr	r1, .L2
+ 101 005c 194B     		ldr	r3, .L2+8
+ 102 005e CB58     		ldr	r3, [r1, r3]
+ 103 0060 1B0F     		lsr	r3, r3, #28
+ 104 0062 0133     		add	r3, r3, #1
+ 105 0064 101C     		mov	r0, r2
+ 106 0066 191C     		mov	r1, r3
+ 107 0068 FFF7FEFF 		bl	__aeabi_uidiv
+ 108 006c 031C     		mov	r3, r0
+ 109 006e 1A1C     		mov	r2, r3
+ 110 0070 184B     		ldr	r3, .L2+24
+ 111 0072 1A60     		str	r2, [r3]
+  59:../Sources/init_cpu.c **** 	periph_clk_khz = core_clk_khz / (((SIM_CLKDIV1 & SIM_CLKDIV1_OUTDIV4_MASK) >> 16)+ 1);
+ 112              		.loc 1 59 0
+ 113 0074 174B     		ldr	r3, .L2+24
+ 114 0076 1B68     		ldr	r3, [r3]
+ 115 0078 1A1C     		mov	r2, r3
+ 116 007a 1049     		ldr	r1, .L2
+ 117 007c 114B     		ldr	r3, .L2+8
+ 118 007e CB58     		ldr	r3, [r1, r3]
+ 119 0080 191C     		mov	r1, r3
+ 120 0082 E023     		mov	r3, #224
+ 121 0084 DB02     		lsl	r3, r3, #11
+ 122 0086 0B40     		and	r3, r1
+ 123 0088 1B0C     		lsr	r3, r3, #16
+ 124 008a 0133     		add	r3, r3, #1
+ 125 008c 101C     		mov	r0, r2
+ 126 008e 191C     		mov	r1, r3
+ 127 0090 FFF7FEFF 		bl	__aeabi_uidiv
+ 128 0094 031C     		mov	r3, r0
+ 129 0096 1A1C     		mov	r2, r3
+ 130 0098 0F4B     		ldr	r3, .L2+28
+ 131 009a 1A60     		str	r2, [r3]
+  60:../Sources/init_cpu.c **** 	
+  61:../Sources/init_cpu.c **** 	SIM_SOPT2 |= SIM_SOPT2_PLLFLLSEL_MASK; // set PLLFLLSEL to select the PLL for this clock source
+ 132              		.loc 1 61 0
+ 133 009c 074A     		ldr	r2, .L2
+ 134 009e 0749     		ldr	r1, .L2
+ 135 00a0 0E4B     		ldr	r3, .L2+32
+ 136 00a2 CB58     		ldr	r3, [r1, r3]
+ 137 00a4 8021     		mov	r1, #128
+ 138 00a6 4902     		lsl	r1, r1, #9
+ 139 00a8 1943     		orr	r1, r3
+ 140 00aa 0C4B     		ldr	r3, .L2+32
+ 141 00ac D150     		str	r1, [r2, r3]
+  62:../Sources/init_cpu.c **** 	
+  63:../Sources/init_cpu.c **** 	iClock = (uint16_t) mcg_clk_khz;
+ 142              		.loc 1 63 0
+ 143 00ae 084B     		ldr	r3, .L2+20
+ 144 00b0 1B68     		ldr	r3, [r3]
+ 145 00b2 9AB2     		uxth	r2, r3
+ 146 00b4 0A4B     		ldr	r3, .L2+36
+ 147 00b6 1A80     		strh	r2, [r3]
+  64:../Sources/init_cpu.c **** }
+ 148              		.loc 1 64 0
+ 149 00b8 BD46     		mov	sp, r7
+ 150              		@ sp needed for prologue
+ 151 00ba 80BD     		pop	{r7, pc}
+ 152              	.L3:
+ 153              		.align	2
+ 154              	.L2:
+ 155 00bc 00700440 		.word	1074032640
+ 156 00c0 38100000 		.word	4152
+ 157 00c4 44100000 		.word	4164
+ 158 00c8 00127A00 		.word	8000000
+ 159 00cc 00000000 		.word	mcg_clk_hz
+ 160 00d0 00000000 		.word	mcg_clk_khz
+ 161 00d4 00000000 		.word	core_clk_khz
+ 162 00d8 00000000 		.word	periph_clk_khz
+ 163 00dc 04100000 		.word	4100
+ 164 00e0 00000000 		.word	iClock
+ 165              		.cfi_endproc
+ 166              	.LFE0:
+ 168              		.section	.text.pll_init,"ax",%progbits
+ 169              		.align	2
+ 170              		.global	pll_init
+ 171              		.code	16
+ 172              		.thumb_func
+ 174              	pll_init:
+ 175              	.LFB1:
+  65:../Sources/init_cpu.c **** 
+  66:../Sources/init_cpu.c **** 
+  67:../Sources/init_cpu.c **** /*********************************************************************************************/
+  68:../Sources/init_cpu.c **** /* Functon name : pll_init
+  69:../Sources/init_cpu.c ****  *
+  70:../Sources/init_cpu.c ****  * Mode transition: Option to move from FEI to PEE mode or to just initialize the PLL
+  71:../Sources/init_cpu.c ****  *
+  72:../Sources/init_cpu.c ****  * This function initializess PLL0. Either OSC0 is selected for the
+  73:../Sources/init_cpu.c ****  * reference clock source. The oscillators can be configured to use a crystal or take in an
+  74:../Sources/init_cpu.c ****  * external square wave clock.
+  75:../Sources/init_cpu.c ****  * Using the function parameter names the PLL frequency is calculated as follows:
+  76:../Sources/init_cpu.c ****  * PLL freq = ((crystal_val / prdiv_val) * vdiv_val)
+  77:../Sources/init_cpu.c ****  * Refer to the readme file in the mcg driver directory for examples of pll_init configurations.
+  78:../Sources/init_cpu.c ****  * All parameters must be provided, for example crystal_val must be provided even if the
+  79:../Sources/init_cpu.c ****  * oscillator associated with that parameter is already initialized.
+  80:../Sources/init_cpu.c ****  * The various passed parameters are checked to ensure they are within the allowed range. If any
+  81:../Sources/init_cpu.c ****  * of these checks fail the driver will exit and return a fail/error code. An error code will
+  82:../Sources/init_cpu.c ****  * also be returned if any error occurs during the PLL initialization sequence. Refer to the
+  83:../Sources/init_cpu.c ****  * readme file in the mcg driver directory for a list of all these codes.
+  84:../Sources/init_cpu.c ****  *
+  85:../Sources/init_cpu.c ****  * Parameters: crystal_val - external clock frequency in Hz either from a crystal or square
+  86:../Sources/init_cpu.c ****  *                           wave clock source
+  87:../Sources/init_cpu.c ****  *             hgo_val     - selects whether low power or high gain mode is selected
+  88:../Sources/init_cpu.c ****  *                           for the crystal oscillator. This has no meaning if an
+  89:../Sources/init_cpu.c ****  *                           external clock is used.
+  90:../Sources/init_cpu.c ****  *             erefs_val   - selects external clock (=0) or crystal osc (=1)
+  91:../Sources/init_cpu.c ****  *             prdiv_val   - value to divide the external clock source by to create the desired
+  92:../Sources/init_cpu.c ****  *                           PLL reference clock frequency
+  93:../Sources/init_cpu.c ****  *             vdiv_val    - value to multiply the PLL reference clock frequency by
+  94:../Sources/init_cpu.c ****  *             mcgout_select  - 0 if the PLL is just to be enabled, non-zero if the PLL is used
+  95:../Sources/init_cpu.c ****  *                              to provide the MCGOUT clock for the system.
+  96:../Sources/init_cpu.c ****  *
+  97:../Sources/init_cpu.c ****  * Return value : PLL frequency (Hz) or error code
+  98:../Sources/init_cpu.c ****  */
+  99:../Sources/init_cpu.c **** 
+ 100:../Sources/init_cpu.c **** int pll_init(int crystal_val, unsigned char hgo_val, unsigned char erefs_val, signed char prdiv_val
+ 101:../Sources/init_cpu.c **** {
+ 176              		.loc 1 101 0
+ 177              		.cfi_startproc
+ 178 0000 80B5     		push	{r7, lr}
+ 179              	.LCFI3:
+ 180              		.cfi_def_cfa_offset 8
+ 181              		.cfi_offset 7, -8
+ 182              		.cfi_offset 14, -4
+ 183 0002 86B0     		sub	sp, sp, #24
+ 184              	.LCFI4:
+ 185              		.cfi_def_cfa_offset 32
+ 186 0004 00AF     		add	r7, sp, #0
+ 187              	.LCFI5:
+ 188              		.cfi_def_cfa_register 7
+ 189 0006 7860     		str	r0, [r7, #4]
+ 190 0008 081C     		mov	r0, r1
+ 191 000a 111C     		mov	r1, r2
+ 192 000c 1A1C     		mov	r2, r3
+ 193 000e FB1C     		add	r3, r7, #3
+ 194 0010 1870     		strb	r0, [r3]
+ 195 0012 BB1C     		add	r3, r7, #2
+ 196 0014 1970     		strb	r1, [r3]
+ 197 0016 7B1C     		add	r3, r7, #1
+ 198 0018 1A70     		strb	r2, [r3]
+ 102:../Sources/init_cpu.c ****   unsigned char frdiv_val;
+ 103:../Sources/init_cpu.c ****   unsigned char temp_reg;
+ 104:../Sources/init_cpu.c ****   unsigned char prdiv, vdiv;
+ 105:../Sources/init_cpu.c ****   short i;
+ 106:../Sources/init_cpu.c ****   int ref_freq;
+ 107:../Sources/init_cpu.c ****   int pll_freq;
+ 108:../Sources/init_cpu.c **** 
+ 109:../Sources/init_cpu.c ****   // check if in FEI mode
+ 110:../Sources/init_cpu.c ****   if (!((((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x0) && 	// check CLKS mux has selcte
+ 199              		.loc 1 110 0
+ 200 001a C24B     		ldr	r3, .L64
+ 201 001c 9B79     		ldrb	r3, [r3, #6]
+ 202 001e DBB2     		uxtb	r3, r3
+ 203 0020 1A1C     		mov	r2, r3
+ 204 0022 0C23     		mov	r3, #12
+ 205 0024 1340     		and	r3, r2
+ 206 0026 9B08     		lsr	r3, r3, #2
+ 207 0028 0DD1     		bne	.L5
+ 111:../Sources/init_cpu.c ****       (MCG_S & MCG_S_IREFST_MASK) &&                                  	// check FLL ref is internal
+ 208              		.loc 1 111 0 discriminator 1
+ 209 002a BE4B     		ldr	r3, .L64
+ 210 002c 9B79     		ldrb	r3, [r3, #6]
+ 211 002e DBB2     		uxtb	r3, r3
+ 212 0030 1A1C     		mov	r2, r3
+ 213 0032 1023     		mov	r3, #16
+ 214 0034 1340     		and	r3, r2
+ 110:../Sources/init_cpu.c ****   if (!((((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x0) && 	// check CLKS mux has selcte
+ 215              		.loc 1 110 0 discriminator 1
+ 216 0036 06D0     		beq	.L5
+ 112:../Sources/init_cpu.c ****       (!(MCG_S & MCG_S_PLLST_MASK))))                                 	// check PLLS mux has select
+ 217              		.loc 1 112 0 discriminator 1
+ 218 0038 BA4B     		ldr	r3, .L64
+ 219 003a 9B79     		ldrb	r3, [r3, #6]
+ 220 003c DBB2     		uxtb	r3, r3
+ 221 003e 1A1C     		mov	r2, r3
+ 222 0040 2023     		mov	r3, #32
+ 223 0042 1340     		and	r3, r2
+ 110:../Sources/init_cpu.c ****   if (!((((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x0) && 	// check CLKS mux has selcte
+ 224              		.loc 1 110 0 discriminator 1
+ 225 0044 01D0     		beq	.L6
+ 226              	.L5:
+ 113:../Sources/init_cpu.c ****   {
+ 114:../Sources/init_cpu.c ****     return 0x1;                                                     	// return error code
+ 227              		.loc 1 114 0
+ 228 0046 0123     		mov	r3, #1
+ 229 0048 73E2     		b	.L7
+ 230              	.L6:
+ 115:../Sources/init_cpu.c ****   }
+ 116:../Sources/init_cpu.c **** 
+ 117:../Sources/init_cpu.c ****   // check external frequency is less than the maximum frequency
+ 118:../Sources/init_cpu.c ****   if  (crystal_val > 50000000) {return 0x21;}
+ 231              		.loc 1 118 0
+ 232 004a 7A68     		ldr	r2, [r7, #4]
+ 233 004c B64B     		ldr	r3, .L64+4
+ 234 004e 9A42     		cmp	r2, r3
+ 235 0050 01DD     		ble	.L8
+ 236              		.loc 1 118 0 is_stmt 0 discriminator 1
+ 237 0052 2123     		mov	r3, #33
+ 238 0054 6DE2     		b	.L7
+ 239              	.L8:
+ 119:../Sources/init_cpu.c **** 
+ 120:../Sources/init_cpu.c ****   // check crystal frequency is within spec. if crystal osc is being used as PLL ref
+ 121:../Sources/init_cpu.c ****   if (erefs_val)
+ 240              		.loc 1 121 0 is_stmt 1
+ 241 0056 BB1C     		add	r3, r7, #2
+ 242 0058 1B78     		ldrb	r3, [r3]
+ 243 005a 002B     		cmp	r3, #0
+ 244 005c 09D0     		beq	.L9
+ 122:../Sources/init_cpu.c ****   {
+ 123:../Sources/init_cpu.c ****     if ((crystal_val < 3000000) || (crystal_val > 32000000)) {return 0x22;} // return 1 if one of t
+ 245              		.loc 1 123 0
+ 246 005e 7A68     		ldr	r2, [r7, #4]
+ 247 0060 B24B     		ldr	r3, .L64+8
+ 248 0062 9A42     		cmp	r2, r3
+ 249 0064 03DD     		ble	.L10
+ 250              		.loc 1 123 0 is_stmt 0 discriminator 2
+ 251 0066 7A68     		ldr	r2, [r7, #4]
+ 252 0068 B14B     		ldr	r3, .L64+12
+ 253 006a 9A42     		cmp	r2, r3
+ 254 006c 01DD     		ble	.L9
+ 255              	.L10:
+ 256              		.loc 1 123 0 discriminator 1
+ 257 006e 2223     		mov	r3, #34
+ 258 0070 5FE2     		b	.L7
+ 259              	.L9:
+ 124:../Sources/init_cpu.c ****   }
+ 125:../Sources/init_cpu.c **** 
+ 126:../Sources/init_cpu.c ****   // make sure HGO will never be greater than 1. Could return an error instead if desired.
+ 127:../Sources/init_cpu.c ****   if (hgo_val > 0)
+ 260              		.loc 1 127 0 is_stmt 1
+ 261 0072 FB1C     		add	r3, r7, #3
+ 262 0074 1B78     		ldrb	r3, [r3]
+ 263 0076 002B     		cmp	r3, #0
+ 264 0078 02D0     		beq	.L11
+ 128:../Sources/init_cpu.c ****   {
+ 129:../Sources/init_cpu.c ****     hgo_val = 1; // force hgo_val to 1 if > 0
+ 265              		.loc 1 129 0
+ 266 007a FB1C     		add	r3, r7, #3
+ 267 007c 0122     		mov	r2, #1
+ 268 007e 1A70     		strb	r2, [r3]
+ 269              	.L11:
+ 130:../Sources/init_cpu.c ****   }
+ 131:../Sources/init_cpu.c **** 
+ 132:../Sources/init_cpu.c ****   // Check PLL divider settings are within spec.
+ 133:../Sources/init_cpu.c ****   if ((prdiv_val < 1) || (prdiv_val > 25)) {return 0x41;}
+ 270              		.loc 1 133 0
+ 271 0080 7B1C     		add	r3, r7, #1
+ 272 0082 1B78     		ldrb	r3, [r3]
+ 273 0084 5BB2     		sxtb	r3, r3
+ 274 0086 002B     		cmp	r3, #0
+ 275 0088 04DD     		ble	.L12
+ 276              		.loc 1 133 0 is_stmt 0 discriminator 2
+ 277 008a 7B1C     		add	r3, r7, #1
+ 278 008c 1B78     		ldrb	r3, [r3]
+ 279 008e 5BB2     		sxtb	r3, r3
+ 280 0090 192B     		cmp	r3, #25
+ 281 0092 01DD     		ble	.L13
+ 282              	.L12:
+ 283              		.loc 1 133 0 discriminator 1
+ 284 0094 4123     		mov	r3, #65
+ 285 0096 4CE2     		b	.L7
+ 286              	.L13:
+ 134:../Sources/init_cpu.c ****   if ((vdiv_val < 24) || (vdiv_val > 50)) {return 0x42;}
+ 287              		.loc 1 134 0 is_stmt 1
+ 288 0098 3B1C     		mov	r3, r7
+ 289 009a 2033     		add	r3, r3, #32
+ 290 009c 1B78     		ldrb	r3, [r3]
+ 291 009e 5BB2     		sxtb	r3, r3
+ 292 00a0 172B     		cmp	r3, #23
+ 293 00a2 05DD     		ble	.L14
+ 294              		.loc 1 134 0 is_stmt 0 discriminator 2
+ 295 00a4 3B1C     		mov	r3, r7
+ 296 00a6 2033     		add	r3, r3, #32
+ 297 00a8 1B78     		ldrb	r3, [r3]
+ 298 00aa 5BB2     		sxtb	r3, r3
+ 299 00ac 322B     		cmp	r3, #50
+ 300 00ae 01DD     		ble	.L15
+ 301              	.L14:
+ 302              		.loc 1 134 0 discriminator 1
+ 303 00b0 4223     		mov	r3, #66
+ 304 00b2 3EE2     		b	.L7
+ 305              	.L15:
+ 135:../Sources/init_cpu.c **** 
+ 136:../Sources/init_cpu.c ****   // Check PLL reference clock frequency is within spec.
+ 137:../Sources/init_cpu.c ****   ref_freq = crystal_val / prdiv_val;
+ 306              		.loc 1 137 0 is_stmt 1
+ 307 00b4 7B1C     		add	r3, r7, #1
+ 308 00b6 1B78     		ldrb	r3, [r3]
+ 309 00b8 5BB2     		sxtb	r3, r3
+ 310 00ba 7868     		ldr	r0, [r7, #4]
+ 311 00bc 191C     		mov	r1, r3
+ 312 00be FFF7FEFF 		bl	__aeabi_idiv
+ 313 00c2 031C     		mov	r3, r0
+ 314 00c4 3B61     		str	r3, [r7, #16]
+ 138:../Sources/init_cpu.c ****   if ((ref_freq < 2000000) || (ref_freq > 4000000)) {return 0x43;}
+ 315              		.loc 1 138 0
+ 316 00c6 3A69     		ldr	r2, [r7, #16]
+ 317 00c8 9A4B     		ldr	r3, .L64+16
+ 318 00ca 9A42     		cmp	r2, r3
+ 319 00cc 03DD     		ble	.L16
+ 320              		.loc 1 138 0 is_stmt 0 discriminator 2
+ 321 00ce 3A69     		ldr	r2, [r7, #16]
+ 322 00d0 994B     		ldr	r3, .L64+20
+ 323 00d2 9A42     		cmp	r2, r3
+ 324 00d4 01DD     		ble	.L17
+ 325              	.L16:
+ 326              		.loc 1 138 0 discriminator 1
+ 327 00d6 4323     		mov	r3, #67
+ 328 00d8 2BE2     		b	.L7
+ 329              	.L17:
+ 139:../Sources/init_cpu.c **** 
+ 140:../Sources/init_cpu.c ****   // Check PLL output frequency is within spec.
+ 141:../Sources/init_cpu.c ****   pll_freq = (crystal_val / prdiv_val) * vdiv_val;
+ 330              		.loc 1 141 0 is_stmt 1
+ 331 00da 7B1C     		add	r3, r7, #1
+ 332 00dc 1B78     		ldrb	r3, [r3]
+ 333 00de 5BB2     		sxtb	r3, r3
+ 334 00e0 7868     		ldr	r0, [r7, #4]
+ 335 00e2 191C     		mov	r1, r3
+ 336 00e4 FFF7FEFF 		bl	__aeabi_idiv
+ 337 00e8 031C     		mov	r3, r0
+ 338 00ea 3A1C     		mov	r2, r7
+ 339 00ec 2032     		add	r2, r2, #32
+ 340 00ee 1278     		ldrb	r2, [r2]
+ 341 00f0 52B2     		sxtb	r2, r2
+ 342 00f2 5343     		mul	r3, r2
+ 343 00f4 FB60     		str	r3, [r7, #12]
+ 142:../Sources/init_cpu.c ****   if ((pll_freq < 48000000) || (pll_freq > 100000000)) {return 0x45;}
+ 344              		.loc 1 142 0
+ 345 00f6 FA68     		ldr	r2, [r7, #12]
+ 346 00f8 904B     		ldr	r3, .L64+24
+ 347 00fa 9A42     		cmp	r2, r3
+ 348 00fc 03DD     		ble	.L18
+ 349              		.loc 1 142 0 is_stmt 0 discriminator 2
+ 350 00fe FA68     		ldr	r2, [r7, #12]
+ 351 0100 8F4B     		ldr	r3, .L64+28
+ 352 0102 9A42     		cmp	r2, r3
+ 353 0104 01DD     		ble	.L19
+ 354              	.L18:
+ 355              		.loc 1 142 0 discriminator 1
+ 356 0106 4523     		mov	r3, #69
+ 357 0108 13E2     		b	.L7
+ 358              	.L19:
+ 143:../Sources/init_cpu.c **** 
+ 144:../Sources/init_cpu.c ****   // configure the MCG_C2 register
+ 145:../Sources/init_cpu.c ****   // the RANGE value is determined by the external frequency. Since the RANGE parameter affects the
+ 146:../Sources/init_cpu.c ****   // it still needs to be set correctly even if the oscillator is not being used
+ 147:../Sources/init_cpu.c ****       
+ 148:../Sources/init_cpu.c ****   temp_reg = MCG_C2;
+ 359              		.loc 1 148 0 is_stmt 1
+ 360 010a 864A     		ldr	r2, .L64
+ 361 010c 3B1C     		mov	r3, r7
+ 362 010e 1633     		add	r3, r3, #22
+ 363 0110 5278     		ldrb	r2, [r2, #1]
+ 364 0112 1A70     		strb	r2, [r3]
+ 149:../Sources/init_cpu.c ****   temp_reg &= ~(MCG_C2_RANGE0_MASK | MCG_C2_HGO0_MASK | MCG_C2_EREFS0_MASK); // clear fields before
+ 365              		.loc 1 149 0
+ 366 0114 3B1C     		mov	r3, r7
+ 367 0116 1633     		add	r3, r3, #22
+ 368 0118 3A1C     		mov	r2, r7
+ 369 011a 1632     		add	r2, r2, #22
+ 370 011c 1278     		ldrb	r2, [r2]
+ 371 011e 3C21     		mov	r1, #60
+ 372 0120 8A43     		bic	r2, r1
+ 373 0122 1A70     		strb	r2, [r3]
+ 150:../Sources/init_cpu.c ****     
+ 151:../Sources/init_cpu.c ****   if (crystal_val <= 8000000)
+ 374              		.loc 1 151 0
+ 375 0124 7A68     		ldr	r2, [r7, #4]
+ 376 0126 874B     		ldr	r3, .L64+32
+ 377 0128 9A42     		cmp	r2, r3
+ 378 012a 14DC     		bgt	.L20
+ 152:../Sources/init_cpu.c ****   {
+ 153:../Sources/init_cpu.c ****     temp_reg |= (MCG_C2_RANGE0(1) | (hgo_val << MCG_C2_HGO0_SHIFT) | (erefs_val << MCG_C2_EREFS0_SH
+ 379              		.loc 1 153 0
+ 380 012c FB1C     		add	r3, r7, #3
+ 381 012e 1B78     		ldrb	r3, [r3]
+ 382 0130 DB00     		lsl	r3, r3, #3
+ 383 0132 DAB2     		uxtb	r2, r3
+ 384 0134 BB1C     		add	r3, r7, #2
+ 385 0136 1B78     		ldrb	r3, [r3]
+ 386 0138 9B00     		lsl	r3, r3, #2
+ 387 013a DBB2     		uxtb	r3, r3
+ 388 013c 1343     		orr	r3, r2
+ 389 013e DAB2     		uxtb	r2, r3
+ 390 0140 3B1C     		mov	r3, r7
+ 391 0142 1633     		add	r3, r3, #22
+ 392 0144 1B78     		ldrb	r3, [r3]
+ 393 0146 1343     		orr	r3, r2
+ 394 0148 DAB2     		uxtb	r2, r3
+ 395 014a 3B1C     		mov	r3, r7
+ 396 014c 1633     		add	r3, r3, #22
+ 397 014e 1021     		mov	r1, #16
+ 398 0150 0A43     		orr	r2, r1
+ 399 0152 1A70     		strb	r2, [r3]
+ 400 0154 13E0     		b	.L21
+ 401              	.L20:
+ 154:../Sources/init_cpu.c ****   }
+ 155:../Sources/init_cpu.c ****   else
+ 156:../Sources/init_cpu.c ****   {
+ 157:../Sources/init_cpu.c ****     temp_reg |= (MCG_C2_RANGE0(2) | (hgo_val << MCG_C2_HGO0_SHIFT) | (erefs_val << MCG_C2_EREFS0_SH
+ 402              		.loc 1 157 0
+ 403 0156 FB1C     		add	r3, r7, #3
+ 404 0158 1B78     		ldrb	r3, [r3]
+ 405 015a DB00     		lsl	r3, r3, #3
+ 406 015c DAB2     		uxtb	r2, r3
+ 407 015e BB1C     		add	r3, r7, #2
+ 408 0160 1B78     		ldrb	r3, [r3]
+ 409 0162 9B00     		lsl	r3, r3, #2
+ 410 0164 DBB2     		uxtb	r3, r3
+ 411 0166 1343     		orr	r3, r2
+ 412 0168 DAB2     		uxtb	r2, r3
+ 413 016a 3B1C     		mov	r3, r7
+ 414 016c 1633     		add	r3, r3, #22
+ 415 016e 1B78     		ldrb	r3, [r3]
+ 416 0170 1343     		orr	r3, r2
+ 417 0172 DAB2     		uxtb	r2, r3
+ 418 0174 3B1C     		mov	r3, r7
+ 419 0176 1633     		add	r3, r3, #22
+ 420 0178 2021     		mov	r1, #32
+ 421 017a 0A43     		orr	r2, r1
+ 422 017c 1A70     		strb	r2, [r3]
+ 423              	.L21:
+ 158:../Sources/init_cpu.c ****   }
+ 159:../Sources/init_cpu.c ****   MCG_C2 = temp_reg;
+ 424              		.loc 1 159 0
+ 425 017e 694B     		ldr	r3, .L64
+ 426 0180 3A1C     		mov	r2, r7
+ 427 0182 1632     		add	r2, r2, #22
+ 428 0184 1278     		ldrb	r2, [r2]
+ 429 0186 5A70     		strb	r2, [r3, #1]
+ 160:../Sources/init_cpu.c ****   
+ 161:../Sources/init_cpu.c ****   // determine FRDIV based on reference clock frequency
+ 162:../Sources/init_cpu.c ****   // since the external frequency has already been checked only the maximum frequency for each FRDI
+ 163:../Sources/init_cpu.c ****   if (crystal_val <= 1250000) {frdiv_val = 0;}
+ 430              		.loc 1 163 0
+ 431 0188 7A68     		ldr	r2, [r7, #4]
+ 432 018a 6F4B     		ldr	r3, .L64+36
+ 433 018c 9A42     		cmp	r2, r3
+ 434 018e 04DC     		bgt	.L22
+ 435              		.loc 1 163 0 is_stmt 0 discriminator 1
+ 436 0190 3B1C     		mov	r3, r7
+ 437 0192 1733     		add	r3, r3, #23
+ 438 0194 0022     		mov	r2, #0
+ 439 0196 1A70     		strb	r2, [r3]
+ 440 0198 27E0     		b	.L23
+ 441              	.L22:
+ 164:../Sources/init_cpu.c ****   else if (crystal_val <= 2500000) {frdiv_val = 1;}
+ 442              		.loc 1 164 0 is_stmt 1
+ 443 019a 7A68     		ldr	r2, [r7, #4]
+ 444 019c 6B4B     		ldr	r3, .L64+40
+ 445 019e 9A42     		cmp	r2, r3
+ 446 01a0 04DC     		bgt	.L24
+ 447              		.loc 1 164 0 is_stmt 0 discriminator 1
+ 448 01a2 3B1C     		mov	r3, r7
+ 449 01a4 1733     		add	r3, r3, #23
+ 450 01a6 0122     		mov	r2, #1
+ 451 01a8 1A70     		strb	r2, [r3]
+ 452 01aa 1EE0     		b	.L23
+ 453              	.L24:
+ 165:../Sources/init_cpu.c ****   else if (crystal_val <= 5000000) {frdiv_val = 2;}
+ 454              		.loc 1 165 0 is_stmt 1
+ 455 01ac 7A68     		ldr	r2, [r7, #4]
+ 456 01ae 684B     		ldr	r3, .L64+44
+ 457 01b0 9A42     		cmp	r2, r3
+ 458 01b2 04DC     		bgt	.L25
+ 459              		.loc 1 165 0 is_stmt 0 discriminator 1
+ 460 01b4 3B1C     		mov	r3, r7
+ 461 01b6 1733     		add	r3, r3, #23
+ 462 01b8 0222     		mov	r2, #2
+ 463 01ba 1A70     		strb	r2, [r3]
+ 464 01bc 15E0     		b	.L23
+ 465              	.L25:
+ 166:../Sources/init_cpu.c ****   else if (crystal_val <= 10000000) {frdiv_val = 3;}
+ 466              		.loc 1 166 0 is_stmt 1
+ 467 01be 7A68     		ldr	r2, [r7, #4]
+ 468 01c0 644B     		ldr	r3, .L64+48
+ 469 01c2 9A42     		cmp	r2, r3
+ 470 01c4 04DC     		bgt	.L26
+ 471              		.loc 1 166 0 is_stmt 0 discriminator 1
+ 472 01c6 3B1C     		mov	r3, r7
+ 473 01c8 1733     		add	r3, r3, #23
+ 474 01ca 0322     		mov	r2, #3
+ 475 01cc 1A70     		strb	r2, [r3]
+ 476 01ce 0CE0     		b	.L23
+ 477              	.L26:
+ 167:../Sources/init_cpu.c ****   else if (crystal_val <= 20000000) {frdiv_val = 4;}
+ 478              		.loc 1 167 0 is_stmt 1
+ 479 01d0 7A68     		ldr	r2, [r7, #4]
+ 480 01d2 614B     		ldr	r3, .L64+52
+ 481 01d4 9A42     		cmp	r2, r3
+ 482 01d6 04DC     		bgt	.L27
+ 483              		.loc 1 167 0 is_stmt 0 discriminator 1
+ 484 01d8 3B1C     		mov	r3, r7
+ 485 01da 1733     		add	r3, r3, #23
+ 486 01dc 0422     		mov	r2, #4
+ 487 01de 1A70     		strb	r2, [r3]
+ 488 01e0 03E0     		b	.L23
+ 489              	.L27:
+ 168:../Sources/init_cpu.c ****   else {frdiv_val = 5;}
+ 490              		.loc 1 168 0 is_stmt 1
+ 491 01e2 3B1C     		mov	r3, r7
+ 492 01e4 1733     		add	r3, r3, #23
+ 493 01e6 0522     		mov	r2, #5
+ 494 01e8 1A70     		strb	r2, [r3]
+ 495              	.L23:
+ 169:../Sources/init_cpu.c **** 
+ 170:../Sources/init_cpu.c ****   // Select external oscillator and Reference Divider and clear IREFS to start ext osc
+ 171:../Sources/init_cpu.c ****   // If IRCLK is required it must be enabled outside of this driver, existing state will be maintai
+ 172:../Sources/init_cpu.c ****   // CLKS=2, FRDIV=frdiv_val, IREFS=0, IRCLKEN=0, IREFSTEN=0
+ 173:../Sources/init_cpu.c ****   temp_reg = MCG_C1;
+ 496              		.loc 1 173 0
+ 497 01ea 4E4A     		ldr	r2, .L64
+ 498 01ec 3B1C     		mov	r3, r7
+ 499 01ee 1633     		add	r3, r3, #22
+ 500 01f0 1278     		ldrb	r2, [r2]
+ 501 01f2 1A70     		strb	r2, [r3]
+ 174:../Sources/init_cpu.c ****   temp_reg &= ~(MCG_C1_CLKS_MASK | MCG_C1_FRDIV_MASK | MCG_C1_IREFS_MASK); // Clear values in these
+ 502              		.loc 1 174 0
+ 503 01f4 3B1C     		mov	r3, r7
+ 504 01f6 1633     		add	r3, r3, #22
+ 505 01f8 3A1C     		mov	r2, r7
+ 506 01fa 1632     		add	r2, r2, #22
+ 507 01fc 1178     		ldrb	r1, [r2]
+ 508 01fe 0322     		mov	r2, #3
+ 509 0200 0A40     		and	r2, r1
+ 510 0202 1A70     		strb	r2, [r3]
+ 175:../Sources/init_cpu.c ****   temp_reg |= (MCG_C1_CLKS(2) | MCG_C1_FRDIV(frdiv_val)); // Set the required CLKS and FRDIV values
+ 511              		.loc 1 175 0
+ 512 0204 3B1C     		mov	r3, r7
+ 513 0206 1733     		add	r3, r3, #23
+ 514 0208 1B78     		ldrb	r3, [r3]
+ 515 020a DB00     		lsl	r3, r3, #3
+ 516 020c DAB2     		uxtb	r2, r3
+ 517 020e 3823     		mov	r3, #56
+ 518 0210 1340     		and	r3, r2
+ 519 0212 DAB2     		uxtb	r2, r3
+ 520 0214 3B1C     		mov	r3, r7
+ 521 0216 1633     		add	r3, r3, #22
+ 522 0218 1B78     		ldrb	r3, [r3]
+ 523 021a 1343     		orr	r3, r2
+ 524 021c DAB2     		uxtb	r2, r3
+ 525 021e 3B1C     		mov	r3, r7
+ 526 0220 1633     		add	r3, r3, #22
+ 527 0222 8021     		mov	r1, #128
+ 528 0224 4942     		neg	r1, r1
+ 529 0226 0A43     		orr	r2, r1
+ 530 0228 1A70     		strb	r2, [r3]
+ 176:../Sources/init_cpu.c ****   MCG_C1 = temp_reg;
+ 531              		.loc 1 176 0
+ 532 022a 3E4B     		ldr	r3, .L64
+ 533 022c 3A1C     		mov	r2, r7
+ 534 022e 1632     		add	r2, r2, #22
+ 535 0230 1278     		ldrb	r2, [r2]
+ 536 0232 1A70     		strb	r2, [r3]
+ 177:../Sources/init_cpu.c **** 
+ 178:../Sources/init_cpu.c ****   // if the external oscillator is used need to wait for OSCINIT to set
+ 179:../Sources/init_cpu.c ****   if (erefs_val)
+ 537              		.loc 1 179 0
+ 538 0234 BB1C     		add	r3, r7, #2
+ 539 0236 1B78     		ldrb	r3, [r3]
+ 540 0238 002B     		cmp	r3, #0
+ 541 023a 24D0     		beq	.L28
+ 180:../Sources/init_cpu.c ****   {
+ 181:../Sources/init_cpu.c ****     for (i = 0 ; i < 20000 ; i++)
+ 542              		.loc 1 181 0
+ 543 023c 3B1C     		mov	r3, r7
+ 544 023e 1433     		add	r3, r3, #20
+ 545 0240 0022     		mov	r2, #0
+ 546 0242 1A80     		strh	r2, [r3]
+ 547 0244 0DE0     		b	.L29
+ 548              	.L32:
+ 182:../Sources/init_cpu.c ****     {
+ 183:../Sources/init_cpu.c ****       if (MCG_S & MCG_S_OSCINIT0_MASK) break; // jump out early if OSCINIT sets before loop finishe
+ 549              		.loc 1 183 0
+ 550 0246 374B     		ldr	r3, .L64
+ 551 0248 9B79     		ldrb	r3, [r3, #6]
+ 552 024a DBB2     		uxtb	r3, r3
+ 553 024c 1A1C     		mov	r2, r3
+ 554 024e 0223     		mov	r3, #2
+ 555 0250 1340     		and	r3, r2
+ 556 0252 0ED1     		bne	.L58
+ 557              	.L30:
+ 181:../Sources/init_cpu.c ****     for (i = 0 ; i < 20000 ; i++)
+ 558              		.loc 1 181 0
+ 559 0254 3B1C     		mov	r3, r7
+ 560 0256 1433     		add	r3, r3, #20
+ 561 0258 3A1C     		mov	r2, r7
+ 562 025a 1432     		add	r2, r2, #20
+ 563 025c 1288     		ldrh	r2, [r2]
+ 564 025e 0132     		add	r2, r2, #1
+ 565 0260 1A80     		strh	r2, [r3]
+ 566              	.L29:
+ 181:../Sources/init_cpu.c ****     for (i = 0 ; i < 20000 ; i++)
+ 567              		.loc 1 181 0 is_stmt 0 discriminator 1
+ 568 0262 3B1C     		mov	r3, r7
+ 569 0264 1433     		add	r3, r3, #20
+ 570 0266 0021     		mov	r1, #0
+ 571 0268 5A5E     		ldrsh	r2, [r3, r1]
+ 572 026a 3C4B     		ldr	r3, .L64+56
+ 573 026c 9A42     		cmp	r2, r3
+ 574 026e EADD     		ble	.L32
+ 575 0270 00E0     		b	.L31
+ 576              	.L58:
+ 577              		.loc 1 183 0 is_stmt 1
+ 578 0272 C046     		mov	r8, r8
+ 579              	.L31:
+ 184:../Sources/init_cpu.c ****     }
+ 185:../Sources/init_cpu.c ****   if (!(MCG_S & MCG_S_OSCINIT0_MASK)) return 0x23; // check bit is really set and return with error
+ 580              		.loc 1 185 0
+ 581 0274 2B4B     		ldr	r3, .L64
+ 582 0276 9B79     		ldrb	r3, [r3, #6]
+ 583 0278 DBB2     		uxtb	r3, r3
+ 584 027a 1A1C     		mov	r2, r3
+ 585 027c 0223     		mov	r3, #2
+ 586 027e 1340     		and	r3, r2
+ 587 0280 01D1     		bne	.L28
+ 588              		.loc 1 185 0 is_stmt 0 discriminator 1
+ 589 0282 2323     		mov	r3, #35
+ 590 0284 55E1     		b	.L7
+ 591              	.L28:
+ 186:../Sources/init_cpu.c ****   }
+ 187:../Sources/init_cpu.c **** 
+ 188:../Sources/init_cpu.c ****   // wait for Reference clock Status bit to clear
+ 189:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 592              		.loc 1 189 0 is_stmt 1
+ 593 0286 3B1C     		mov	r3, r7
+ 594 0288 1433     		add	r3, r3, #20
+ 595 028a 0022     		mov	r2, #0
+ 596 028c 1A80     		strh	r2, [r3]
+ 597 028e 0DE0     		b	.L33
+ 598              	.L36:
+ 190:../Sources/init_cpu.c ****   {
+ 191:../Sources/init_cpu.c ****     if (!(MCG_S & MCG_S_IREFST_MASK)) break; // jump out early if IREFST clears before loop finishe
+ 599              		.loc 1 191 0
+ 600 0290 244B     		ldr	r3, .L64
+ 601 0292 9B79     		ldrb	r3, [r3, #6]
+ 602 0294 DBB2     		uxtb	r3, r3
+ 603 0296 1A1C     		mov	r2, r3
+ 604 0298 1023     		mov	r3, #16
+ 605 029a 1340     		and	r3, r2
+ 606 029c 0ED0     		beq	.L59
+ 607              	.L34:
+ 189:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 608              		.loc 1 189 0
+ 609 029e 3B1C     		mov	r3, r7
+ 610 02a0 1433     		add	r3, r3, #20
+ 611 02a2 3A1C     		mov	r2, r7
+ 612 02a4 1432     		add	r2, r2, #20
+ 613 02a6 1288     		ldrh	r2, [r2]
+ 614 02a8 0132     		add	r2, r2, #1
+ 615 02aa 1A80     		strh	r2, [r3]
+ 616              	.L33:
+ 189:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 617              		.loc 1 189 0 is_stmt 0 discriminator 1
+ 618 02ac 3B1C     		mov	r3, r7
+ 619 02ae 1433     		add	r3, r3, #20
+ 620 02b0 0021     		mov	r1, #0
+ 621 02b2 5A5E     		ldrsh	r2, [r3, r1]
+ 622 02b4 2A4B     		ldr	r3, .L64+60
+ 623 02b6 9A42     		cmp	r2, r3
+ 624 02b8 EADD     		ble	.L36
+ 625 02ba 00E0     		b	.L35
+ 626              	.L59:
+ 627              		.loc 1 191 0 is_stmt 1
+ 628 02bc C046     		mov	r8, r8
+ 629              	.L35:
+ 192:../Sources/init_cpu.c ****   }
+ 193:../Sources/init_cpu.c ****   if (MCG_S & MCG_S_IREFST_MASK) return 0x11; // check bit is really clear and return with error if
+ 630              		.loc 1 193 0
+ 631 02be 194B     		ldr	r3, .L64
+ 632 02c0 9B79     		ldrb	r3, [r3, #6]
+ 633 02c2 DBB2     		uxtb	r3, r3
+ 634 02c4 1A1C     		mov	r2, r3
+ 635 02c6 1023     		mov	r3, #16
+ 636 02c8 1340     		and	r3, r2
+ 637 02ca 01D0     		beq	.L37
+ 638              		.loc 1 193 0 is_stmt 0 discriminator 1
+ 639 02cc 1123     		mov	r3, #17
+ 640 02ce 30E1     		b	.L7
+ 641              	.L37:
+ 194:../Sources/init_cpu.c **** 
+ 195:../Sources/init_cpu.c ****   // Wait for clock status bits to show clock source is ext ref clk
+ 196:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 642              		.loc 1 196 0 is_stmt 1
+ 643 02d0 3B1C     		mov	r3, r7
+ 644 02d2 1433     		add	r3, r3, #20
+ 645 02d4 0022     		mov	r2, #0
+ 646 02d6 1A80     		strh	r2, [r3]
+ 647 02d8 0FE0     		b	.L38
+ 648              	.L41:
+ 197:../Sources/init_cpu.c ****   {
+ 198:../Sources/init_cpu.c ****     if (((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x2) break; // jump out early if CLKST
+ 649              		.loc 1 198 0
+ 650 02da 124B     		ldr	r3, .L64
+ 651 02dc 9B79     		ldrb	r3, [r3, #6]
+ 652 02de DBB2     		uxtb	r3, r3
+ 653 02e0 1A1C     		mov	r2, r3
+ 654 02e2 0C23     		mov	r3, #12
+ 655 02e4 1340     		and	r3, r2
+ 656 02e6 9B08     		lsr	r3, r3, #2
+ 657 02e8 022B     		cmp	r3, #2
+ 658 02ea 0ED0     		beq	.L60
+ 659              	.L39:
+ 196:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 660              		.loc 1 196 0
+ 661 02ec 3B1C     		mov	r3, r7
+ 662 02ee 1433     		add	r3, r3, #20
+ 663 02f0 3A1C     		mov	r2, r7
+ 664 02f2 1432     		add	r2, r2, #20
+ 665 02f4 1288     		ldrh	r2, [r2]
+ 666 02f6 0132     		add	r2, r2, #1
+ 667 02f8 1A80     		strh	r2, [r3]
+ 668              	.L38:
+ 196:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 669              		.loc 1 196 0 is_stmt 0 discriminator 1
+ 670 02fa 3B1C     		mov	r3, r7
+ 671 02fc 1433     		add	r3, r3, #20
+ 672 02fe 0021     		mov	r1, #0
+ 673 0300 5A5E     		ldrsh	r2, [r3, r1]
+ 674 0302 174B     		ldr	r3, .L64+60
+ 675 0304 9A42     		cmp	r2, r3
+ 676 0306 E8DD     		ble	.L41
+ 677 0308 00E0     		b	.L40
+ 678              	.L60:
+ 679              		.loc 1 198 0 is_stmt 1
+ 680 030a C046     		mov	r8, r8
+ 681              	.L40:
+ 199:../Sources/init_cpu.c ****   }
+ 200:../Sources/init_cpu.c ****   if (((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) != 0x2) return 0x1A; // check EXT CLK is re
+ 682              		.loc 1 200 0
+ 683 030c 054B     		ldr	r3, .L64
+ 684 030e 9B79     		ldrb	r3, [r3, #6]
+ 685 0310 DBB2     		uxtb	r3, r3
+ 686 0312 1A1C     		mov	r2, r3
+ 687 0314 0C23     		mov	r3, #12
+ 688 0316 1340     		and	r3, r2
+ 689 0318 9B08     		lsr	r3, r3, #2
+ 690 031a 022B     		cmp	r3, #2
+ 691 031c 22D0     		beq	.L42
+ 692              		.loc 1 200 0 is_stmt 0 discriminator 1
+ 693 031e 1A23     		mov	r3, #26
+ 694 0320 07E1     		b	.L7
+ 695              	.L65:
+ 696 0322 C046     		.align	2
+ 697              	.L64:
+ 698 0324 00400640 		.word	1074151424
+ 699 0328 80F0FA02 		.word	50000000
+ 700 032c BFC62D00 		.word	2999999
+ 701 0330 0048E801 		.word	32000000
+ 702 0334 7F841E00 		.word	1999999
+ 703 0338 00093D00 		.word	4000000
+ 704 033c FF6BDC02 		.word	47999999
+ 705 0340 00E1F505 		.word	100000000
+ 706 0344 00127A00 		.word	8000000
+ 707 0348 D0121300 		.word	1250000
+ 708 034c A0252600 		.word	2500000
+ 709 0350 404B4C00 		.word	5000000
+ 710 0354 80969800 		.word	10000000
+ 711 0358 002D3101 		.word	20000000
+ 712 035c 1F4E0000 		.word	19999
+ 713 0360 CF070000 		.word	1999
+ 714              	.L42:
+ 201:../Sources/init_cpu.c **** 
+ 202:../Sources/init_cpu.c ****   // Now in FBE
+ 203:../Sources/init_cpu.c ****   // It is recommended that the clock monitor is enabled when using an external clock as the clock 
+ 204:../Sources/init_cpu.c ****   // It is enabled here but can be removed if this is not required.
+ 205:../Sources/init_cpu.c ****   MCG_C6 |= MCG_C6_CME0_MASK;
+ 715              		.loc 1 205 0 is_stmt 1
+ 716 0364 754B     		ldr	r3, .L66
+ 717 0366 754A     		ldr	r2, .L66
+ 718 0368 5279     		ldrb	r2, [r2, #5]
+ 719 036a D2B2     		uxtb	r2, r2
+ 720 036c 2021     		mov	r1, #32
+ 721 036e 0A43     		orr	r2, r1
+ 722 0370 D2B2     		uxtb	r2, r2
+ 723 0372 5A71     		strb	r2, [r3, #5]
+ 206:../Sources/init_cpu.c ****   
+ 207:../Sources/init_cpu.c ****   // Configure PLL
+ 208:../Sources/init_cpu.c ****   // Configure MCG_C5
+ 209:../Sources/init_cpu.c ****   // If the PLL is to run in STOP mode then the PLLSTEN bit needs to be OR'ed in here or in user co
+ 210:../Sources/init_cpu.c ****   temp_reg = MCG_C5;
+ 724              		.loc 1 210 0
+ 725 0374 714A     		ldr	r2, .L66
+ 726 0376 3B1C     		mov	r3, r7
+ 727 0378 1633     		add	r3, r3, #22
+ 728 037a 1279     		ldrb	r2, [r2, #4]
+ 729 037c 1A70     		strb	r2, [r3]
+ 211:../Sources/init_cpu.c ****   temp_reg &= ~MCG_C5_PRDIV0_MASK;
+ 730              		.loc 1 211 0
+ 731 037e 3B1C     		mov	r3, r7
+ 732 0380 1633     		add	r3, r3, #22
+ 733 0382 3A1C     		mov	r2, r7
+ 734 0384 1632     		add	r2, r2, #22
+ 735 0386 1278     		ldrb	r2, [r2]
+ 736 0388 1F21     		mov	r1, #31
+ 737 038a 8A43     		bic	r2, r1
+ 738 038c 1A70     		strb	r2, [r3]
+ 212:../Sources/init_cpu.c ****   temp_reg |= MCG_C5_PRDIV0(prdiv_val - 1);    //set PLL ref divider
+ 739              		.loc 1 212 0
+ 740 038e 7B1C     		add	r3, r7, #1
+ 741 0390 1B78     		ldrb	r3, [r3]
+ 742 0392 013B     		sub	r3, r3, #1
+ 743 0394 DAB2     		uxtb	r2, r3
+ 744 0396 1F23     		mov	r3, #31
+ 745 0398 1340     		and	r3, r2
+ 746 039a D9B2     		uxtb	r1, r3
+ 747 039c 3B1C     		mov	r3, r7
+ 748 039e 1633     		add	r3, r3, #22
+ 749 03a0 3A1C     		mov	r2, r7
+ 750 03a2 1632     		add	r2, r2, #22
+ 751 03a4 1278     		ldrb	r2, [r2]
+ 752 03a6 0A43     		orr	r2, r1
+ 753 03a8 1A70     		strb	r2, [r3]
+ 213:../Sources/init_cpu.c ****   MCG_C5 = temp_reg;
+ 754              		.loc 1 213 0
+ 755 03aa 644B     		ldr	r3, .L66
+ 756 03ac 3A1C     		mov	r2, r7
+ 757 03ae 1632     		add	r2, r2, #22
+ 758 03b0 1278     		ldrb	r2, [r2]
+ 759 03b2 1A71     		strb	r2, [r3, #4]
+ 214:../Sources/init_cpu.c **** 
+ 215:../Sources/init_cpu.c ****   // Configure MCG_C6
+ 216:../Sources/init_cpu.c ****   // The PLLS bit is set to enable the PLL, MCGOUT still sourced from ext ref clk
+ 217:../Sources/init_cpu.c ****   // The loss of lock interrupt can be enabled by seperately OR'ing in the LOLIE bit in MCG_C6
+ 218:../Sources/init_cpu.c ****   temp_reg = MCG_C6; // store present C6 value
+ 760              		.loc 1 218 0
+ 761 03b4 614A     		ldr	r2, .L66
+ 762 03b6 3B1C     		mov	r3, r7
+ 763 03b8 1633     		add	r3, r3, #22
+ 764 03ba 5279     		ldrb	r2, [r2, #5]
+ 765 03bc 1A70     		strb	r2, [r3]
+ 219:../Sources/init_cpu.c ****   temp_reg &= ~MCG_C6_VDIV0_MASK; // clear VDIV settings
+ 766              		.loc 1 219 0
+ 767 03be 3B1C     		mov	r3, r7
+ 768 03c0 1633     		add	r3, r3, #22
+ 769 03c2 3A1C     		mov	r2, r7
+ 770 03c4 1632     		add	r2, r2, #22
+ 771 03c6 1278     		ldrb	r2, [r2]
+ 772 03c8 1F21     		mov	r1, #31
+ 773 03ca 8A43     		bic	r2, r1
+ 774 03cc 1A70     		strb	r2, [r3]
+ 220:../Sources/init_cpu.c ****   temp_reg |= MCG_C6_PLLS_MASK | MCG_C6_VDIV0(vdiv_val - 24); // write new VDIV and enable PLL
+ 775              		.loc 1 220 0
+ 776 03ce 3B1C     		mov	r3, r7
+ 777 03d0 2033     		add	r3, r3, #32
+ 778 03d2 1B78     		ldrb	r3, [r3]
+ 779 03d4 183B     		sub	r3, r3, #24
+ 780 03d6 DAB2     		uxtb	r2, r3
+ 781 03d8 1F23     		mov	r3, #31
+ 782 03da 1340     		and	r3, r2
+ 783 03dc DAB2     		uxtb	r2, r3
+ 784 03de 3B1C     		mov	r3, r7
+ 785 03e0 1633     		add	r3, r3, #22
+ 786 03e2 1B78     		ldrb	r3, [r3]
+ 787 03e4 1343     		orr	r3, r2
+ 788 03e6 DAB2     		uxtb	r2, r3
+ 789 03e8 3B1C     		mov	r3, r7
+ 790 03ea 1633     		add	r3, r3, #22
+ 791 03ec 4021     		mov	r1, #64
+ 792 03ee 0A43     		orr	r2, r1
+ 793 03f0 1A70     		strb	r2, [r3]
+ 221:../Sources/init_cpu.c ****   MCG_C6 = temp_reg; // update MCG_C6
+ 794              		.loc 1 221 0
+ 795 03f2 524B     		ldr	r3, .L66
+ 796 03f4 3A1C     		mov	r2, r7
+ 797 03f6 1632     		add	r2, r2, #22
+ 798 03f8 1278     		ldrb	r2, [r2]
+ 799 03fa 5A71     		strb	r2, [r3, #5]
+ 222:../Sources/init_cpu.c **** 
+ 223:../Sources/init_cpu.c ****   // wait for PLLST status bit to set
+ 224:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 800              		.loc 1 224 0
+ 801 03fc 3B1C     		mov	r3, r7
+ 802 03fe 1433     		add	r3, r3, #20
+ 803 0400 0022     		mov	r2, #0
+ 804 0402 1A80     		strh	r2, [r3]
+ 805 0404 0DE0     		b	.L43
+ 806              	.L46:
+ 225:../Sources/init_cpu.c ****   {
+ 226:../Sources/init_cpu.c ****     if (MCG_S & MCG_S_PLLST_MASK) break; // jump out early if PLLST sets before loop finishes
+ 807              		.loc 1 226 0
+ 808 0406 4D4B     		ldr	r3, .L66
+ 809 0408 9B79     		ldrb	r3, [r3, #6]
+ 810 040a DBB2     		uxtb	r3, r3
+ 811 040c 1A1C     		mov	r2, r3
+ 812 040e 2023     		mov	r3, #32
+ 813 0410 1340     		and	r3, r2
+ 814 0412 0ED1     		bne	.L61
+ 815              	.L44:
+ 224:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 816              		.loc 1 224 0
+ 817 0414 3B1C     		mov	r3, r7
+ 818 0416 1433     		add	r3, r3, #20
+ 819 0418 3A1C     		mov	r2, r7
+ 820 041a 1432     		add	r2, r2, #20
+ 821 041c 1288     		ldrh	r2, [r2]
+ 822 041e 0132     		add	r2, r2, #1
+ 823 0420 1A80     		strh	r2, [r3]
+ 824              	.L43:
+ 224:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 825              		.loc 1 224 0 is_stmt 0 discriminator 1
+ 826 0422 3B1C     		mov	r3, r7
+ 827 0424 1433     		add	r3, r3, #20
+ 828 0426 0021     		mov	r1, #0
+ 829 0428 5A5E     		ldrsh	r2, [r3, r1]
+ 830 042a 454B     		ldr	r3, .L66+4
+ 831 042c 9A42     		cmp	r2, r3
+ 832 042e EADD     		ble	.L46
+ 833 0430 00E0     		b	.L45
+ 834              	.L61:
+ 835              		.loc 1 226 0 is_stmt 1
+ 836 0432 C046     		mov	r8, r8
+ 837              	.L45:
+ 227:../Sources/init_cpu.c ****   }
+ 228:../Sources/init_cpu.c ****   if (!(MCG_S & MCG_S_PLLST_MASK)) return 0x16; // check bit is really set and return with error if
+ 838              		.loc 1 228 0
+ 839 0434 414B     		ldr	r3, .L66
+ 840 0436 9B79     		ldrb	r3, [r3, #6]
+ 841 0438 DBB2     		uxtb	r3, r3
+ 842 043a 1A1C     		mov	r2, r3
+ 843 043c 2023     		mov	r3, #32
+ 844 043e 1340     		and	r3, r2
+ 845 0440 01D1     		bne	.L47
+ 846              		.loc 1 228 0 is_stmt 0 discriminator 1
+ 847 0442 1623     		mov	r3, #22
+ 848 0444 75E0     		b	.L7
+ 849              	.L47:
+ 229:../Sources/init_cpu.c **** 
+ 230:../Sources/init_cpu.c ****   // Wait for LOCK bit to set
+ 231:../Sources/init_cpu.c ****   for (i = 0 ; i < 4000 ; i++)
+ 850              		.loc 1 231 0 is_stmt 1
+ 851 0446 3B1C     		mov	r3, r7
+ 852 0448 1433     		add	r3, r3, #20
+ 853 044a 0022     		mov	r2, #0
+ 854 044c 1A80     		strh	r2, [r3]
+ 855 044e 0DE0     		b	.L48
+ 856              	.L51:
+ 232:../Sources/init_cpu.c ****   {
+ 233:../Sources/init_cpu.c ****     if (MCG_S & MCG_S_LOCK0_MASK) break; // jump out early if LOCK sets before loop finishes
+ 857              		.loc 1 233 0
+ 858 0450 3A4B     		ldr	r3, .L66
+ 859 0452 9B79     		ldrb	r3, [r3, #6]
+ 860 0454 DBB2     		uxtb	r3, r3
+ 861 0456 1A1C     		mov	r2, r3
+ 862 0458 4023     		mov	r3, #64
+ 863 045a 1340     		and	r3, r2
+ 864 045c 0ED1     		bne	.L62
+ 865              	.L49:
+ 231:../Sources/init_cpu.c ****   for (i = 0 ; i < 4000 ; i++)
+ 866              		.loc 1 231 0
+ 867 045e 3B1C     		mov	r3, r7
+ 868 0460 1433     		add	r3, r3, #20
+ 869 0462 3A1C     		mov	r2, r7
+ 870 0464 1432     		add	r2, r2, #20
+ 871 0466 1288     		ldrh	r2, [r2]
+ 872 0468 0132     		add	r2, r2, #1
+ 873 046a 1A80     		strh	r2, [r3]
+ 874              	.L48:
+ 231:../Sources/init_cpu.c ****   for (i = 0 ; i < 4000 ; i++)
+ 875              		.loc 1 231 0 is_stmt 0 discriminator 1
+ 876 046c 3B1C     		mov	r3, r7
+ 877 046e 1433     		add	r3, r3, #20
+ 878 0470 0021     		mov	r1, #0
+ 879 0472 5A5E     		ldrsh	r2, [r3, r1]
+ 880 0474 334B     		ldr	r3, .L66+8
+ 881 0476 9A42     		cmp	r2, r3
+ 882 0478 EADD     		ble	.L51
+ 883 047a 00E0     		b	.L50
+ 884              	.L62:
+ 885              		.loc 1 233 0 is_stmt 1
+ 886 047c C046     		mov	r8, r8
+ 887              	.L50:
+ 234:../Sources/init_cpu.c ****   }
+ 235:../Sources/init_cpu.c ****   if (!(MCG_S & MCG_S_LOCK0_MASK)) return 0x44; // check bit is really set and return with error if
+ 888              		.loc 1 235 0
+ 889 047e 2F4B     		ldr	r3, .L66
+ 890 0480 9B79     		ldrb	r3, [r3, #6]
+ 891 0482 DBB2     		uxtb	r3, r3
+ 892 0484 1A1C     		mov	r2, r3
+ 893 0486 4023     		mov	r3, #64
+ 894 0488 1340     		and	r3, r2
+ 895 048a 01D1     		bne	.L52
+ 896              		.loc 1 235 0 is_stmt 0 discriminator 1
+ 897 048c 4423     		mov	r3, #68
+ 898 048e 50E0     		b	.L7
+ 899              	.L52:
+ 236:../Sources/init_cpu.c **** 
+ 237:../Sources/init_cpu.c ****   // Use actual PLL settings to calculate PLL frequency
+ 238:../Sources/init_cpu.c ****   prdiv = ((MCG_C5 & MCG_C5_PRDIV0_MASK) + 1);
+ 900              		.loc 1 238 0 is_stmt 1
+ 901 0490 2A4B     		ldr	r3, .L66
+ 902 0492 1B79     		ldrb	r3, [r3, #4]
+ 903 0494 DAB2     		uxtb	r2, r3
+ 904 0496 1F23     		mov	r3, #31
+ 905 0498 1340     		and	r3, r2
+ 906 049a DAB2     		uxtb	r2, r3
+ 907 049c 3B1C     		mov	r3, r7
+ 908 049e 0B33     		add	r3, r3, #11
+ 909 04a0 0132     		add	r2, r2, #1
+ 910 04a2 1A70     		strb	r2, [r3]
+ 239:../Sources/init_cpu.c ****   vdiv = ((MCG_C6 & MCG_C6_VDIV0_MASK) + 24);
+ 911              		.loc 1 239 0
+ 912 04a4 254B     		ldr	r3, .L66
+ 913 04a6 5B79     		ldrb	r3, [r3, #5]
+ 914 04a8 DAB2     		uxtb	r2, r3
+ 915 04aa 1F23     		mov	r3, #31
+ 916 04ac 1340     		and	r3, r2
+ 917 04ae DAB2     		uxtb	r2, r3
+ 918 04b0 3B1C     		mov	r3, r7
+ 919 04b2 0A33     		add	r3, r3, #10
+ 920 04b4 1832     		add	r2, r2, #24
+ 921 04b6 1A70     		strb	r2, [r3]
+ 240:../Sources/init_cpu.c **** 
+ 241:../Sources/init_cpu.c ****   // now in PBE
+ 242:../Sources/init_cpu.c **** 
+ 243:../Sources/init_cpu.c ****   MCG_C1 &= ~MCG_C1_CLKS_MASK; // clear CLKS to switch CLKS mux to select PLL as MCG_OUT
+ 922              		.loc 1 243 0
+ 923 04b8 204B     		ldr	r3, .L66
+ 924 04ba 204A     		ldr	r2, .L66
+ 925 04bc 1278     		ldrb	r2, [r2]
+ 926 04be D1B2     		uxtb	r1, r2
+ 927 04c0 3F22     		mov	r2, #63
+ 928 04c2 0A40     		and	r2, r1
+ 929 04c4 D2B2     		uxtb	r2, r2
+ 930 04c6 1A70     		strb	r2, [r3]
+ 244:../Sources/init_cpu.c **** 
+ 245:../Sources/init_cpu.c ****   // Wait for clock status bits to update
+ 246:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 931              		.loc 1 246 0
+ 932 04c8 3B1C     		mov	r3, r7
+ 933 04ca 1433     		add	r3, r3, #20
+ 934 04cc 0022     		mov	r2, #0
+ 935 04ce 1A80     		strh	r2, [r3]
+ 936 04d0 0FE0     		b	.L53
+ 937              	.L56:
+ 247:../Sources/init_cpu.c ****   {
+ 248:../Sources/init_cpu.c ****     if (((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x3) break; // jump out early if CLKST
+ 938              		.loc 1 248 0
+ 939 04d2 1A4B     		ldr	r3, .L66
+ 940 04d4 9B79     		ldrb	r3, [r3, #6]
+ 941 04d6 DBB2     		uxtb	r3, r3
+ 942 04d8 1A1C     		mov	r2, r3
+ 943 04da 0C23     		mov	r3, #12
+ 944 04dc 1340     		and	r3, r2
+ 945 04de 9B08     		lsr	r3, r3, #2
+ 946 04e0 032B     		cmp	r3, #3
+ 947 04e2 0ED0     		beq	.L63
+ 948              	.L54:
+ 246:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 949              		.loc 1 246 0
+ 950 04e4 3B1C     		mov	r3, r7
+ 951 04e6 1433     		add	r3, r3, #20
+ 952 04e8 3A1C     		mov	r2, r7
+ 953 04ea 1432     		add	r2, r2, #20
+ 954 04ec 1288     		ldrh	r2, [r2]
+ 955 04ee 0132     		add	r2, r2, #1
+ 956 04f0 1A80     		strh	r2, [r3]
+ 957              	.L53:
+ 246:../Sources/init_cpu.c ****   for (i = 0 ; i < 2000 ; i++)
+ 958              		.loc 1 246 0 is_stmt 0 discriminator 1
+ 959 04f2 3B1C     		mov	r3, r7
+ 960 04f4 1433     		add	r3, r3, #20
+ 961 04f6 0021     		mov	r1, #0
+ 962 04f8 5A5E     		ldrsh	r2, [r3, r1]
+ 963 04fa 114B     		ldr	r3, .L66+4
+ 964 04fc 9A42     		cmp	r2, r3
+ 965 04fe E8DD     		ble	.L56
+ 966 0500 00E0     		b	.L55
+ 967              	.L63:
+ 968              		.loc 1 248 0 is_stmt 1
+ 969 0502 C046     		mov	r8, r8
+ 970              	.L55:
+ 249:../Sources/init_cpu.c ****   }
+ 250:../Sources/init_cpu.c ****   if (((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) != 0x3) return 0x1B; // check CLKST is set 
+ 971              		.loc 1 250 0
+ 972 0504 0D4B     		ldr	r3, .L66
+ 973 0506 9B79     		ldrb	r3, [r3, #6]
+ 974 0508 DBB2     		uxtb	r3, r3
+ 975 050a 1A1C     		mov	r2, r3
+ 976 050c 0C23     		mov	r3, #12
+ 977 050e 1340     		and	r3, r2
+ 978 0510 9B08     		lsr	r3, r3, #2
+ 979 0512 032B     		cmp	r3, #3
+ 980 0514 01D0     		beq	.L57
+ 981              		.loc 1 250 0 is_stmt 0 discriminator 1
+ 982 0516 1B23     		mov	r3, #27
+ 983 0518 0BE0     		b	.L7
+ 984              	.L57:
+ 251:../Sources/init_cpu.c **** 
+ 252:../Sources/init_cpu.c ****   // Now in PEE
+ 253:../Sources/init_cpu.c ****   
+ 254:../Sources/init_cpu.c ****   return ((crystal_val / prdiv) * vdiv); //MCGOUT equals PLL output frequency
+ 985              		.loc 1 254 0 is_stmt 1
+ 986 051a 3B1C     		mov	r3, r7
+ 987 051c 0B33     		add	r3, r3, #11
+ 988 051e 1B78     		ldrb	r3, [r3]
+ 989 0520 7868     		ldr	r0, [r7, #4]
+ 990 0522 191C     		mov	r1, r3
+ 991 0524 FFF7FEFF 		bl	__aeabi_idiv
+ 992 0528 031C     		mov	r3, r0
+ 993 052a 3A1C     		mov	r2, r7
+ 994 052c 0A32     		add	r2, r2, #10
+ 995 052e 1278     		ldrb	r2, [r2]
+ 996 0530 5343     		mul	r3, r2
+ 997              	.L7:
+ 255:../Sources/init_cpu.c **** } // pll_init
+ 998              		.loc 1 255 0
+ 999 0532 181C     		mov	r0, r3
+ 1000 0534 BD46     		mov	sp, r7
+ 1001 0536 06B0     		add	sp, sp, #24
+ 1002              		@ sp needed for prologue
+ 1003 0538 80BD     		pop	{r7, pc}
+ 1004              	.L67:
+ 1005 053a C046     		.align	2
+ 1006              	.L66:
+ 1007 053c 00400640 		.word	1074151424
+ 1008 0540 CF070000 		.word	1999
+ 1009 0544 9F0F0000 		.word	3999
+ 1010              		.cfi_endproc
+ 1011              	.LFE1:
+ 1013              		.text
+ 1014              	.Letext0:
+ 1015              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+ 1016              		.file 3 "../Sources/externs.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 init_cpu.c
-C:\Users\PDI\AppData\Local\Temp\ccbOZ4RO.s:18     .text.InicializaCPU:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccbOZ4RO.s:23     .text.InicializaCPU:00000000 InicializaCPU
-C:\Users\PDI\AppData\Local\Temp\ccbOZ4RO.s:59     .text.InicializaCPU:00000024 $d
+                            *COM*:00000004 mcg_clk_hz
+                            *COM*:00000004 mcg_clk_khz
+                            *COM*:00000004 core_clk_khz
+                            *COM*:00000004 periph_clk_khz
+                            *COM*:00000004 pll_clk_khz
+                            *COM*:00000004 uart0_clk_khz
+                            *COM*:00000004 uart0_clk_hz
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:29     .bss.iClock:00000000 iClock
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:26     .bss.iClock:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:34     .text.InicializaCPU:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:39     .text.InicializaCPU:00000000 InicializaCPU
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:174    .text.pll_init:00000000 pll_init
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:155    .text.InicializaCPU:000000bc $d
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:169    .text.pll_init:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:698    .text.pll_init:00000324 $d
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:716    .text.pll_init:00000364 $t
+C:\Users\PDI\AppData\Local\Temp\ccVRfbw7.s:1007   .text.pll_init:0000053c $d
                      .debug_frame:00000010 $d
 
-NO UNDEFINED SYMBOLS
+UNDEFINED SYMBOLS
+__aeabi_idiv
+__aeabi_uidiv

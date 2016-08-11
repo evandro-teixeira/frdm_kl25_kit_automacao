@@ -38,18 +38,21 @@
   29      323A2025 
   29      642000
   30 003f 00       		.align	2
-  31              	.LC0:
-  32 0040 20202020 		.ascii	"         \000"
-  32      20202020 
-  32      2000
-  33 004a 0000     		.section	.text.main,"ax",%progbits
-  34              		.align	2
-  35              		.global	main
-  36              		.code	16
-  37              		.thumb_func
-  39              	main:
-  40              	.LFB0:
-  41              		.file 1 "../Sources/main.c"
+  31              	.LC10:
+  32 0040 0A0D2000 		.ascii	"\012\015 \000"
+  33              		.align	2
+  34              	.LC0:
+  35 0044 20202020 		.ascii	"         \000"
+  35      20202020 
+  35      2000
+  36 004e 0000     		.section	.text.main,"ax",%progbits
+  37              		.align	2
+  38              		.global	main
+  39              		.code	16
+  40              		.thumb_func
+  42              	main:
+  43              	.LFB0:
+  44              		.file 1 "../Sources/main.c"
    1:../Sources/main.c **** /*****************************************************************
    2:../Sources/main.c ****  * 
    3:../Sources/main.c ****  * Projeto: Biblioteca FRDM-KL25 para KiT de Automação 
@@ -61,196 +64,447 @@
    9:../Sources/main.c **** #include "derivative.h" 	/* include peripheral declarations */
   10:../Sources/main.c **** #include "externs.h"   		/* Inclui os arquivos da biblioteca kit de Automação */
   11:../Sources/main.c **** 
-  12:../Sources/main.c **** 
-  13:../Sources/main.c **** /* Aplicação de Demo KiT de Automação */
-  14:../Sources/main.c **** int main(void)
-  15:../Sources/main.c **** {	
-  42              		.loc 1 15 0
-  43              		.cfi_startproc
-  44 0000 90B5     		push	{r4, r7, lr}
-  45              	.LCFI0:
-  46              		.cfi_def_cfa_offset 12
-  47              		.cfi_offset 4, -12
-  48              		.cfi_offset 7, -8
-  49              		.cfi_offset 14, -4
-  50 0002 85B0     		sub	sp, sp, #20
-  51              	.LCFI1:
-  52              		.cfi_def_cfa_offset 32
-  53 0004 00AF     		add	r7, sp, #0
-  54              	.LCFI2:
-  55              		.cfi_def_cfa_register 7
-  16:../Sources/main.c **** 	char c = 0;					
-  56              		.loc 1 16 0
-  57 0006 3B1C     		mov	r3, r7
-  58 0008 0F33     		add	r3, r3, #15
-  59 000a 0022     		mov	r2, #0
-  60 000c 1A70     		strb	r2, [r3]
-  17:../Sources/main.c **** 	char texto[10] = "         ";
-  61              		.loc 1 17 0
-  62 000e 3B1D     		add	r3, r7, #4
-  63 0010 324A     		ldr	r2, .L5
-  64 0012 03CA     		ldmia	r2!, {r0, r1}
-  65 0014 03C3     		stmia	r3!, {r0, r1}
-  66 0016 1288     		ldrh	r2, [r2]
-  67 0018 1A80     		strh	r2, [r3]
-  18:../Sources/main.c **** 	
-  19:../Sources/main.c **** 	InicializaCPU();			// Inicializa CPU
-  68              		.loc 1 19 0
-  69 001a FFF7FEFF 		bl	InicializaCPU
-  20:../Sources/main.c **** 	InicializaRele(RELE1);		// Inicializa Rele 1 
-  70              		.loc 1 20 0
-  71 001e 0020     		mov	r0, #0
-  72 0020 FFF7FEFF 		bl	InicializaRele
-  21:../Sources/main.c **** 	InicializaSaidas(OUT_D0);   // Inicializa Saída D0
+  12:../Sources/main.c **** void ControleLED(void);
+  13:../Sources/main.c **** 
+  14:../Sources/main.c **** /* Aplicação de Demo KiT de Automação */
+  15:../Sources/main.c **** int main(void)
+  16:../Sources/main.c **** {	
+  45              		.loc 1 16 0
+  46              		.cfi_startproc
+  47 0000 90B5     		push	{r4, r7, lr}
+  48              	.LCFI0:
+  49              		.cfi_def_cfa_offset 12
+  50              		.cfi_offset 4, -12
+  51              		.cfi_offset 7, -8
+  52              		.cfi_offset 14, -4
+  53 0002 85B0     		sub	sp, sp, #20
+  54              	.LCFI1:
+  55              		.cfi_def_cfa_offset 32
+  56 0004 00AF     		add	r7, sp, #0
+  57              	.LCFI2:
+  58              		.cfi_def_cfa_register 7
+  17:../Sources/main.c **** 	char c = 0;					
+  59              		.loc 1 17 0
+  60 0006 3B1C     		mov	r3, r7
+  61 0008 0F33     		add	r3, r3, #15
+  62 000a 0022     		mov	r2, #0
+  63 000c 1A70     		strb	r2, [r3]
+  18:../Sources/main.c **** 	char texto[10] = "         ";
+  64              		.loc 1 18 0
+  65 000e 3B1D     		add	r3, r7, #4
+  66 0010 4A4A     		ldr	r2, .L5
+  67 0012 03CA     		ldmia	r2!, {r0, r1}
+  68 0014 03C3     		stmia	r3!, {r0, r1}
+  69 0016 1288     		ldrh	r2, [r2]
+  70 0018 1A80     		strh	r2, [r3]
+  19:../Sources/main.c **** 	
+  20:../Sources/main.c **** 	InicializaCPU();			// Inicializa CPU
+  71              		.loc 1 20 0
+  72 001a FFF7FEFF 		bl	InicializaCPU
+  21:../Sources/main.c **** 	InicializaRele(RELE1);		// Inicializa Rele 1 
   73              		.loc 1 21 0
-  74 0024 0020     		mov	r0, #0
-  75 0026 FFF7FEFF 		bl	InicializaSaidas
-  22:../Sources/main.c **** 	InicializaEntradas(IN_D0);  // Inicializa Entrada D0
+  74 001e 0020     		mov	r0, #0
+  75 0020 FFF7FEFF 		bl	InicializaRele
+  22:../Sources/main.c **** 	InicializaSaidas(OUT_D0);   // Inicializa Saída D0
   76              		.loc 1 22 0
-  77 002a 0020     		mov	r0, #0
-  78 002c FFF7FEFF 		bl	InicializaEntradas
-  23:../Sources/main.c **** 	InicializaSerial(115200);   // Inicializa Serial com Baud Rate 115200	
+  77 0024 0020     		mov	r0, #0
+  78 0026 FFF7FEFF 		bl	InicializaSaidas
+  23:../Sources/main.c **** 	InicializaEntradas(IN_D0);  // Inicializa Entrada D0
   79              		.loc 1 23 0
-  80 0030 E123     		mov	r3, #225
-  81 0032 5B02     		lsl	r3, r3, #9
-  82 0034 181C     		mov	r0, r3
-  83 0036 FFF7FEFF 		bl	InicializaSerial
-  24:../Sources/main.c **** 	InicialidaAnalogico();		// Inicializa Analogico  
-  84              		.loc 1 24 0
-  85 003a FFF7FEFF 		bl	InicialidaAnalogico
-  25:../Sources/main.c **** 			
-  26:../Sources/main.c **** 	EnviaString("\n\rTeste Serial FRDM-KL25\n\r"); // Escreve String 
-  86              		.loc 1 26 0
-  87 003e 284B     		ldr	r3, .L5+4
-  88 0040 181C     		mov	r0, r3
-  89 0042 FFF7FEFF 		bl	EnviaString
-  90              	.L4:
-  27:../Sources/main.c **** 	
-  28:../Sources/main.c **** 	for(;;) 
-  29:../Sources/main.c **** 	{		
-  30:../Sources/main.c **** 		// Le entrada analogica A0
-  31:../Sources/main.c **** 		sprintf(texto,"\n\r A0: %d ",LeAnalogicoA0());		
-  91              		.loc 1 31 0
-  92 0046 274C     		ldr	r4, .L5+8
-  93 0048 FFF7FEFF 		bl	LeAnalogicoA0
-  94 004c 031C     		mov	r3, r0
-  95 004e 3A1D     		add	r2, r7, #4
-  96 0050 101C     		mov	r0, r2
-  97 0052 211C     		mov	r1, r4
-  98 0054 1A1C     		mov	r2, r3
-  99 0056 FFF7FEFF 		bl	sprintf
-  32:../Sources/main.c **** 		EnviaString(texto);
- 100              		.loc 1 32 0
- 101 005a 3B1D     		add	r3, r7, #4
- 102 005c 181C     		mov	r0, r3
- 103 005e FFF7FEFF 		bl	EnviaString
-  33:../Sources/main.c **** 		
-  34:../Sources/main.c **** 		// Le entrada analogica A1
-  35:../Sources/main.c **** 		sprintf(texto,"\n\r A1: %d ",LeAnalogicoA1());		
- 104              		.loc 1 35 0
- 105 0062 214C     		ldr	r4, .L5+12
- 106 0064 FFF7FEFF 		bl	LeAnalogicoA1
- 107 0068 031C     		mov	r3, r0
- 108 006a 3A1D     		add	r2, r7, #4
- 109 006c 101C     		mov	r0, r2
- 110 006e 211C     		mov	r1, r4
- 111 0070 1A1C     		mov	r2, r3
- 112 0072 FFF7FEFF 		bl	sprintf
-  36:../Sources/main.c **** 		EnviaString(texto);
- 113              		.loc 1 36 0
- 114 0076 3B1D     		add	r3, r7, #4
- 115 0078 181C     		mov	r0, r3
- 116 007a FFF7FEFF 		bl	EnviaString
-  37:../Sources/main.c **** 		
-  38:../Sources/main.c **** 		// Le entrada analogica A2
-  39:../Sources/main.c **** 		sprintf(texto,"\n\r A2: %d ",LeAnalogicoA2());		
- 117              		.loc 1 39 0
- 118 007e 1B4C     		ldr	r4, .L5+16
- 119 0080 FFF7FEFF 		bl	LeAnalogicoA2
- 120 0084 031C     		mov	r3, r0
- 121 0086 3A1D     		add	r2, r7, #4
- 122 0088 101C     		mov	r0, r2
- 123 008a 211C     		mov	r1, r4
- 124 008c 1A1C     		mov	r2, r3
- 125 008e FFF7FEFF 		bl	sprintf
-  40:../Sources/main.c **** 		EnviaString(texto);
- 126              		.loc 1 40 0
- 127 0092 3B1D     		add	r3, r7, #4
- 128 0094 181C     		mov	r0, r3
- 129 0096 FFF7FEFF 		bl	EnviaString
-  41:../Sources/main.c **** 		
-  42:../Sources/main.c **** 		// Aciona o Rele 1
-  43:../Sources/main.c **** 		AcionaRele(RELE1,ON);
- 130              		.loc 1 43 0
- 131 009a 0020     		mov	r0, #0
- 132 009c 0121     		mov	r1, #1
- 133 009e FFF7FEFF 		bl	AcionaRele
-  44:../Sources/main.c **** 		
-  45:../Sources/main.c **** 		// Le entrada D0
-  46:../Sources/main.c **** 		if(EntradasDigitais(IN_D0) == TRUE)
- 134              		.loc 1 46 0
- 135 00a2 0020     		mov	r0, #0
- 136 00a4 FFF7FEFF 		bl	EntradasDigitais
- 137 00a8 031C     		mov	r3, r0
- 138 00aa 012B     		cmp	r3, #1
- 139 00ac 04D1     		bne	.L2
-  47:../Sources/main.c **** 		{
-  48:../Sources/main.c **** 			// Aciona saida digital D0
-  49:../Sources/main.c **** 			SaidasDigitais(OUT_D0,ON);
- 140              		.loc 1 49 0
- 141 00ae 0020     		mov	r0, #0
- 142 00b0 0121     		mov	r1, #1
- 143 00b2 FFF7FEFF 		bl	SaidasDigitais
- 144 00b6 03E0     		b	.L3
- 145              	.L2:
-  50:../Sources/main.c **** 		}
-  51:../Sources/main.c **** 		else
-  52:../Sources/main.c **** 		{
-  53:../Sources/main.c **** 			// Aciona saida digital D1
-  54:../Sources/main.c **** 			SaidasDigitais(OUT_D0,OFF);
- 146              		.loc 1 54 0
- 147 00b8 0020     		mov	r0, #0
- 148 00ba 0021     		mov	r1, #0
- 149 00bc FFF7FEFF 		bl	SaidasDigitais
- 150              	.L3:
-  55:../Sources/main.c **** 		}
-  56:../Sources/main.c **** 				
-  57:../Sources/main.c **** 		c = RecebeCh();		// Recebe character 
- 151              		.loc 1 57 0
- 152 00c0 3C1C     		mov	r4, r7
- 153 00c2 0F34     		add	r4, r4, #15
- 154 00c4 FFF7FEFF 		bl	RecebeCh
- 155 00c8 031C     		mov	r3, r0
- 156 00ca 2370     		strb	r3, [r4]
-  58:../Sources/main.c **** 		EnviaCh(c);			// Envia character
- 157              		.loc 1 58 0
- 158 00cc 3B1C     		mov	r3, r7
- 159 00ce 0F33     		add	r3, r3, #15
- 160 00d0 1B78     		ldrb	r3, [r3]
- 161 00d2 181C     		mov	r0, r3
- 162 00d4 FFF7FEFF 		bl	EnviaCh
-  59:../Sources/main.c **** 	}	
- 163              		.loc 1 59 0
- 164 00d8 B5E7     		b	.L4
- 165              	.L6:
- 166 00da C046     		.align	2
- 167              	.L5:
- 168 00dc 40000000 		.word	.LC0
- 169 00e0 00000000 		.word	.LC2
- 170 00e4 1C000000 		.word	.LC4
- 171 00e8 28000000 		.word	.LC6
- 172 00ec 34000000 		.word	.LC8
- 173              		.cfi_endproc
- 174              	.LFE0:
- 176              		.text
- 177              	.Letext0:
- 178              		.file 2 "../Sources/types.h"
+  80 002a 0020     		mov	r0, #0
+  81 002c FFF7FEFF 		bl	InicializaEntradas
+  24:../Sources/main.c **** 	InicializaSerial(115200);   // Inicializa Serial com Baud Rate 115200	
+  82              		.loc 1 24 0
+  83 0030 E123     		mov	r3, #225
+  84 0032 5B02     		lsl	r3, r3, #9
+  85 0034 181C     		mov	r0, r3
+  86 0036 FFF7FEFF 		bl	InicializaSerial
+  25:../Sources/main.c **** 	InicializaAnalogico();		// Inicializa Analogico
+  87              		.loc 1 25 0
+  88 003a FFF7FEFF 		bl	InicializaAnalogico
+  26:../Sources/main.c **** 	
+  27:../Sources/main.c **** 	gpio_direction(PTB,18,OUTPUT,NO_PULL_RESISTOR);		// Inicializa led RED
+  89              		.loc 1 27 0
+  90 003e 0120     		mov	r0, #1
+  91 0040 1221     		mov	r1, #18
+  92 0042 0122     		mov	r2, #1
+  93 0044 0023     		mov	r3, #0
+  94 0046 FFF7FEFF 		bl	gpio_direction
+  28:../Sources/main.c **** 	gpio_direction(PTB,19,OUTPUT,NO_PULL_RESISTOR);		// Inicializa led BLUE
+  95              		.loc 1 28 0
+  96 004a 0120     		mov	r0, #1
+  97 004c 1321     		mov	r1, #19
+  98 004e 0122     		mov	r2, #1
+  99 0050 0023     		mov	r3, #0
+ 100 0052 FFF7FEFF 		bl	gpio_direction
+  29:../Sources/main.c **** 	gpio_direction(PTD,1, OUTPUT,NO_PULL_RESISTOR);		// Inicializa led GREEN
+ 101              		.loc 1 29 0
+ 102 0056 0320     		mov	r0, #3
+ 103 0058 0121     		mov	r1, #1
+ 104 005a 0122     		mov	r2, #1
+ 105 005c 0023     		mov	r3, #0
+ 106 005e FFF7FEFF 		bl	gpio_direction
+  30:../Sources/main.c **** 	
+  31:../Sources/main.c **** 	gpio_set(PTB,18,1);		// Apaga led RED
+ 107              		.loc 1 31 0
+ 108 0062 0120     		mov	r0, #1
+ 109 0064 1221     		mov	r1, #18
+ 110 0066 0122     		mov	r2, #1
+ 111 0068 FFF7FEFF 		bl	gpio_set
+  32:../Sources/main.c **** 	gpio_set(PTB,19,1);		// Apaga led BLUE
+ 112              		.loc 1 32 0
+ 113 006c 0120     		mov	r0, #1
+ 114 006e 1321     		mov	r1, #19
+ 115 0070 0122     		mov	r2, #1
+ 116 0072 FFF7FEFF 		bl	gpio_set
+  33:../Sources/main.c **** 	gpio_set(PTD,1,1);		// Apaga led GREEN 
+ 117              		.loc 1 33 0
+ 118 0076 0320     		mov	r0, #3
+ 119 0078 0121     		mov	r1, #1
+ 120 007a 0122     		mov	r2, #1
+ 121 007c FFF7FEFF 		bl	gpio_set
+  34:../Sources/main.c **** 	
+  35:../Sources/main.c **** 	EnviaString("\n\rTeste Serial FRDM-KL25\n\r"); // Escreve String 
+ 122              		.loc 1 35 0
+ 123 0080 2F4B     		ldr	r3, .L5+4
+ 124 0082 181C     		mov	r0, r3
+ 125 0084 FFF7FEFF 		bl	EnviaString
+ 126              	.L4:
+  36:../Sources/main.c **** 	
+  37:../Sources/main.c **** 	for(;;) 
+  38:../Sources/main.c **** 	{		
+  39:../Sources/main.c **** 		// Le entrada analogica A0
+  40:../Sources/main.c **** 		sprintf(texto,"\n\r A0: %d ",LeAnalogicoA0());		
+ 127              		.loc 1 40 0
+ 128 0088 2E4C     		ldr	r4, .L5+8
+ 129 008a FFF7FEFF 		bl	LeAnalogicoA0
+ 130 008e 031C     		mov	r3, r0
+ 131 0090 3A1D     		add	r2, r7, #4
+ 132 0092 101C     		mov	r0, r2
+ 133 0094 211C     		mov	r1, r4
+ 134 0096 1A1C     		mov	r2, r3
+ 135 0098 FFF7FEFF 		bl	sprintf
+  41:../Sources/main.c **** 		EnviaString(texto);
+ 136              		.loc 1 41 0
+ 137 009c 3B1D     		add	r3, r7, #4
+ 138 009e 181C     		mov	r0, r3
+ 139 00a0 FFF7FEFF 		bl	EnviaString
+  42:../Sources/main.c **** 		
+  43:../Sources/main.c **** 		// Le entrada analogica A1
+  44:../Sources/main.c **** 		sprintf(texto,"\n\r A1: %d ",LeAnalogicoA1());		
+ 140              		.loc 1 44 0
+ 141 00a4 284C     		ldr	r4, .L5+12
+ 142 00a6 FFF7FEFF 		bl	LeAnalogicoA1
+ 143 00aa 031C     		mov	r3, r0
+ 144 00ac 3A1D     		add	r2, r7, #4
+ 145 00ae 101C     		mov	r0, r2
+ 146 00b0 211C     		mov	r1, r4
+ 147 00b2 1A1C     		mov	r2, r3
+ 148 00b4 FFF7FEFF 		bl	sprintf
+  45:../Sources/main.c **** 		EnviaString(texto);
+ 149              		.loc 1 45 0
+ 150 00b8 3B1D     		add	r3, r7, #4
+ 151 00ba 181C     		mov	r0, r3
+ 152 00bc FFF7FEFF 		bl	EnviaString
+  46:../Sources/main.c **** 		
+  47:../Sources/main.c **** 		// Le entrada analogica A2
+  48:../Sources/main.c **** 		sprintf(texto,"\n\r A2: %d ",LeAnalogicoA2());		
+ 153              		.loc 1 48 0
+ 154 00c0 224C     		ldr	r4, .L5+16
+ 155 00c2 FFF7FEFF 		bl	LeAnalogicoA2
+ 156 00c6 031C     		mov	r3, r0
+ 157 00c8 3A1D     		add	r2, r7, #4
+ 158 00ca 101C     		mov	r0, r2
+ 159 00cc 211C     		mov	r1, r4
+ 160 00ce 1A1C     		mov	r2, r3
+ 161 00d0 FFF7FEFF 		bl	sprintf
+  49:../Sources/main.c **** 		EnviaString(texto);
+ 162              		.loc 1 49 0
+ 163 00d4 3B1D     		add	r3, r7, #4
+ 164 00d6 181C     		mov	r0, r3
+ 165 00d8 FFF7FEFF 		bl	EnviaString
+  50:../Sources/main.c **** 		
+  51:../Sources/main.c **** 		// Aciona o Rele 1
+  52:../Sources/main.c **** 		AcionaRele(RELE1,ON);
+ 166              		.loc 1 52 0
+ 167 00dc 0020     		mov	r0, #0
+ 168 00de 0121     		mov	r1, #1
+ 169 00e0 FFF7FEFF 		bl	AcionaRele
+  53:../Sources/main.c **** 		
+  54:../Sources/main.c **** 		// Le entrada D0
+  55:../Sources/main.c **** 		if(EntradasDigitais(IN_D0) == TRUE)
+ 170              		.loc 1 55 0
+ 171 00e4 0020     		mov	r0, #0
+ 172 00e6 FFF7FEFF 		bl	EntradasDigitais
+ 173 00ea 031C     		mov	r3, r0
+ 174 00ec 012B     		cmp	r3, #1
+ 175 00ee 04D1     		bne	.L2
+  56:../Sources/main.c **** 		{
+  57:../Sources/main.c **** 			// Aciona saida digital D0
+  58:../Sources/main.c **** 			SaidasDigitais(OUT_D0,ON);
+ 176              		.loc 1 58 0
+ 177 00f0 0020     		mov	r0, #0
+ 178 00f2 0121     		mov	r1, #1
+ 179 00f4 FFF7FEFF 		bl	SaidasDigitais
+ 180 00f8 03E0     		b	.L3
+ 181              	.L2:
+  59:../Sources/main.c **** 		}
+  60:../Sources/main.c **** 		else
+  61:../Sources/main.c **** 		{
+  62:../Sources/main.c **** 			// Aciona saida digital D1
+  63:../Sources/main.c **** 			SaidasDigitais(OUT_D0,OFF);
+ 182              		.loc 1 63 0
+ 183 00fa 0020     		mov	r0, #0
+ 184 00fc 0021     		mov	r1, #0
+ 185 00fe FFF7FEFF 		bl	SaidasDigitais
+ 186              	.L3:
+  64:../Sources/main.c **** 		}
+  65:../Sources/main.c **** 							
+  66:../Sources/main.c **** 		c = RecebeCh();		// Recebe character 
+ 187              		.loc 1 66 0
+ 188 0102 3C1C     		mov	r4, r7
+ 189 0104 0F34     		add	r4, r4, #15
+ 190 0106 FFF7FEFF 		bl	RecebeCh
+ 191 010a 031C     		mov	r3, r0
+ 192 010c 2370     		strb	r3, [r4]
+  67:../Sources/main.c **** 		
+  68:../Sources/main.c **** 		sprintf(texto,"\n\r ");
+ 193              		.loc 1 68 0
+ 194 010e 104B     		ldr	r3, .L5+20
+ 195 0110 3A1D     		add	r2, r7, #4
+ 196 0112 111C     		mov	r1, r2
+ 197 0114 1A1C     		mov	r2, r3
+ 198 0116 0423     		mov	r3, #4
+ 199 0118 081C     		mov	r0, r1
+ 200 011a 111C     		mov	r1, r2
+ 201 011c 1A1C     		mov	r2, r3
+ 202 011e FFF7FEFF 		bl	memcpy
+  69:../Sources/main.c **** 		EnviaString(texto);
+ 203              		.loc 1 69 0
+ 204 0122 3B1D     		add	r3, r7, #4
+ 205 0124 181C     		mov	r0, r3
+ 206 0126 FFF7FEFF 		bl	EnviaString
+  70:../Sources/main.c **** 		
+  71:../Sources/main.c **** 		EnviaCh(c);			// Envia character
+ 207              		.loc 1 71 0
+ 208 012a 3B1C     		mov	r3, r7
+ 209 012c 0F33     		add	r3, r3, #15
+ 210 012e 1B78     		ldrb	r3, [r3]
+ 211 0130 181C     		mov	r0, r3
+ 212 0132 FFF7FEFF 		bl	EnviaCh
+  72:../Sources/main.c **** 		
+  73:../Sources/main.c **** 		ControleLED(); 		// executa função que controla LED RGB
+ 213              		.loc 1 73 0
+ 214 0136 FFF7FEFF 		bl	ControleLED
+  74:../Sources/main.c **** 	}	
+ 215              		.loc 1 74 0
+ 216 013a A5E7     		b	.L4
+ 217              	.L6:
+ 218              		.align	2
+ 219              	.L5:
+ 220 013c 44000000 		.word	.LC0
+ 221 0140 00000000 		.word	.LC2
+ 222 0144 1C000000 		.word	.LC4
+ 223 0148 28000000 		.word	.LC6
+ 224 014c 34000000 		.word	.LC8
+ 225 0150 40000000 		.word	.LC10
+ 226              		.cfi_endproc
+ 227              	.LFE0:
+ 229              		.section	.text.ControleLED,"ax",%progbits
+ 230              		.align	2
+ 231              		.global	ControleLED
+ 232              		.code	16
+ 233              		.thumb_func
+ 235              	ControleLED:
+ 236              	.LFB1:
+  75:../Sources/main.c **** 	
+  76:../Sources/main.c **** 	return 0;
+  77:../Sources/main.c **** }
+  78:../Sources/main.c **** /*****************************************************************/
+  79:../Sources/main.c **** // função que controla LED RGB
+  80:../Sources/main.c **** /*****************************************************************/
+  81:../Sources/main.c **** void ControleLED(void)
+  82:../Sources/main.c **** {
+ 237              		.loc 1 82 0
+ 238              		.cfi_startproc
+ 239 0000 80B5     		push	{r7, lr}
+ 240              	.LCFI3:
+ 241              		.cfi_def_cfa_offset 8
+ 242              		.cfi_offset 7, -8
+ 243              		.cfi_offset 14, -4
+ 244 0002 00AF     		add	r7, sp, #0
+ 245              	.LCFI4:
+ 246              		.cfi_def_cfa_register 7
+  83:../Sources/main.c **** 	static uint8_t estado = 0;
+  84:../Sources/main.c **** 	static uint8_t i = 0;
+  85:../Sources/main.c **** 	switch(estado)
+ 247              		.loc 1 85 0
+ 248 0004 264B     		ldr	r3, .L18
+ 249 0006 1B78     		ldrb	r3, [r3]
+ 250 0008 012B     		cmp	r3, #1
+ 251 000a 18D0     		beq	.L10
+ 252 000c 022B     		cmp	r3, #2
+ 253 000e 2BD0     		beq	.L11
+ 254 0010 002B     		cmp	r3, #0
+ 255 0012 43D1     		bne	.L7
+ 256              	.L9:
+  86:../Sources/main.c **** 	{
+  87:../Sources/main.c **** 		case 0:
+  88:../Sources/main.c **** 			gpio_toggle(PTB,18);
+ 257              		.loc 1 88 0
+ 258 0014 0120     		mov	r0, #1
+ 259 0016 1221     		mov	r1, #18
+ 260 0018 FFF7FEFF 		bl	gpio_toggle
+  89:../Sources/main.c **** 			i++;
+ 261              		.loc 1 89 0
+ 262 001c 214B     		ldr	r3, .L18+4
+ 263 001e 1B78     		ldrb	r3, [r3]
+ 264 0020 0133     		add	r3, r3, #1
+ 265 0022 DAB2     		uxtb	r2, r3
+ 266 0024 1F4B     		ldr	r3, .L18+4
+ 267 0026 1A70     		strb	r2, [r3]
+  90:../Sources/main.c **** 			if(i>1)
+ 268              		.loc 1 90 0
+ 269 0028 1E4B     		ldr	r3, .L18+4
+ 270 002a 1B78     		ldrb	r3, [r3]
+ 271 002c 012B     		cmp	r3, #1
+ 272 002e 30D9     		bls	.L15
+  91:../Sources/main.c **** 			{
+  92:../Sources/main.c **** 				i = 0;
+ 273              		.loc 1 92 0
+ 274 0030 1C4B     		ldr	r3, .L18+4
+ 275 0032 0022     		mov	r2, #0
+ 276 0034 1A70     		strb	r2, [r3]
+  93:../Sources/main.c **** 				estado = 1;
+ 277              		.loc 1 93 0
+ 278 0036 1A4B     		ldr	r3, .L18
+ 279 0038 0122     		mov	r2, #1
+ 280 003a 1A70     		strb	r2, [r3]
+  94:../Sources/main.c **** 			}
+  95:../Sources/main.c **** 		break;
+ 281              		.loc 1 95 0
+ 282 003c 29E0     		b	.L15
+ 283              	.L10:
+  96:../Sources/main.c **** 		case 1:
+  97:../Sources/main.c **** 			gpio_toggle(PTB,19);
+ 284              		.loc 1 97 0
+ 285 003e 0120     		mov	r0, #1
+ 286 0040 1321     		mov	r1, #19
+ 287 0042 FFF7FEFF 		bl	gpio_toggle
+  98:../Sources/main.c **** 			i++;
+ 288              		.loc 1 98 0
+ 289 0046 174B     		ldr	r3, .L18+4
+ 290 0048 1B78     		ldrb	r3, [r3]
+ 291 004a 0133     		add	r3, r3, #1
+ 292 004c DAB2     		uxtb	r2, r3
+ 293 004e 154B     		ldr	r3, .L18+4
+ 294 0050 1A70     		strb	r2, [r3]
+  99:../Sources/main.c **** 			if(i>1)
+ 295              		.loc 1 99 0
+ 296 0052 144B     		ldr	r3, .L18+4
+ 297 0054 1B78     		ldrb	r3, [r3]
+ 298 0056 012B     		cmp	r3, #1
+ 299 0058 1DD9     		bls	.L16
+ 100:../Sources/main.c **** 			{
+ 101:../Sources/main.c **** 				i = 0;
+ 300              		.loc 1 101 0
+ 301 005a 124B     		ldr	r3, .L18+4
+ 302 005c 0022     		mov	r2, #0
+ 303 005e 1A70     		strb	r2, [r3]
+ 102:../Sources/main.c **** 				estado = 2;
+ 304              		.loc 1 102 0
+ 305 0060 0F4B     		ldr	r3, .L18
+ 306 0062 0222     		mov	r2, #2
+ 307 0064 1A70     		strb	r2, [r3]
+ 103:../Sources/main.c **** 			}
+ 104:../Sources/main.c **** 		break;
+ 308              		.loc 1 104 0
+ 309 0066 16E0     		b	.L16
+ 310              	.L11:
+ 105:../Sources/main.c **** 		case 2:
+ 106:../Sources/main.c **** 			gpio_toggle(PTD,1);
+ 311              		.loc 1 106 0
+ 312 0068 0320     		mov	r0, #3
+ 313 006a 0121     		mov	r1, #1
+ 314 006c FFF7FEFF 		bl	gpio_toggle
+ 107:../Sources/main.c **** 			i++;
+ 315              		.loc 1 107 0
+ 316 0070 0C4B     		ldr	r3, .L18+4
+ 317 0072 1B78     		ldrb	r3, [r3]
+ 318 0074 0133     		add	r3, r3, #1
+ 319 0076 DAB2     		uxtb	r2, r3
+ 320 0078 0A4B     		ldr	r3, .L18+4
+ 321 007a 1A70     		strb	r2, [r3]
+ 108:../Sources/main.c **** 			if(i>1)
+ 322              		.loc 1 108 0
+ 323 007c 094B     		ldr	r3, .L18+4
+ 324 007e 1B78     		ldrb	r3, [r3]
+ 325 0080 012B     		cmp	r3, #1
+ 326 0082 0AD9     		bls	.L17
+ 109:../Sources/main.c **** 			{
+ 110:../Sources/main.c **** 				i = 0;
+ 327              		.loc 1 110 0
+ 328 0084 074B     		ldr	r3, .L18+4
+ 329 0086 0022     		mov	r2, #0
+ 330 0088 1A70     		strb	r2, [r3]
+ 111:../Sources/main.c **** 				estado = 0;
+ 331              		.loc 1 111 0
+ 332 008a 054B     		ldr	r3, .L18
+ 333 008c 0022     		mov	r2, #0
+ 334 008e 1A70     		strb	r2, [r3]
+ 112:../Sources/main.c **** 			}
+ 113:../Sources/main.c **** 		break;
+ 335              		.loc 1 113 0
+ 336 0090 03E0     		b	.L17
+ 337              	.L15:
+  95:../Sources/main.c **** 		break;
+ 338              		.loc 1 95 0
+ 339 0092 C046     		mov	r8, r8
+ 340 0094 02E0     		b	.L7
+ 341              	.L16:
+ 104:../Sources/main.c **** 		break;
+ 342              		.loc 1 104 0
+ 343 0096 C046     		mov	r8, r8
+ 344 0098 00E0     		b	.L7
+ 345              	.L17:
+ 346              		.loc 1 113 0
+ 347 009a C046     		mov	r8, r8
+ 348              	.L7:
+ 114:../Sources/main.c **** 	}
+ 115:../Sources/main.c **** }
+ 349              		.loc 1 115 0
+ 350 009c BD46     		mov	sp, r7
+ 351              		@ sp needed for prologue
+ 352 009e 80BD     		pop	{r7, pc}
+ 353              	.L19:
+ 354              		.align	2
+ 355              	.L18:
+ 356 00a0 00000000 		.word	estado.4897
+ 357 00a4 00000000 		.word	i.4898
+ 358              		.cfi_endproc
+ 359              	.LFE1:
+ 361              		.section	.bss.estado.4897,"aw",%nobits
+ 364              	estado.4897:
+ 365 0000 00       		.space	1
+ 366              		.section	.bss.i.4898,"aw",%nobits
+ 369              	i.4898:
+ 370 0000 00       		.space	1
+ 371              		.text
+ 372              	.Letext0:
+ 373              		.file 2 "../Sources/types.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:18     .rodata:00000000 $d
-C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:34     .text.main:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:39     .text.main:00000000 main
-C:\Users\PDI\AppData\Local\Temp\cc5p5Bu0.s:168    .text.main:000000dc $d
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:18     .rodata:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:37     .text.main:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:42     .text.main:00000000 main
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:235    .text.ControleLED:00000000 ControleLED
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:220    .text.main:0000013c $d
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:230    .text.ControleLED:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:356    .text.ControleLED:000000a0 $d
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:364    .bss.estado.4897:00000000 estado.4897
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:369    .bss.i.4898:00000000 i.4898
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:365    .bss.estado.4897:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\ccyViyUi.s:370    .bss.i.4898:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -259,7 +513,9 @@ InicializaRele
 InicializaSaidas
 InicializaEntradas
 InicializaSerial
-InicialidaAnalogico
+InicializaAnalogico
+gpio_direction
+gpio_set
 EnviaString
 LeAnalogicoA0
 sprintf
@@ -269,4 +525,6 @@ AcionaRele
 EntradasDigitais
 SaidasDigitais
 RecebeCh
+memcpy
 EnviaCh
+gpio_toggle
