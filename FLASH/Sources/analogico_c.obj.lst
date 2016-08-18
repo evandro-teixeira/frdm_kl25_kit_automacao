@@ -166,14 +166,14 @@
  139              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 analogico.c
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:18     .text.InicializaAnalogico:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:23     .text.InicializaAnalogico:00000000 InicializaAnalogico
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:46     .text.LeAnalogicoA0:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:51     .text.LeAnalogicoA0:00000000 LeAnalogicoA0
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:77     .text.LeAnalogicoA1:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:82     .text.LeAnalogicoA1:00000000 LeAnalogicoA1
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:108    .text.LeAnalogicoA2:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\ccNFRXNx.s:113    .text.LeAnalogicoA2:00000000 LeAnalogicoA2
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:18     .text.InicializaAnalogico:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:23     .text.InicializaAnalogico:00000000 InicializaAnalogico
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:46     .text.LeAnalogicoA0:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:51     .text.LeAnalogicoA0:00000000 LeAnalogicoA0
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:77     .text.LeAnalogicoA1:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:82     .text.LeAnalogicoA1:00000000 LeAnalogicoA1
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:108    .text.LeAnalogicoA2:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\cclGTbma.s:113    .text.LeAnalogicoA2:00000000 LeAnalogicoA2
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

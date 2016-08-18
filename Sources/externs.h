@@ -20,7 +20,10 @@
 #include "init_cpu.h"
 #include "adc.h"
 #include "analogico.h"
+#include "timer.h"
+#include "led_RGB.h"
 #include <MKL25Z4.h>    /* I/O map for MKL25Z128VLK4 */
+
 
 extern uint16_t iClock;
 

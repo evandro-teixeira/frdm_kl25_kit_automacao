@@ -18,19 +18,18 @@ int main(void)
 	char texto[10] = "         ";
 	
 	InicializaCPU();			// Inicializa CPU
+	InicializaTimer();			// Inicializa Timer (PIT ~> 1 milissegundos)
 	InicializaRele(RELE1);		// Inicializa Rele 1 
 	InicializaSaidas(OUT_D0);   // Inicializa Saída D0
 	InicializaEntradas(IN_D0);  // Inicializa Entrada D0
 	InicializaSerial(115200);   // Inicializa Serial com Baud Rate 115200	
-	InicializaAnalogico();		// Inicializa Analogico
-	
-	gpio_direction(PTB,18,OUTPUT,NO_PULL_RESISTOR);		// Inicializa led RED
-	gpio_direction(PTB,19,OUTPUT,NO_PULL_RESISTOR);		// Inicializa led BLUE
-	gpio_direction(PTD,1, OUTPUT,NO_PULL_RESISTOR);		// Inicializa led GREEN
-	
-	gpio_set(PTB,18,1);		// Apaga led RED
-	gpio_set(PTB,19,1);		// Apaga led BLUE
-	gpio_set(PTD,1,1);		// Apaga led GREEN 
+	InicializaAnalogico();		// Inicializa Analogico	
+	InicializaLedRED();			//
+	InicializaLedGREEN();       //
+	InicializaLedBLUE();		//
+	AcionaLedRED(LED_OFF);		//
+	AcionaLedGREEN(LED_OFF);	//
+	AcionaLedBLUE(LED_OFF);		//
 	
 	EnviaString("\n\rTeste Serial FRDM-KL25\n\r"); // Escreve String 
 	
@@ -63,12 +62,10 @@ int main(void)
 			SaidasDigitais(OUT_D0,OFF);
 		}
 							
-		c = RecebeCh();		// Recebe character 
-		
-		sprintf(texto,"\n\r ");
-		EnviaString(texto);
-		
-		EnviaCh(c);			// Envia character
+		//c = RecebeCh();		// Recebe character 
+		//sprintf(texto,"\n\r ");
+		//EnviaString(texto);
+		//EnviaCh(c);			// Envia character
 		
 		ControleLED(); 		// executa função que controla LED RGB
 	}	
@@ -81,36 +78,68 @@ int main(void)
 void ControleLED(void)
 {
 	static uint8_t estado = 0;
-	static uint8_t i = 0;
+	static uint64_t temp = 0;
 	switch(estado)
 	{
 		case 0:
-			gpio_toggle(PTB,18);
+			/*gpio_toggle(PTB,18);
 			i++;
 			if(i>1)
 			{
 				i = 0;
 				estado = 1;
-			}
+			}*/
+			temp = Calcula_Tick(1000);	// solicita tempo de 1000 milissegundos = 1 segundos
+			ToggleLedRED();
+			estado = 1;
 		break;
 		case 1:
+			/*
 			gpio_toggle(PTB,19);
 			i++;
 			if(i>1)
 			{
 				i = 0;
 				estado = 2;
+			}*/
+			// Checa se atingiu tempo solicitado 
+			if(Check_Tick(temp) == TRUE)
+			{
+				estado = 2;
+				ToggleLedRED();
 			}
 		break;
 		case 2:
-			gpio_toggle(PTD,1);
+			/*gpio_toggle(PTD,1);
 			i++;
 			if(i>1)
 			{
 				i = 0;
 				estado = 0;
+			}*/
+			temp = Calcula_Tick(1000);	// solicita tempo de 1000 milissegundos = 1 segundos
+			ToggleLedGREEN();
+			estado = 3;
+		break;
+		case 3:
+			if(Check_Tick(temp) == TRUE)
+			{
+				estado = 4;
+				ToggleLedGREEN();
 			}
 		break;
+		case 4:
+			temp = Calcula_Tick(1000);	// solicita tempo de 1000 milissegundos = 1 segundos
+			ToggleLedBLUE();
+			estado = 5;
+		break;	
+		case 5:
+			if(Check_Tick(temp) == TRUE)
+			{
+				estado = 0;
+				ToggleLedBLUE();
+			}
+		break;	
 	}
 }
 /*****************************************************************/

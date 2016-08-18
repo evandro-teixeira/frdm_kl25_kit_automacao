@@ -11,11 +11,13 @@ C_SRCS_QUOTED += \
 "../Sources/entradas.c" \
 "../Sources/gpio.c" \
 "../Sources/init_cpu.c" \
+"../Sources/led_RGB.c" \
 "../Sources/main.c" \
 "../Sources/reles.c" \
 "../Sources/sa_mtb.c" \
 "../Sources/saidas.c" \
 "../Sources/serial.c" \
+"../Sources/timer.c" \
 "../Sources/uart.c" \
 
 C_SRCS += \
@@ -24,11 +26,13 @@ C_SRCS += \
 ../Sources/entradas.c \
 ../Sources/gpio.c \
 ../Sources/init_cpu.c \
+../Sources/led_RGB.c \
 ../Sources/main.c \
 ../Sources/reles.c \
 ../Sources/sa_mtb.c \
 ../Sources/saidas.c \
 ../Sources/serial.c \
+../Sources/timer.c \
 ../Sources/uart.c \
 
 OBJS += \
@@ -37,11 +41,13 @@ OBJS += \
 ./Sources/entradas_c.obj \
 ./Sources/gpio_c.obj \
 ./Sources/init_cpu_c.obj \
+./Sources/led_RGB_c.obj \
 ./Sources/main_c.obj \
 ./Sources/reles_c.obj \
 ./Sources/sa_mtb_c.obj \
 ./Sources/saidas_c.obj \
 ./Sources/serial_c.obj \
+./Sources/timer_c.obj \
 ./Sources/uart_c.obj \
 
 C_DEPS += \
@@ -50,11 +56,13 @@ C_DEPS += \
 ./Sources/entradas.d \
 ./Sources/gpio.d \
 ./Sources/init_cpu.d \
+./Sources/led_RGB.d \
 ./Sources/main.d \
 ./Sources/reles.d \
 ./Sources/sa_mtb.d \
 ./Sources/saidas.d \
 ./Sources/serial.d \
+./Sources/timer.d \
 ./Sources/uart.d \
 
 OBJS_QUOTED += \
@@ -63,11 +71,13 @@ OBJS_QUOTED += \
 "./Sources/entradas_c.obj" \
 "./Sources/gpio_c.obj" \
 "./Sources/init_cpu_c.obj" \
+"./Sources/led_RGB_c.obj" \
 "./Sources/main_c.obj" \
 "./Sources/reles_c.obj" \
 "./Sources/sa_mtb_c.obj" \
 "./Sources/saidas_c.obj" \
 "./Sources/serial_c.obj" \
+"./Sources/timer_c.obj" \
 "./Sources/uart_c.obj" \
 
 C_DEPS_QUOTED += \
@@ -76,11 +86,13 @@ C_DEPS_QUOTED += \
 "./Sources/entradas.d" \
 "./Sources/gpio.d" \
 "./Sources/init_cpu.d" \
+"./Sources/led_RGB.d" \
 "./Sources/main.d" \
 "./Sources/reles.d" \
 "./Sources/sa_mtb.d" \
 "./Sources/saidas.d" \
 "./Sources/serial.d" \
+"./Sources/timer.d" \
 "./Sources/uart.d" \
 
 OBJS_OS_FORMAT += \
@@ -89,11 +101,13 @@ OBJS_OS_FORMAT += \
 ./Sources/entradas_c.obj \
 ./Sources/gpio_c.obj \
 ./Sources/init_cpu_c.obj \
+./Sources/led_RGB_c.obj \
 ./Sources/main_c.obj \
 ./Sources/reles_c.obj \
 ./Sources/sa_mtb_c.obj \
 ./Sources/saidas_c.obj \
 ./Sources/serial_c.obj \
+./Sources/timer_c.obj \
 ./Sources/uart_c.obj \
 
 
@@ -138,9 +152,17 @@ Sources/init_cpu_c.obj: ../Sources/init_cpu.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/main_c.obj: ../Sources/main.c
+Sources/led_RGB_c.obj: ../Sources/led_RGB.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #6 $<'
+	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/led_RGB.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/led_RGB_c.obj"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/main_c.obj: ../Sources/main.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #7 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/main.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/main_c.obj"
 	@echo 'Finished building: $<'
@@ -148,7 +170,7 @@ Sources/main_c.obj: ../Sources/main.c
 
 Sources/reles_c.obj: ../Sources/reles.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #7 $<'
+	@echo 'Executing target #8 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/reles.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/reles_c.obj"
 	@echo 'Finished building: $<'
@@ -156,7 +178,7 @@ Sources/reles_c.obj: ../Sources/reles.c
 
 Sources/sa_mtb_c.obj: ../Sources/sa_mtb.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #8 $<'
+	@echo 'Executing target #9 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/sa_mtb.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/sa_mtb_c.obj"
 	@echo 'Finished building: $<'
@@ -164,7 +186,7 @@ Sources/sa_mtb_c.obj: ../Sources/sa_mtb.c
 
 Sources/saidas_c.obj: ../Sources/saidas.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #9 $<'
+	@echo 'Executing target #10 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/saidas.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/saidas_c.obj"
 	@echo 'Finished building: $<'
@@ -172,15 +194,23 @@ Sources/saidas_c.obj: ../Sources/saidas.c
 
 Sources/serial_c.obj: ../Sources/serial.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #10 $<'
+	@echo 'Executing target #11 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/serial.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/serial_c.obj"
 	@echo 'Finished building: $<'
 	@echo ' '
 
+Sources/timer_c.obj: ../Sources/timer.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #12 $<'
+	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/timer.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/timer_c.obj"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 Sources/uart_c.obj: ../Sources/uart.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #11 $<'
+	@echo 'Executing target #13 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/uart.args" -Wa,-adhlns="$@.lst" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -g3 -gdwarf-2 -gstrict-dwarf -o"Sources/uart_c.obj"
 	@echo 'Finished building: $<'

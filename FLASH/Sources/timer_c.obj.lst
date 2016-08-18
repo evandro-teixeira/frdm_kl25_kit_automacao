@@ -1,0 +1,324 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"timer.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.bss.Tick,"aw",%nobits
+  18              		.align	3
+  21              	Tick:
+  22 0000 00000000 		.space	8
+  22      00000000 
+  23              		.section	.text.InicializaTimer,"ax",%progbits
+  24              		.align	2
+  25              		.global	InicializaTimer
+  26              		.code	16
+  27              		.thumb_func
+  29              	InicializaTimer:
+  30              	.LFB0:
+  31              		.file 1 "../Sources/timer.c"
+   1:../Sources/timer.c **** /*
+   2:../Sources/timer.c ****  * timer.c
+   3:../Sources/timer.c ****  *
+   4:../Sources/timer.c ****  *  Created on: Aug 18, 2016
+   5:../Sources/timer.c ****  *      Author: PDI
+   6:../Sources/timer.c ****  */
+   7:../Sources/timer.c **** #include "timer.h"
+   8:../Sources/timer.c **** 
+   9:../Sources/timer.c **** static uint64_t Tick = 0;
+  10:../Sources/timer.c **** 
+  11:../Sources/timer.c **** void InicializaTimer(void)
+  12:../Sources/timer.c **** {
+  32              		.loc 1 12 0
+  33              		.cfi_startproc
+  34 0000 80B5     		push	{r7, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  39 0002 00AF     		add	r7, sp, #0
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_register 7
+  13:../Sources/timer.c **** 	
+  14:../Sources/timer.c **** 	//PIT initialization 
+  15:../Sources/timer.c **** 	SIM_SCGC6 |= SIM_SCGC6_PIT_MASK;		// Turn on clock to to the PIT module
+  42              		.loc 1 15 0
+  43 0004 144A     		ldr	r2, .L2
+  44 0006 1449     		ldr	r1, .L2
+  45 0008 144B     		ldr	r3, .L2+4
+  46 000a CB58     		ldr	r3, [r1, r3]
+  47 000c 8021     		mov	r1, #128
+  48 000e 0904     		lsl	r1, r1, #16
+  49 0010 1943     		orr	r1, r3
+  50 0012 124B     		ldr	r3, .L2+4
+  51 0014 D150     		str	r1, [r2, r3]
+  16:../Sources/timer.c **** 	PIT_LDVAL0 = (1048000/100);     		// Timeout period = 1 ms
+  52              		.loc 1 16 0
+  53 0016 124A     		ldr	r2, .L2+8
+  54 0018 8023     		mov	r3, #128
+  55 001a 5B00     		lsl	r3, r3, #1
+  56 001c 1149     		ldr	r1, .L2+12
+  57 001e D150     		str	r1, [r2, r3]
+  17:../Sources/timer.c **** 	PIT_MCR = PIT_MCR_FRZ_MASK;     		// Enable clock for PIT, freeze PIT in debug mode
+  58              		.loc 1 17 0
+  59 0020 0F4B     		ldr	r3, .L2+8
+  60 0022 0122     		mov	r2, #1
+  61 0024 1A60     		str	r2, [r3]
+  18:../Sources/timer.c **** 	PIT_TCTRL0 = PIT_TCTRL_TIE_MASK | 		// Enable PIT interrupt
+  62              		.loc 1 18 0
+  63 0026 0E4A     		ldr	r2, .L2+8
+  64 0028 8423     		mov	r3, #132
+  65 002a 5B00     		lsl	r3, r3, #1
+  66 002c 0321     		mov	r1, #3
+  67 002e D150     		str	r1, [r2, r3]
+  19:../Sources/timer.c **** 				 PIT_TCTRL_TEN_MASK;     	// and PIT 
+  20:../Sources/timer.c **** 		
+  21:../Sources/timer.c **** 	//Enable PIT interrupt on NVIC	 
+  22:../Sources/timer.c **** 	NVIC_ICPR |= 1 << ((INT_PIT - 16) % 32);
+  68              		.loc 1 22 0
+  69 0030 0D4A     		ldr	r2, .L2+16
+  70 0032 0D49     		ldr	r1, .L2+16
+  71 0034 C023     		mov	r3, #192
+  72 0036 5B00     		lsl	r3, r3, #1
+  73 0038 CB58     		ldr	r3, [r1, r3]
+  74 003a 8021     		mov	r1, #128
+  75 003c C903     		lsl	r1, r1, #15
+  76 003e 1943     		orr	r1, r3
+  77 0040 C023     		mov	r3, #192
+  78 0042 5B00     		lsl	r3, r3, #1
+  79 0044 D150     		str	r1, [r2, r3]
+  23:../Sources/timer.c **** 	NVIC_ISER |= 1 << ((INT_PIT - 16) % 32);	
+  80              		.loc 1 23 0
+  81 0046 084B     		ldr	r3, .L2+16
+  82 0048 074A     		ldr	r2, .L2+16
+  83 004a 1268     		ldr	r2, [r2]
+  84 004c 8021     		mov	r1, #128
+  85 004e C903     		lsl	r1, r1, #15
+  86 0050 0A43     		orr	r2, r1
+  87 0052 1A60     		str	r2, [r3]
+  24:../Sources/timer.c **** }
+  88              		.loc 1 24 0
+  89 0054 BD46     		mov	sp, r7
+  90              		@ sp needed for prologue
+  91 0056 80BD     		pop	{r7, pc}
+  92              	.L3:
+  93              		.align	2
+  94              	.L2:
+  95 0058 00700440 		.word	1074032640
+  96 005c 3C100000 		.word	4156
+  97 0060 00700340 		.word	1073967104
+  98 0064 F0280000 		.word	10480
+  99 0068 00E100E0 		.word	-536813312
+ 100              		.cfi_endproc
+ 101              	.LFE0:
+ 103              		.section	.text.PIT_IRQHandler,"ax",%progbits
+ 104              		.align	2
+ 105              		.global	PIT_IRQHandler
+ 106              		.code	16
+ 107              		.thumb_func
+ 109              	PIT_IRQHandler:
+ 110              	.LFB1:
+  25:../Sources/timer.c **** 
+  26:../Sources/timer.c **** void PIT_IRQHandler()
+  27:../Sources/timer.c **** {
+ 111              		.loc 1 27 0
+ 112              		.cfi_startproc
+ 113 0000 90B5     		push	{r4, r7, lr}
+ 114              	.LCFI2:
+ 115              		.cfi_def_cfa_offset 12
+ 116              		.cfi_offset 4, -12
+ 117              		.cfi_offset 7, -8
+ 118              		.cfi_offset 14, -4
+ 119 0002 00AF     		add	r7, sp, #0
+ 120              	.LCFI3:
+ 121              		.cfi_def_cfa_register 7
+  28:../Sources/timer.c **** 	PIT_TFLG0 |= PIT_TFLG_TIF_MASK;		// Clear the PIT interrupt flag	
+ 122              		.loc 1 28 0
+ 123 0004 0A4A     		ldr	r2, .L5
+ 124 0006 0A49     		ldr	r1, .L5
+ 125 0008 8623     		mov	r3, #134
+ 126 000a 5B00     		lsl	r3, r3, #1
+ 127 000c CB58     		ldr	r3, [r1, r3]
+ 128 000e 0121     		mov	r1, #1
+ 129 0010 1943     		orr	r1, r3
+ 130 0012 8623     		mov	r3, #134
+ 131 0014 5B00     		lsl	r3, r3, #1
+ 132 0016 D150     		str	r1, [r2, r3]
+  29:../Sources/timer.c ****    	// Toggle Green LED
+  30:../Sources/timer.c ****    	//GPIOB_PTOR = (1 << 19);   	
+  31:../Sources/timer.c ****    	Tick++;
+ 133              		.loc 1 31 0
+ 134 0018 064B     		ldr	r3, .L5+4
+ 135 001a 1968     		ldr	r1, [r3]
+ 136 001c 5A68     		ldr	r2, [r3, #4]
+ 137 001e 0123     		mov	r3, #1
+ 138 0020 0024     		mov	r4, #0
+ 139 0022 5B18     		add	r3, r3, r1
+ 140 0024 5441     		adc	r4, r4, r2
+ 141 0026 034A     		ldr	r2, .L5+4
+ 142 0028 1360     		str	r3, [r2]
+ 143 002a 5460     		str	r4, [r2, #4]
+  32:../Sources/timer.c ****    	
+  33:../Sources/timer.c ****    	//ToggleLedBLUE();
+  34:../Sources/timer.c **** }
+ 144              		.loc 1 34 0
+ 145 002c BD46     		mov	sp, r7
+ 146              		@ sp needed for prologue
+ 147 002e 90BD     		pop	{r4, r7, pc}
+ 148              	.L6:
+ 149              		.align	2
+ 150              	.L5:
+ 151 0030 00700340 		.word	1073967104
+ 152 0034 00000000 		.word	Tick
+ 153              		.cfi_endproc
+ 154              	.LFE1:
+ 156              		.section	.text.Check_Tick,"ax",%progbits
+ 157              		.align	2
+ 158              		.global	Check_Tick
+ 159              		.code	16
+ 160              		.thumb_func
+ 162              	Check_Tick:
+ 163              	.LFB2:
+  35:../Sources/timer.c **** 
+  36:../Sources/timer.c **** bool Check_Tick(uint64_t n_Tick)
+  37:../Sources/timer.c **** {
+ 164              		.loc 1 37 0
+ 165              		.cfi_startproc
+ 166 0000 90B5     		push	{r4, r7, lr}
+ 167              	.LCFI4:
+ 168              		.cfi_def_cfa_offset 12
+ 169              		.cfi_offset 4, -12
+ 170              		.cfi_offset 7, -8
+ 171              		.cfi_offset 14, -4
+ 172 0002 83B0     		sub	sp, sp, #12
+ 173              	.LCFI5:
+ 174              		.cfi_def_cfa_offset 24
+ 175 0004 00AF     		add	r7, sp, #0
+ 176              	.LCFI6:
+ 177              		.cfi_def_cfa_register 7
+ 178 0006 3860     		str	r0, [r7]
+ 179 0008 7960     		str	r1, [r7, #4]
+  38:../Sources/timer.c **** 	if(Tick >= n_Tick)
+ 180              		.loc 1 38 0
+ 181 000a 094B     		ldr	r3, .L12
+ 182 000c 5C68     		ldr	r4, [r3, #4]
+ 183 000e 1B68     		ldr	r3, [r3]
+ 184 0010 7A68     		ldr	r2, [r7, #4]
+ 185 0012 A242     		cmp	r2, r4
+ 186 0014 07D8     		bhi	.L8
+ 187 0016 7A68     		ldr	r2, [r7, #4]
+ 188 0018 A242     		cmp	r2, r4
+ 189 001a 02D1     		bne	.L11
+ 190 001c 3A68     		ldr	r2, [r7]
+ 191 001e 9A42     		cmp	r2, r3
+ 192 0020 01D8     		bhi	.L8
+ 193              	.L11:
+  39:../Sources/timer.c **** 	{
+  40:../Sources/timer.c **** 		return TRUE;
+ 194              		.loc 1 40 0
+ 195 0022 0123     		mov	r3, #1
+ 196 0024 00E0     		b	.L10
+ 197              	.L8:
+  41:../Sources/timer.c **** 	}
+  42:../Sources/timer.c **** 	else
+  43:../Sources/timer.c **** 	{
+  44:../Sources/timer.c **** 		return FALSE;
+ 198              		.loc 1 44 0
+ 199 0026 0023     		mov	r3, #0
+ 200              	.L10:
+  45:../Sources/timer.c **** 	}
+  46:../Sources/timer.c **** }
+ 201              		.loc 1 46 0
+ 202 0028 181C     		mov	r0, r3
+ 203 002a BD46     		mov	sp, r7
+ 204 002c 03B0     		add	sp, sp, #12
+ 205              		@ sp needed for prologue
+ 206 002e 90BD     		pop	{r4, r7, pc}
+ 207              	.L13:
+ 208              		.align	2
+ 209              	.L12:
+ 210 0030 00000000 		.word	Tick
+ 211              		.cfi_endproc
+ 212              	.LFE2:
+ 214              		.section	.text.Calcula_Tick,"ax",%progbits
+ 215              		.align	2
+ 216              		.global	Calcula_Tick
+ 217              		.code	16
+ 218              		.thumb_func
+ 220              	Calcula_Tick:
+ 221              	.LFB3:
+  47:../Sources/timer.c **** 
+  48:../Sources/timer.c **** uint64_t Calcula_Tick(uint64_t n_Tick)
+  49:../Sources/timer.c **** {
+ 222              		.loc 1 49 0
+ 223              		.cfi_startproc
+ 224 0000 90B5     		push	{r4, r7, lr}
+ 225              	.LCFI7:
+ 226              		.cfi_def_cfa_offset 12
+ 227              		.cfi_offset 4, -12
+ 228              		.cfi_offset 7, -8
+ 229              		.cfi_offset 14, -4
+ 230 0002 83B0     		sub	sp, sp, #12
+ 231              	.LCFI8:
+ 232              		.cfi_def_cfa_offset 24
+ 233 0004 00AF     		add	r7, sp, #0
+ 234              	.LCFI9:
+ 235              		.cfi_def_cfa_register 7
+ 236 0006 3860     		str	r0, [r7]
+ 237 0008 7960     		str	r1, [r7, #4]
+  50:../Sources/timer.c **** 	return (Tick + n_Tick); 
+ 238              		.loc 1 50 0
+ 239 000a 064B     		ldr	r3, .L15
+ 240 000c 1968     		ldr	r1, [r3]
+ 241 000e 5A68     		ldr	r2, [r3, #4]
+ 242 0010 3B68     		ldr	r3, [r7]
+ 243 0012 7C68     		ldr	r4, [r7, #4]
+ 244 0014 5B18     		add	r3, r3, r1
+ 245 0016 5441     		adc	r4, r4, r2
+  51:../Sources/timer.c **** }
+ 246              		.loc 1 51 0
+ 247 0018 181C     		mov	r0, r3
+ 248 001a 211C     		mov	r1, r4
+ 249 001c BD46     		mov	sp, r7
+ 250 001e 03B0     		add	sp, sp, #12
+ 251              		@ sp needed for prologue
+ 252 0020 90BD     		pop	{r4, r7, pc}
+ 253              	.L16:
+ 254 0022 C046     		.align	2
+ 255              	.L15:
+ 256 0024 00000000 		.word	Tick
+ 257              		.cfi_endproc
+ 258              	.LFE3:
+ 260              		.text
+ 261              	.Letext0:
+ 262              		.file 2 "C:/Users/PDI/Documents/GitHub/frdm_kl25_kit_automacao/Project_Headers/MKL25Z4.h"
+ 263              		.file 3 "../Sources/types.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 timer.c
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:18     .bss.Tick:00000000 $d
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:21     .bss.Tick:00000000 Tick
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:24     .text.InicializaTimer:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:29     .text.InicializaTimer:00000000 InicializaTimer
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:95     .text.InicializaTimer:00000058 $d
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:104    .text.PIT_IRQHandler:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:109    .text.PIT_IRQHandler:00000000 PIT_IRQHandler
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:151    .text.PIT_IRQHandler:00000030 $d
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:157    .text.Check_Tick:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:162    .text.Check_Tick:00000000 Check_Tick
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:210    .text.Check_Tick:00000030 $d
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:215    .text.Calcula_Tick:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:220    .text.Calcula_Tick:00000000 Calcula_Tick
+C:\Users\PDI\AppData\Local\Temp\ccy5cgBQ.s:256    .text.Calcula_Tick:00000024 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

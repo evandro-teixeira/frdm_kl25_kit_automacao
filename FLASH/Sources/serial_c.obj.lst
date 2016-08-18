@@ -240,18 +240,18 @@
  200              		.file 3 "../Sources/externs.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 serial.c
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:18     .text.InicializaSerial:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:23     .text.InicializaSerial:00000000 InicializaSerial
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:60     .text.InicializaSerial:00000028 $d
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:66     .text.EnviaCh:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:71     .text.EnviaCh:00000000 EnviaCh
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:104    .text.EnviaCh:00000020 $d
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:109    .text.RecebeCh:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:114    .text.RecebeCh:00000000 RecebeCh
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:139    .text.RecebeCh:00000014 $d
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:144    .text.EnviaString:00000000 $t
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:149    .text.EnviaString:00000000 EnviaString
-C:\Users\PDI\AppData\Local\Temp\cc19oPWr.s:193    .text.EnviaString:0000002c $d
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:18     .text.InicializaSerial:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:23     .text.InicializaSerial:00000000 InicializaSerial
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:60     .text.InicializaSerial:00000028 $d
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:66     .text.EnviaCh:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:71     .text.EnviaCh:00000000 EnviaCh
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:104    .text.EnviaCh:00000020 $d
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:109    .text.RecebeCh:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:114    .text.RecebeCh:00000000 RecebeCh
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:139    .text.RecebeCh:00000014 $d
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:144    .text.EnviaString:00000000 $t
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:149    .text.EnviaString:00000000 EnviaString
+C:\Users\PDI\AppData\Local\Temp\ccqBTu1j.s:193    .text.EnviaString:0000002c $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS

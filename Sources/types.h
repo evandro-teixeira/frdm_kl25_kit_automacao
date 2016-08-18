@@ -21,6 +21,10 @@ typedef signed short int int16_t;
 typedef signed long int int32_t;
 #endif
 
+#ifndef int64_t
+typedef signed long long int int64_t;
+#endif
+
 #ifndef uint8_t
 typedef unsigned char uint8_t;
 #endif
@@ -31,6 +35,10 @@ typedef unsigned short int uint16_t;
 
 #ifndef uint32_t
 typedef unsigned long int uint32_t;
+#endif
+
+#ifndef uint64_t
+typedef unsigned long long int uint64_t;
 #endif
 
 #ifndef bool
